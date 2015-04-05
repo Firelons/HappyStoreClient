@@ -5,9 +5,16 @@
  */
 
 package commercial;
+import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 import javafx.application.Application;
 import static javafx.application.Application.launch;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -17,23 +24,20 @@ import javafx.stage.Stage;
  */
 
 
-public class COMMERCIAL_ContratController extends Application {
-    
-    @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("COMMERCIAL_Client.fxml"));
-        
-        Scene scene = new Scene(root);
-        
-        stage.setScene(scene);
+public class COMMERCIAL_ContratController implements Initializable {
+
+    @FXML
+    private void Annuler(ActionEvent event) throws IOException {
+        Parent PageAccueilParent = FXMLLoader.load(getClass().getResource("COMMERCIAL_Accueil.fxml"));
+        Scene PageAccueilScene = new Scene(PageAccueilParent);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        //stage.hide();
+        stage.setScene(PageAccueilScene);
         stage.show();
     }
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        launch(args);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
     }
-    
+
 }
