@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.LoginController">
+   <children>
+      <VBox alignment="TOP_CENTER" prefHeight="400.0" prefWidth="307.0">
+         <children>
+            <Label prefHeight="44.0" prefWidth="128.0" text="REGUB">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <VBox alignment="CENTER" prefHeight="456.0" prefWidth="312.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <TitledPane alignment="CENTER" collapsible="false" contentDisplay="CENTER" prefHeight="251.0" prefWidth="307.0" text="Authentification">
+                     <font>
+                        <Font size="17.0" />
+                     </font>
+                     <content>
+                        <VBox alignment="TOP_CENTER" prefHeight="254.0" prefWidth="305.0" spacing="10.0">
+                           <children>
+                              <Label fx:id="errField" alignment="CENTER" contentDisplay="CENTER" prefHeight="15.0" prefWidth="294.0" text=" " textFill="RED" />
+                              <Label prefHeight="15.0" prefWidth="39.0" text="Login" />
+                              <TextField fx:id="loginField" />
+                              <Label text="Mot de passe" />
+                              <PasswordField fx:id="psswdField" />
+                              <Button defaultButton="true" mnemonicParsing="false" onAction="#handleActionLogin" text="Se connecter" />
+                              <Label />
+                              </children>
+                        </VBox>
+                     </content>
+                  </TitledPane>
+               </children>
+            </VBox>
+            <Pane maxHeight="-Infinity" prefHeight="225.0" prefWidth="307.0" VBox.vgrow="ALWAYS" />
+         </children>
+      </VBox>
+   </children>
+</HBox>
