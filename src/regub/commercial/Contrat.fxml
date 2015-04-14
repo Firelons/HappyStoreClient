@@ -7,7 +7,7 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="commercial.ContratController">
+<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.commercial.ContratController">
    <children>
       <MenuBar layoutY="-1.0" prefHeight="25.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <menus>
@@ -116,7 +116,7 @@
             <VBox alignment="CENTER" layoutX="404.0" layoutY="130.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label layoutX="474.0" layoutY="130.0" text="Type rayon" />
-                  <ListView layoutX="404.0" layoutY="147.0" prefHeight="133.0" prefWidth="200.0" />
+                  <ListView layoutX="404.0" layoutY="147.0" prefHeight="132.0" prefWidth="208.0" />
                   <Label layoutX="467.0" layoutY="263.0" text="Regions" />
                   <ListView layoutX="404.0" layoutY="280.0" prefHeight="122.0" prefWidth="200.0" />
                </children>
