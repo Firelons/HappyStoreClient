@@ -38,7 +38,7 @@ public class Main extends Application {
             stage.centerOnScreen();
             primaryStage.show();
     //////////   PAGE D'ACCUEIL   ////////////
-            gotoPage("login");  //TODO : remplacer par la page de login
+            gotoPage("login");
     //////////////////////////////////////////
         } catch (Exception ex) {
             System.err.println(ex.getMessage());
