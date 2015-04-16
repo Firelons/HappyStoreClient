@@ -14,6 +14,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 import regub.AbstractController;
 
 /**
@@ -22,6 +23,19 @@ import regub.AbstractController;
  */
 public class ClientController extends AbstractController{
 
+    
+        @FXML
+	 private TextField textSociete;
+	 @FXML
+	 private TextField textTelephone;
+	 @FXML
+	 private TextField textEmail;
+         @FXML
+	 private TextField textRue;
+         @FXML
+	 private TextField textVille;
+         @FXML
+	 private TextField textBP;
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
         this.Save_Client("test");
@@ -40,7 +54,9 @@ public class ClientController extends AbstractController{
             Class.forName("com.mysql.jdbc.Driver");
             cn = DriverManager.getConnection(url, login, passwd);
             st=cn.createStatement();
-            String sql ="INSERT INTO client(idClient,societe,telephone,email,addr_ligne1,addr_ligne2,ville,code_postal) VALUES (3,'TF2',0601,'lons@lons.fr','zozo','zozo','loin',8700)";
+            
+            String sql ="INSERT INTO client(idClient,societe,telephone,email,addr_ligne1,addr_ligne2,ville,code_postal)"
+                    + "VALUES (5,'"+this.textSociete.getText() +"','"+this.textTelephone.getText() +"','"+this.textEmail.getText() +"','"+this.textRue.getText() +"','','"+this.textVille.getText() +"',"+this.textBP.getText() +")";
             st.executeUpdate(sql);
         } catch (SQLException e){
             e.printStackTrace();
