@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <BorderPane layoutX="134.0" layoutY="55.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <center>
+            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+              <columns>
+                <TableColumn prefWidth="150.0" text="Code postal" />
+                <TableColumn minWidth="0.0" prefWidth="179.0" text="Ville" />
+                  <TableColumn minWidth="0.0" prefWidth="170.0" text="Nom" />
+              </columns>
+               <BorderPane.margin>
+                  <Insets bottom="50.0" />
+               </BorderPane.margin>
+            </TableView>
+         </center>
+         <bottom>
+            <HBox alignment="CENTER" prefHeight="24.0" prefWidth="600.0" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Déconnexion" BorderPane.alignment="CENTER" />
+                  <Button mnemonicParsing="false" text="Acceuil" />
+               </children>
+               <BorderPane.margin>
+                  <Insets bottom="20.0" />
+               </BorderPane.margin>
+            </HBox>
+         </bottom>
+         <right>
+            <VBox alignment="CENTER" prefHeight="361.0" prefWidth="100.0" spacing="20.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Button mnemonicParsing="false" text="Ajouter" />
+                  <Button mnemonicParsing="false" text="Modifier" />
+                  <Button mnemonicParsing="false" text="Supprimer" />
+               </children>
+            </VBox>
+         </right>
+         <top>
+            <Label text="Magasin" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets bottom="20.0" />
+               </BorderPane.margin>
+            </Label>
+         </top>
+      </BorderPane>
+   </children>
+</AnchorPane>
