@@ -29,7 +29,7 @@
                               <Label prefHeight="15.0" prefWidth="39.0" text="Login" />
                               <TextField fx:id="loginField" />
                               <Label text="Mot de passe" />
-                              <PasswordField fx:id="psswdField" />
+                              <PasswordField fx:id="psswdField" onAction="#handleActionLogin" />
                               <Button defaultButton="true" mnemonicParsing="false" onAction="#handleActionLogin" text="Se connecter" />
                               <Label />
                               </children>
