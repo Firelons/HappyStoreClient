@@ -28,14 +28,14 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" layoutY="26.0" prefHeight="30.0" prefWidth="116.0" text="Commercial" textFill="#0dd735" AnchorPane.leftAnchor="0.0">
+      <Label alignment="CENTER" layoutY="26.0" text="Commercial" textFill="#0dd735" AnchorPane.leftAnchor="0.0">
          <font>
             <Font name="System Italic" size="20.0" />
          </font>
       </Label>
       <HBox alignment="CENTER" layoutX="251.0" layoutY="435.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button layoutX="187.0" layoutY="394.0" mnemonicParsing="false" text="Enregistrer" />
+            <Button layoutX="187.0" layoutY="394.0" mnemonicParsing="false" onAction="#Enregistrer" text="Enregistrer" />
             <Button layoutX="268.0" layoutY="369.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="25.0" prefWidth="89.0" text="Annuler" />
          </children>
       </HBox>
@@ -71,5 +71,6 @@
             </GridPane>
          </children>
       </HBox>
+      <Label fx:id="Message" layoutX="126.0" layoutY="72.0" prefHeight="25.0" prefWidth="390.0" textFill="#f50a0a" />
    </children>
 </AnchorPane>

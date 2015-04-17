@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import regub.AbstractController;
 import regub.Auth;
@@ -41,6 +42,8 @@ public class ClientController extends AbstractController{
 	 private TextField textVille;
          @FXML
 	 private TextField textBP;
+         @FXML
+	 private Label Message;
     @FXML
     private void Enregistrer(ActionEvent event) throws IOException {
         this.Verifier_Saisie();
@@ -109,7 +112,8 @@ public class ClientController extends AbstractController{
            if(retour){
                getApp().gotoPage("commercial/AccueilCommercial"); 
            }else{
-               System.out.println(message_error);
+               this.Message.setText(message_error);
+               
            }
            
     }
