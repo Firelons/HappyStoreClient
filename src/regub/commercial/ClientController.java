@@ -41,15 +41,13 @@ public class ClientController extends AbstractController{
 	 private TextField textBP;
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
-        this.Save_Client("test");
-        getApp().gotoPage("commercial/AccueilCommercial");
-        
+        this.Save_Client();
+        getApp().gotoPage("commercial/AccueilCommercial");        
     }
     @FXML
-    private void Save_Client(String Client) throws IOException {
-        
+    private void Save_Client() throws IOException {
         System.out.println(Auth.getUserInfo().toString());
-        int Num=4;
+       
         try(Connection cn = Auth.getConnection();
             Statement st=cn.createStatement()){
             String sql ="INSERT INTO Client(societe,telephone,email,addr_ligne1,addr_ligne2,ville,code_postal)"
@@ -57,12 +55,10 @@ public class ClientController extends AbstractController{
             st.executeUpdate(sql);
         } catch (SQLException e){
             e.printStackTrace();
-        }
-        
-       
+        }              
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
     }
-
 }
