@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
@@ -50,9 +51,18 @@ public class ClientController extends AbstractController{
        
         try(Connection cn = Auth.getConnection();
             Statement st=cn.createStatement()){
-            String sql ="INSERT INTO Client(societe,telephone,email,addr_ligne1,addr_ligne2,ville,code_postal)"
-                    + "VALUES ('"+this.textSociete.getText() +"','"+this.textTelephone.getText() +"','"+this.textEmail.getText() +"','"+this.textRue.getText() +"','','"+this.textVille.getText() +"',"+this.textBP.getText() +")";
-            st.executeUpdate(sql);
+            String sql ="INSERT INTO Client(societe,telephone,email,addr_ligne1,ville,code_postal)"
+                    + "VALUES (?,?,?,?,?,?);";
+            PreparedStatement st1=cn.prepareStatement(sql);
+            st1.setString(1, this.textSociete.getText() );
+            st1.setString(2, this.textTelephone.getText() );
+            st1.setString(3, this.textEmail.getText() );
+            st1.setString(4, this.textRue.getText() );
+            st1.setString(5, this.textVille.getText());
+            st1.setString(6, this.textBP.getText() );
+            
+            st1.execute();
+            
         } catch (SQLException e){
             e.printStackTrace();
         }              
