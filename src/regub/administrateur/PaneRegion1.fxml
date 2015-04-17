@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.collections.*?>
+
+<AnchorPane prefHeight="364.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <MenuBar layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="File">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Close" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Edit">
+            <items>
+              <MenuItem mnemonicParsing="false" text="Delete" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Help">
+            <items>
+              <MenuItem mnemonicParsing="false" text="About" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+      <Label layoutX="396.0" layoutY="17.0" prefHeight="25.0" prefWidth="90.0" text="REGIONS" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+      </Label>
+      <HBox alignment="CENTER" layoutX="14.0" layoutY="325.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button layoutX="14.0" layoutY="325.0" mnemonicParsing="false" text="MAGASINS" />
+         </children>
+      </HBox>
+      <VBox alignment="CENTER" layoutX="104.0" layoutY="155.0" spacing="10.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+         <children>
+            <Label layoutX="112.0" layoutY="119.0" text="Magasins Associé">
+               <font>
+                  <Font size="16.0" />
+               </font>
+            </Label>
+            <ListView layoutX="170.0" layoutY="68.0">
+              <items>
+                  <FXCollections fx:factory="observableArrayList">
+                          <String fx:value="Magazin 1" />
+                          <String fx:value="Region 2" />
+                          <String fx:value="Region 3" />
+                          <String fx:value="Region 4" />
+                  </FXCollections>
+              </items>
+            </ListView>
+         </children>
+      </VBox>
+      <HBox alignment="CENTER" layoutX="32.0" layoutY="41.0" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Label layoutX="14.0" layoutY="46.0" text="Nom Région :" />
+            <TextField layoutX="101.0" layoutY="42.0" prefHeight="25.0" prefWidth="127.0" />
+            <Button layoutX="245.0" layoutY="42.0" mnemonicParsing="false" text="Valider" />
+            <Button layoutX="322.0" layoutY="42.0" mnemonicParsing="false" text="Annuler" />
+         </children>
+      </HBox>
+   </children>
+</AnchorPane>
