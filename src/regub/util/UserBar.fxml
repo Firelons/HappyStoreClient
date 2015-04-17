@@ -10,13 +10,13 @@
    <children>
       <ToolBar minWidth="-Infinity" prefHeight="40.0" prefWidth="119.0" HBox.hgrow="ALWAYS">
         <items>
-          <Button mnemonicParsing="false" text="Accueil" />
+          <Button mnemonicParsing="false" onAction="#handleHome" text="Accueil" />
         </items>
       </ToolBar>
       <ToolBar maxWidth="400.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0">
         <items>
-          <Button mnemonicParsing="false" text="Paramètres" />
-            <Button mnemonicParsing="false" text="Se déconnecter" />
+          <Button mnemonicParsing="false" onAction="#handleSetting" text="Paramètres" />
+            <Button mnemonicParsing="false" onAction="#handleLogout" text="Se déconnecter" />
             <Label fx:id="lbl_userlogin" text="userlogin" />
         </items>
       </ToolBar>
