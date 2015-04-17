@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -41,9 +42,76 @@ public class ClientController extends AbstractController{
          @FXML
 	 private TextField textBP;
     @FXML
+    private void Enregistrer(ActionEvent event) throws IOException {
+        this.Verifier_Saisie();
+        this.Save_Client();
+           
+    }
+    @FXML
     private void Annuler(ActionEvent event) throws IOException {
+        this.Verifier_Saisie();
         this.Save_Client();
         getApp().gotoPage("commercial/AccueilCommercial");        
+    }
+    @FXML
+    private void Verifier_Saisie() throws IOException {
+        String message_error="";
+        Boolean retour=true;
+        
+    try {
+        int monentier = Integer.parseInt(this.textTelephone.getText());
+           
+    } catch (NumberFormatException nfe) {
+        message_error="Numéro de Téléphone Invalide";
+        retour=false;
+        // traitement à faire dans ce cas
+    }
+    try {
+        int monentier1 = Integer.parseInt(this.textBP.getText());
+        
+    } catch (NumberFormatException nfe) {
+        message_error="Boite Postale Invalide";
+        retour=false;
+        // traitement à faire dans ce cas
+    }
+    
+    boolean essai=Pattern.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$", this.textEmail.getText());
+           if(essai==false){
+               message_error="Adresse Mail Invalide";
+              retour=false;
+           } 
+    if(this.textBP.getText().length()==0){
+        message_error="Entrez le Code Postal"; 
+        retour=false;
+    }   
+    if(this.textVille.getText().length()==0){
+        message_error="Entrez la Ville";  
+        retour=false;
+    }
+    if(this.textRue.getText().length()==0){
+        message_error="Entrez l'adresse";   
+        retour=false;
+    }
+     if(this.textEmail.getText().length()==0){
+        message_error="Entrez l'email";  
+        retour=false;
+    }
+     if(this.textTelephone.getText().length()==0){
+        message_error="Entrez le numéro de Téléphone";   
+        retour=false;
+    }
+    
+     if(this.textSociete.getText().length()==0){
+        message_error="Entrez le nom de la societé";   
+        retour=false;  
+    }
+    
+           if(retour){
+               getApp().gotoPage("commercial/AccueilCommercial"); 
+           }else{
+               System.out.println(message_error);
+           }
+           
     }
     @FXML
     private void Save_Client() throws IOException {
