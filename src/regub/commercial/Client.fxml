@@ -23,7 +23,7 @@
             </Menu>
          </menus>
       </MenuBar>
-      <Label alignment="CENTER" layoutX="457.0" prefHeight="30.0" prefWidth="224.0" text="ajouter/modifier client" textAlignment="CENTER" AnchorPane.rightAnchor="0.0">
+      <Label alignment="CENTER" layoutX="457.0" text="ajouter/modifier client" textAlignment="CENTER" AnchorPane.rightAnchor="0.0">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
@@ -50,15 +50,15 @@
                   <Label text="Ville" GridPane.rowIndex="4" />
                   <Label text="Code Postal" GridPane.rowIndex="5" />
                   <TextField fx:id="textSociete" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Nom de la Sociéte" GridPane.columnIndex="1" />
-                  <TextField fx:id="textTelephone" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="156.0" promptText="Telephone / fax" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="textEmail" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="188.0" promptText="\@" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="textTelephone" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Telephone / fax" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="textEmail" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="188.0" promptText="\@" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <TextField fx:id="textRue" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="256.0" promptText="Rue" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <TextField fx:id="textVille" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="115.0" promptText="Ville" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                   <TextField fx:id="textBP" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="115.0" promptText="Code Postal" GridPane.columnIndex="1" GridPane.rowIndex="5" />
                </children>
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="133.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="257.0" minWidth="10.0" prefWidth="257.0" />
+                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="257.0" minWidth="10.0" prefWidth="257.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
