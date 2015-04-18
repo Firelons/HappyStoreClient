@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
@@ -10,14 +11,26 @@
    <children>
       <ToolBar minWidth="-Infinity" prefHeight="40.0" prefWidth="119.0" HBox.hgrow="ALWAYS">
         <items>
-          <Button mnemonicParsing="false" onAction="#handleHome" text="Accueil" />
+          <Button mnemonicParsing="false" onAction="#handleHome" text="Accueil">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
         </items>
       </ToolBar>
       <ToolBar maxWidth="400.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="40.0">
         <items>
-          <Button mnemonicParsing="false" onAction="#handleSetting" text="Paramètres" />
-            <Button mnemonicParsing="false" onAction="#handleLogout" text="Se déconnecter" />
-            <Label fx:id="lbl_userlogin" text="userlogin" />
+          <Button mnemonicParsing="false" onAction="#handleSetting" text="Paramètres">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Button mnemonicParsing="false" onAction="#handleLogout" text="Se déconnecter">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Button>
+            <Label fx:id="lbl_userlogin" text="userlogin" textFill="#1df52b">
+               <font>
+                  <Font size="16.0" />
+               </font></Label>
         </items>
       </ToolBar>
    </children>

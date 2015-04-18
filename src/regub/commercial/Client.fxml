@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
@@ -7,39 +8,20 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.commercial.ClientController">
+<VBox alignment="CENTER" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.commercial.ClientController">
    <children>
-      <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="640.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <menus>
-            <Menu mnemonicParsing="false" text="Accueil">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Home" />
-               </items>
-            </Menu>
-            <Menu mnemonicParsing="false" text="Quitter">
-               <items>
-                  <MenuItem mnemonicParsing="false" text="Close" />
-               </items>
-            </Menu>
-         </menus>
-      </MenuBar>
-      <Label alignment="CENTER" layoutX="457.0" text="ajouter/modifier client" textAlignment="CENTER" AnchorPane.rightAnchor="0.0">
-         <font>
-            <Font name="System Bold" size="20.0" />
-         </font>
-      </Label>
-      <Label alignment="CENTER" layoutY="26.0" text="Commercial" textFill="#0dd735" AnchorPane.leftAnchor="0.0">
-         <font>
-            <Font name="System Italic" size="20.0" />
-         </font>
-      </Label>
-      <HBox alignment="CENTER" layoutX="251.0" layoutY="435.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <fx:include  fx:id="usermenu" source="../util/UserBar.fxml" />
+      <HBox>
          <children>
-            <Button layoutX="187.0" layoutY="394.0" mnemonicParsing="false" onAction="#Enregistrer" text="Enregistrer" />
-            <Button layoutX="268.0" layoutY="369.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="25.0" prefWidth="89.0" text="Annuler" />
+            <Label alignment="CENTER" text="ajouter/modifier client" textAlignment="CENTER">
+               <font>
+                  <Font name="System Bold" size="20.0" />
+               </font>
+            </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="-42.0" layoutY="166.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <Label fx:id="Message" prefHeight="25.0" prefWidth="390.0" textFill="#f50a0a" />
+      <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
          <children>
             <GridPane>
                <children>
@@ -71,6 +53,14 @@
             </GridPane>
          </children>
       </HBox>
-      <Label fx:id="Message" layoutX="126.0" layoutY="72.0" prefHeight="25.0" prefWidth="390.0" textFill="#f50a0a" />
+      <HBox alignment="BOTTOM_CENTER" spacing="20.0">
+         <children>
+            <Button layoutX="187.0" layoutY="394.0" mnemonicParsing="false" onAction="#Enregistrer" text="Enregistrer" />
+            <Button layoutX="268.0" layoutY="369.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="25.0" prefWidth="89.0" text="Annuler" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" top="20.0" />
+         </padding>
+      </HBox>
    </children>
-</AnchorPane>
+</VBox>
