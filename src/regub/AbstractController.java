@@ -6,6 +6,7 @@
 package regub;
 
 import javafx.fxml.Initializable;
+import javafx.stage.Stage;
 
 /**
  * Classe de base de tous les controleurs
@@ -15,6 +16,7 @@ import javafx.fxml.Initializable;
 public abstract class AbstractController implements Initializable {
 
     private Main appMain;
+    private Stage appStage;
 
     /**
      * Donne au controleur l'address de l'instance Main (appelée automatiquement
@@ -36,4 +38,12 @@ public abstract class AbstractController implements Initializable {
     public Main getApp() {
         return appMain;
     }
+    
+    public void setStage(Stage stage) {
+        appStage = stage;
+    }
+    public Stage getstage() {
+        return appStage;
+    }
+    
 }
