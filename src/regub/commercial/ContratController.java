@@ -17,6 +17,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
+import jfx.messagebox.MessageBox;
 import regub.AbstractController;
 import regub.Main;
 import regub.util.UserBarController;
@@ -29,6 +30,9 @@ import regub.util.UserBarController;
 public class ContratController extends AbstractController {
 
     private File fichier;
+    private double freq;
+    private double dur;
+    private double tar;
 
     @FXML
     private Label client;
@@ -91,6 +95,34 @@ public class ContratController extends AbstractController {
         Save_Client();
     }
 
+    @FXML
+    private void calculer(ActionEvent event) throws Exception {
+        String message_error = "";
+        Boolean retour = true;
+        try {
+            tar = Double.parseDouble(tarif.getText());
+
+        } catch (NumberFormatException nfe) {
+        }
+        try {
+            freq = Double.parseDouble(frequence.getText());
+
+        } catch (NumberFormatException nfe) {
+        }
+        try {
+            dur = Double.parseDouble(duree.getText());
+
+        } catch (NumberFormatException nfe) {
+        }
+        if (dur == 0) {
+
+            montant.setText(String.valueOf(freq * tar));
+        } else {
+            montant.setText(String.valueOf(freq * dur * tar));
+        }
+
+    }
+
     @Override
     public void setApp(Main main) {
         super.setApp(main);
@@ -102,12 +134,9 @@ public class ContratController extends AbstractController {
     }
 
     private void Verifier_Saisie() throws IOException {
-    }
-
-    private void Save_Client() throws IOException {
         String message_error = "";
         Boolean retour = true;
-        
+
         try {
             int mont = Integer.parseInt(tarif.getText());
 
@@ -119,9 +148,9 @@ public class ContratController extends AbstractController {
             message_error = "Montant non calculé";
             retour = false;
         }
-        
+
         try {
-            int tar = Integer.parseInt(tarif.getText());
+            tar = Integer.parseInt(tarif.getText());
 
         } catch (NumberFormatException nfe) {
             message_error = "tarif Invalide";
@@ -131,26 +160,26 @@ public class ContratController extends AbstractController {
             message_error = "Entrez le tarif";
             retour = false;
         }
-        
+
         try {
             int dval = datevalidation.getValue().toString().length();
         } catch (NullPointerException nfe) {
             message_error = "Date de validation invalide";
             retour = false;
         }
-        
-        if (!valide.isSelected() && !preparation.isSelected() && !Annule.isSelected()  ) {
+
+        if (!valide.isSelected() && !preparation.isSelected() && !Annule.isSelected()) {
             message_error = "Choisissez un etat";
             retour = false;
         }
-        
+
         try {
             int drecep = datereception.getValue().toString().length();
         } catch (NullPointerException nfe) {
             message_error = "Date de reception invalide";
             retour = false;
         }
-        
+
         try {
             int dfin = datefin.getValue().toString().length();
         } catch (NullPointerException nfe) {
@@ -169,7 +198,7 @@ public class ContratController extends AbstractController {
             retour = false;
         }
         try {
-            int dur = Integer.parseInt(duree.getText());
+            dur = Integer.parseInt(duree.getText());
 
         } catch (NumberFormatException nfe) {
             message_error = "Duree Invalide";
@@ -180,7 +209,7 @@ public class ContratController extends AbstractController {
             retour = false;
         }
         try {
-            int freq = Integer.parseInt(frequence.getText());
+            freq = Integer.parseInt(frequence.getText());
 
         } catch (NumberFormatException nfe) {
             message_error = "frequence Invalide";
@@ -199,8 +228,13 @@ public class ContratController extends AbstractController {
         if (retour) {
             getApp().gotoPage("commercial/AccueilCommercial");
         } else {
-            this.Message.setText(message_error);
+            Message.setText(message_error);
+            MessageBox.show(getstage(),message_error,"Erreur",MessageBox.ICON_WARNING); 
         }
+    }
+
+    private void Save_Client() throws IOException {
+
     }
 
 }

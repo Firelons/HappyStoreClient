@@ -94,7 +94,7 @@
                                     <Label prefHeight="29.0" prefWidth="24.0" text="EUR" />
                                  </children>
                               </HBox>
-                              <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Calculer" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                              <Button mnemonicParsing="false" onAction="#calculer" prefHeight="25.0" prefWidth="64.0" text="Calculer" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
