@@ -13,6 +13,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -27,7 +29,7 @@ import regub.util.UserBarController;
  * @author Mesmerus
  */
 public class ClientController extends AbstractController {
-
+   
     @FXML
     private TextField textSociete;
     @FXML
@@ -147,6 +149,7 @@ public class ClientController extends AbstractController {
         usermenuController.setApp(main);
     }
 
+  
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
