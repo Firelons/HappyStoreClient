@@ -73,9 +73,9 @@ public class AccueilCommercialController extends AbstractController {
     }
     public ObservableList<Client> getClientData()  {
         
-            this.getClientDB();
+            ///this.getClientDB();
         
-    //clientData.add(new Client("4",4,"4","4","4",4)) ;
+            clientData.add(new Client("4",4,"4","4","4",4)) ;
         return clientData;
     }
 

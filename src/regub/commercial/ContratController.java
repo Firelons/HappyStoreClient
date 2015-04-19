@@ -5,13 +5,17 @@
  */
 package regub.commercial;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import regub.AbstractController;
 import regub.Main;
@@ -23,30 +27,68 @@ import regub.util.UserBarController;
  * @author Mesmerus
  */
 public class ContratController extends AbstractController {
+
     private File fichier;
-    
+
+    @FXML
+    private Label client;
+    @FXML
+    private TextField titre;
+    @FXML
+    private TextField frequence;
+    @FXML
+    private TextField duree;
+    @FXML
+    private TextField fich;
+    @FXML
+    private DatePicker datedebut;
+    @FXML
+    private DatePicker datefin;
+    @FXML
+    private DatePicker datereception;
+    @FXML
+    private RadioButton valide;
+    @FXML
+    private RadioButton preparation;
+    @FXML
+    private RadioButton Annule;
+    @FXML
+    private DatePicker datevalidation;
+    @FXML
+    private TextField tarif;
+    @FXML
+    private TextField montant;
+    @FXML
+    private ListView Rayons;
+    @FXML
+    private ListView Regions;
+    @FXML
+    private Label Message;
+
     @FXML
     private UserBarController usermenuController;
-            
+
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
         getApp().gotoPage("commercial/AccueilCommercial");
     }
-    
+
     @FXML
     private void browse(ActionEvent event) {
-     
-        final FileChooser dialog = new FileChooser(); 
+
+        final FileChooser dialog = new FileChooser();
         dialog.setTitle("Choisir un fichier mp4");
         dialog.showOpenDialog(getstage());
-       
-
-        if (fichier != null) { 
+        if (fichier != null) {
             // Effectuer la sauvegarde. 
-            
-            
-        } 
-  
+
+        }
+    }
+
+    @FXML
+    private void Enregistrer(ActionEvent event) throws IOException {
+        Verifier_Saisie();
+        Save_Client();
     }
 
     @Override
@@ -54,8 +96,111 @@ public class ContratController extends AbstractController {
         super.setApp(main);
         usermenuController.setApp(main);
     }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+    }
+
+    private void Verifier_Saisie() throws IOException {
+    }
+
+    private void Save_Client() throws IOException {
+        String message_error = "";
+        Boolean retour = true;
+        
+        try {
+            int mont = Integer.parseInt(tarif.getText());
+
+        } catch (NumberFormatException nfe) {
+            message_error = "Montant Invalide";
+            retour = false;
+        }
+        if (montant.getText().length() == 0) {
+            message_error = "Montant non calculé";
+            retour = false;
+        }
+        
+        try {
+            int tar = Integer.parseInt(tarif.getText());
+
+        } catch (NumberFormatException nfe) {
+            message_error = "tarif Invalide";
+            retour = false;
+        }
+        if (tarif.getText().length() == 0) {
+            message_error = "Entrez le tarif";
+            retour = false;
+        }
+        
+        try {
+            int dval = datevalidation.getValue().toString().length();
+        } catch (NullPointerException nfe) {
+            message_error = "Date de validation invalide";
+            retour = false;
+        }
+        
+        if (!valide.isSelected() && !preparation.isSelected() && !Annule.isSelected()  ) {
+            message_error = "Choisissez un etat";
+            retour = false;
+        }
+        
+        try {
+            int drecep = datereception.getValue().toString().length();
+        } catch (NullPointerException nfe) {
+            message_error = "Date de reception invalide";
+            retour = false;
+        }
+        
+        try {
+            int dfin = datefin.getValue().toString().length();
+        } catch (NullPointerException nfe) {
+            message_error = "Date fin invalide";
+            retour = false;
+        }
+        try {
+            int ddebut = datedebut.getValue().toString().length();
+        } catch (NullPointerException nfe) {
+            message_error = "Date debut invalide";
+            retour = false;
+        }
+
+        if (fich.getText().length() == 0) {
+            message_error = "Entrez le fichier mp4";
+            retour = false;
+        }
+        try {
+            int dur = Integer.parseInt(duree.getText());
+
+        } catch (NumberFormatException nfe) {
+            message_error = "Duree Invalide";
+            retour = false;
+        }
+        if (duree.getText().length() == 0) {
+            message_error = "Entrez la duree";
+            retour = false;
+        }
+        try {
+            int freq = Integer.parseInt(frequence.getText());
+
+        } catch (NumberFormatException nfe) {
+            message_error = "frequence Invalide";
+            retour = false;
+        }
+        if (frequence.getText().length() == 0) {
+            message_error = "Entrez la frequence";
+            retour = false;
+        }
+
+        if (titre.getText().length() == 0) {
+            message_error = "Entrez le titre";
+            retour = false;
+        }
+
+        if (retour) {
+            getApp().gotoPage("commercial/AccueilCommercial");
+        } else {
+            this.Message.setText(message_error);
+        }
     }
 
 }
