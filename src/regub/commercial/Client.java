@@ -23,18 +23,18 @@ import javafx.beans.property.StringProperty;
 public class Client {
 
     private final StringProperty societe;
-    private final IntegerProperty telephone;
+    private final StringProperty telephone;
     private final StringProperty email;
     private final StringProperty rue;
     private final StringProperty ville;
-    private final IntegerProperty postalCode;
+    private final StringProperty postalCode;
 
 
     /**
      * Default constructor.
      */
     public Client() {
-        this(null, 0, null, null, null, 0);
+        this(null, null, null, null, null, null);
     }
 
     /**
@@ -43,14 +43,14 @@ public class Client {
      * @param societe
     
      */
-    public Client(String societe, int telephone, String email, String rue,String ville, int postalCode) {
+    public Client(String societe, String telephone, String email, String rue,String ville,  String postalCode) {
         this.societe = new SimpleStringProperty(societe);
         this.rue = new SimpleStringProperty( rue);
 
         // Some initial dummy data, just for convenient testing.
         this.ville = new SimpleStringProperty(ville);
-        this.postalCode = new SimpleIntegerProperty(postalCode);
-        this.telephone = new SimpleIntegerProperty(telephone);
+        this.postalCode = new SimpleStringProperty(postalCode);
+        this.telephone = new SimpleStringProperty(telephone);
         this.email = new SimpleStringProperty(email);
     }
 
@@ -90,27 +90,27 @@ public class Client {
         return ville;
     }
 
-    public int getPostalCode() {
+    public String getPostalCode() {
         return postalCode.get();
     }
 
-    public void setPostalCode(int postalCode) {
+    public void setPostalCode(String postalCode) {
         this.postalCode.set(postalCode);
     }
 
-    public IntegerProperty postalCodeProperty() {
+    public StringProperty postalCodeProperty() {
         return postalCode;
     }
 
-    public Integer getTelephone() {
+    public String getTelephone() {
         return telephone.get();
     }
 
-    public void setTelephone(int city) {
+    public void setTelephone(String city) {
         this.telephone.set(city);
     }
 
-    public IntegerProperty cityProperty() {
+    public StringProperty telephoneProperty() {
         return telephone;
     }
 

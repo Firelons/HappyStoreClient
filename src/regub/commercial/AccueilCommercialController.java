@@ -61,10 +61,9 @@ public class AccueilCommercialController extends AbstractController {
 
             rsClient=st.executeQuery(sql);
             while(rsClient.next()){
-                clientData.add(new Client(rsClient.getString("societe"), rsClient.getShort("telephone"),rsClient.getString("email"),
-                rsClient.getString("addr_ligne1"),rsClient.getString("ville"),rsClient.getShort("code_postal")));
-                System.out.println(rsClient.getString("societe")+ rsClient.getShort("telephone")+rsClient.getString("email")+
-                rsClient.getString("addr_ligne1")+rsClient.getString("ville")+rsClient.getShort("code_postal"));
+                clientData.add(new Client(rsClient.getString("societe"), rsClient.getString("telephone"),rsClient.getString("email"),
+                rsClient.getString("addr_ligne1"),rsClient.getString("ville"),rsClient.getString("code_postal")));
+               
             }
             
         } catch (SQLException e) {
@@ -73,9 +72,13 @@ public class AccueilCommercialController extends AbstractController {
     }
     public ObservableList<Client> getClientData()  {
         
-            ///this.getClientDB();
+        try {
+            this.getClientDB();
+        } catch (IOException ex) {
+             ex.printStackTrace();
+        }
         
-            clientData.add(new Client("4",4,"4","4","4",4)) ;
+            clientData.add(new Client("4","4","4","4","4","4")) ;
         return clientData;
     }
 
