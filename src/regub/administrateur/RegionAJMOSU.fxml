@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.collections.*?>
 
-<AnchorPane prefHeight="364.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="364.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.administrateur.RegionController">
    <children>
       <MenuBar layoutX="14.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -49,9 +49,9 @@
               <items>
                   <FXCollections fx:factory="observableArrayList">
                           <String fx:value="Magazin 1" />
-                          <String fx:value="Region 2" />
-                          <String fx:value="Region 3" />
-                          <String fx:value="Region 4" />
+                          <String fx:value="Magazin 2" />
+                          <String fx:value="Magazin 3" />
+                          <String fx:value="Magazin 4" />
                   </FXCollections>
               </items>
             </ListView>

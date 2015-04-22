@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.collections.*?>
 
-<AnchorPane prefHeight="395.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="region_java.ControllerRegion">
+<AnchorPane prefHeight="395.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.administrateur.RegionAccueilController">
    <children>
       <MenuBar layoutX="96.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <menus>
@@ -54,8 +54,8 @@
       <HBox alignment="CENTER" layoutX="26.0" layoutY="330.0" spacing="30.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             
-                  <Button fx:id="AjoutRegion" layoutX="26.0" layoutY="330.0" mnemonicParsing="false" onAction="#AjouterRegion" text="Ajouter" />
-            <Button layoutX="179.0" layoutY="330.0" mnemonicParsing="false" text="Modifier" />
+                  <Button layoutX="26.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionAjouter" text="Ajouter" />
+            <Button layoutX="179.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionModifier" text="Modifier" />
             <Button layoutX="338.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Supprimer" />
          </children>
       </HBox>
