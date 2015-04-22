@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package regub;
 
 import java.sql.Connection;
@@ -99,13 +98,36 @@ public class Auth {
         url = null;
         userInfo.clear();
     }
-    
+
     /**
-     * retourne les info de lutilisateur connecté sous la forme d'un conteneur 
+     * retourne les info de lutilisateur connecté sous la forme d'un conteneur
      * clée valeur (HashMap)
+     *
      * @return userInfo
      */
-    public static HashMap getUserInfo(){
+    public static HashMap getUserInfo() {
         return userInfo;
+    }
+    /**
+     * Permet de changer le mot de passe de l'utilisateur connecte
+     * 
+     * @param oldpass ancien mot de passe
+     * @param newpass nouveau mot de passe
+     * @return true si le mot de passe a change
+     * @throws SQLException 
+     */
+    public static boolean changePassword(String oldpass, String newpass) throws SQLException {
+        try (Connection con = Auth.getConnection();
+                PreparedStatement st = con.prepareStatement("call updPass(?,?,?);")) {
+            st.setString(1, userInfo.get("login"));
+            st.setString(2, oldpass);
+            st.setString(3, newpass);
+            st.execute();
+            ResultSet r = st.getResultSet();
+            r.next();
+            return  r.getInt(1) == 1;
+        } catch (SQLException ex) {
+           throw ex;
+        }
     }
 }
