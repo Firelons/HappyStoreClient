@@ -26,7 +26,11 @@ public class AccueilAdministrateurController extends AbstractController {
     private void RegionAccueil(ActionEvent event) {
         getApp().gotoPage("administrateur/RegionAccueil");
     }
-
+    
+    @FXML
+    private void RegionCompteUtil(ActionEvent event) {
+        getApp().gotoPage("administrateur/CompteUtil");
+    }
     @Override
     public void setApp(Main m) {
         super.setApp(m);
