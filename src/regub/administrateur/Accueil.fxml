@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_CENTER" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <fx:include source="../util/UserBar.fxml" />
+      <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0" prefWidth="600.0" text="Accueil">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <VBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" spacing="6.0">
+         <children>
+            <Button mnemonicParsing="false" prefHeight="39.0" prefWidth="200.0" text="Compte Users">
+               <VBox.margin>
+                  <Insets />
+               </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Régions" />
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Magasins" />
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Type Rayons" />
+            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Menu commercial" />
+         </children>
+      </VBox>
+   </children>
+</VBox>
