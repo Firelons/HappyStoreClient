@@ -7,13 +7,14 @@ package regub.administrateur;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
+import regub.AbstractController;
 
 /**
  * FXML Controller class
  *
  * @author admin
  */
-public class AccueilAdminController implements Initializable {
+public class AccueilAdminController extends AbstractController{
 
     /**
      * Initializes the controller class.
