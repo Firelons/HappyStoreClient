@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.paint.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.control.*?>
@@ -8,11 +9,21 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane prefHeight="396.0" prefWidth="486.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin_java.ControllerAdmin">
-	<children>
-      <HBox alignment="CENTER" layoutX="181.0" layoutY="63.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+<VBox prefHeight="317.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="admin_java.ControllerAdmin">
+   <children>
+      <fx:include source="../util/UserBar.fxml" />
+		<Label alignment="CENTER" text="Compte Utilisateur" textAlignment="CENTER" textFill="#5a809c" textOverrun="WORD_ELLIPSIS">
+			<font>
+				<Font name="Arial Bold" size="18.0" />
+			</font>
+         <padding>
+            <Insets left="20.0" top="10.0" />
+         </padding>
+
+                              		</Label>
+      <VBox alignment="CENTER" spacing="10.0" VBox.vgrow="ALWAYS">
          <children>
-      		<ComboBox fx:id="comb_compte" layoutX="181.0" layoutY="63.0" promptText="Type_compte">
+      		<ComboBox fx:id="comb_compte" promptText="Type_compte">
       			<items>
       				<FXCollections fx:factory="observableArrayList">
       					<String fx:value="Administrateur" />
@@ -21,25 +32,10 @@
       				</FXCollections>
       			</items>
       		</ComboBox>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutX="155.0" layoutY="26.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-      		<Label layoutX="155.0" layoutY="26.0" text="Compte Utilisateur" textAlignment="CENTER" textFill="#5a809c" textOverrun="WORD_ELLIPSIS">
-      			<font>
-      				<Font name="Arial Bold" size="18.0" />
-      			</font>
-      
-            		</Label>
-         </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutY="108.0" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
-         <children>
-            <GridPane alignment="CENTER" layoutX="44.0" layoutY="105.0" prefHeight="55.0" prefWidth="294.0" AnchorPane.leftAnchor="44.0">
+            <GridPane alignment="CENTER" hgap="2.0" maxHeight="400.0" vgap="6.0" VBox.vgrow="NEVER">
                <columnConstraints>
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="76.0" minWidth="10.0" prefWidth="67.0" />
                   <ColumnConstraints hgrow="SOMETIMES" maxWidth="183.0" minWidth="10.0" prefWidth="183.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="93.0" minWidth="10.0" prefWidth="42.0" />
                </columnConstraints>
                <rowConstraints>
                   <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
@@ -50,21 +46,16 @@
                <children>
             		<Label alignment="CENTER" layoutX="49.0" layoutY="109.0" text="nom" />
             		<Label alignment="CENTER" layoutX="44.0" layoutY="258.0" text="password" GridPane.rowIndex="3" />
-            		<Label alignment="CENTER" layoutX="49.0" layoutY="155.0" text="prenom" GridPane.rowIndex="1" />
+            		<Label alignment="CENTER" layoutX="49.0" layoutY="155.0" text="prénom" GridPane.rowIndex="1" />
             		<PasswordField fx:id="pwfPassWord" alignment="CENTER" layoutX="137.0" layoutY="254.0" prefHeight="25.0" prefWidth="132.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-            		<TextField fx:id="prenom" alignment="CENTER" layoutX="137.0" layoutY="151.0" prefHeight="25.0" prefWidth="149.0" text="ndndkdf" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            		<TextField fx:id="prenom" alignment="CENTER" layoutX="137.0" layoutY="151.0" prefHeight="25.0" prefWidth="149.0" text="ndndkdf" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="SOMETIMES" />
             		<TextField fx:id="tfUserName" alignment="CENTER" layoutX="137.0" layoutY="198.0" prefHeight="25.0" prefWidth="125.0" text="dndf,d" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             		<TextField fx:id="nom" alignment="CENTER" layoutX="137.0" layoutY="105.0" prefHeight="25.0" prefWidth="150.0" text="hfdsjgldjl" GridPane.columnIndex="1" />
             		<Label alignment="CENTER" layoutX="48.0" layoutY="202.0" text="login" GridPane.rowIndex="2" />
                </children>
             </GridPane>
+            <Button fx:id="btAjouter" mnemonicParsing="false" onAction="#ajouter" text="valider" />
          </children>
-      </HBox>
-      <HBox alignment="CENTER" layoutX="230.0" layoutY="322.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-         <children>
-            <Button fx:id="btAjouter" layoutX="366.0" layoutY="334.0" mnemonicParsing="false" onAction="#ajouter" text="valider" />
-         </children>
-      </HBox>
-
-      	</children>
-</AnchorPane>
+      </VBox>
+   </children>
+</VBox>
