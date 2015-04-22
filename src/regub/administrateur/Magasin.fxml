@@ -31,7 +31,7 @@
    <top>
       <VBox>
          <children>
-            <fx:include source="../util/UserBar.fxml" />
+            <fx:include source="../util/UserBar.fxml" fx:id="usermenu"/>
             <Label text="Édition des magasin" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets bottom="20.0" />

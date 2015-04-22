@@ -11,6 +11,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javax.swing.text.TableView;
 import regub.AbstractController;
+import regub.Main;
+import regub.util.UserBarController;
 
 /**
  *
@@ -20,6 +22,15 @@ public class MagasinController extends AbstractController {
 
     @FXML
     TableView tableMagasin;
+ 
+    @FXML
+    private UserBarController usermenuController;
+    
+    @Override
+    public void setApp(Main m){
+        super.setApp(m);
+        usermenuController.setApp(m);
+    }
 
     @FXML
     public void handleAjout(ActionEvent ev) {
