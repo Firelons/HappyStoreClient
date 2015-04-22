@@ -6,6 +6,7 @@ package regub.administrateur;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import regub.AbstractController;
 import regub.Main;
@@ -16,24 +17,32 @@ import regub.util.UserBarController;
  *
  * @author admin
  */
-public class AccueilAdministrateurController extends AbstractController{
+public class AccueilAdministrateurController extends AbstractController {
 
-    
     @FXML
     private UserBarController usermenuController;
+
+    @FXML
+    private void RegionAccueil(ActionEvent event) {
+        getApp().gotoPage("administrateur/RegionAccueil");
+    }
     
+    @FXML
+    private void RegionCompteUtil(ActionEvent event) {
+        getApp().gotoPage("administrateur/CompteUtil");
+    }
     @Override
-    public void setApp(Main m){
+    public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
     }
-    
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-        
-    }    
+
+    }
 }
