@@ -8,8 +8,10 @@ package regub.commercial;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Iterator;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -19,6 +21,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import regub.AbstractController;
@@ -36,6 +39,8 @@ public class ContratController extends AbstractController {
     private double freq;
     private double dur;
     private double tar;
+    private int nombresRayons;
+    private int nombresRegions;
 
     @FXML
     private Label client;
@@ -77,7 +82,25 @@ public class ContratController extends AbstractController {
 
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
-        getApp().gotoPage("commercial/AccueilCommercial");
+        //  getApp().gotoPage("commercial/AccueilCommercial");
+        ObservableList<String> data = Rayons.getSelectionModel().getSelectedItems();
+
+        for (Iterator iterator = data.iterator(); iterator.hasNext();) {
+            System.out.println(iterator.next());
+        }
+
+        if (Rayons.getSelectionModel().getSelectedItems().size() == 0) {
+            String message_error = "Entrez les rayons";
+            Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
+            a.showAndWait();
+            boolean retour = false;
+        }
+        if (Regions.getSelectionModel().getSelectedItems().size() == 0) {
+            String message_error = "Entrez les regions";
+            Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
+            a.showAndWait();
+            boolean retour = false;
+        }
     }
 
     @FXML
@@ -117,12 +140,19 @@ public class ContratController extends AbstractController {
 
         } catch (NumberFormatException nfe) {
         }
-        if (dur == 0) {
+        Rayons.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
 
-            montant.setText(String.valueOf(freq * tar));
-        } else {
-            montant.setText(String.valueOf(freq * dur * tar));
-        }
+                    nombresRayons = Rayons.getSelectionModel().getSelectedItems().size();
+
+                });
+        Regions.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
+
+                    nombresRegions = Regions.getSelectionModel().getSelectedItems().size();
+
+                });
+        montant.setText(String.valueOf(freq * dur * tar*nombresRayons*nombresRegions));
 
     }
 
@@ -138,6 +168,9 @@ public class ContratController extends AbstractController {
         ObservableList<String> items = FXCollections.observableArrayList(
                 "Single", "Double", "Suite", "Family App");
         Rayons.setItems(items);
+        Rayons.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        Regions.setItems(items);
+        Regions.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
 
@@ -239,6 +272,7 @@ public class ContratController extends AbstractController {
             Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
             a.showAndWait();
         }
+
     }
 
     private void Save_Client() throws IOException {

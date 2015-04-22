@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -31,7 +29,7 @@ import regub.util.UserBarController;
  * @author Mesmerus
  */
 public class ClientController extends AbstractController {
-   
+
     @FXML
     private TextField textSociete;
     @FXML
@@ -52,8 +50,10 @@ public class ClientController extends AbstractController {
 
     @FXML
     private void Enregistrer(ActionEvent event) throws IOException {
-        this.Verifier_Saisie();
-        this.Save_Client();
+        if (Verifier_Saisie()) {
+            Save_Client();
+            getApp().gotoPage("commercial/AccueilCommercial");
+        }
 
     }
 
@@ -64,8 +64,7 @@ public class ClientController extends AbstractController {
         getApp().gotoPage("commercial/AccueilCommercial");
     }
 
-    @FXML
-    private void Verifier_Saisie() throws IOException {
+    private boolean Verifier_Saisie() throws IOException {
         String message_error = "";
         Boolean retour = true;
 
@@ -75,6 +74,7 @@ public class ClientController extends AbstractController {
         } catch (NumberFormatException nfe) {
             message_error = "Numéro de Téléphone Invalide";
             retour = false;
+
         }
         try {
             int monentier1 = Integer.parseInt(this.textBP.getText());
@@ -114,14 +114,12 @@ public class ClientController extends AbstractController {
             retour = false;
         }
 
-        if (retour) {
-            getApp().gotoPage("commercial/AccueilCommercial");
-        } else {
+        if (!retour) {
             Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
             a.showAndWait();
             this.Message.setText(message_error);
         }
-
+        return retour;
     }
 
     @FXML
@@ -153,7 +151,6 @@ public class ClientController extends AbstractController {
         usermenuController.setApp(main);
     }
 
-  
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
