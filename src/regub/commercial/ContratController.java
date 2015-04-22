@@ -9,15 +9,18 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
-import jfx.messagebox.MessageBox;
 import regub.AbstractController;
 import regub.Main;
 import regub.util.UserBarController;
@@ -131,6 +134,11 @@ public class ContratController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+
+        ObservableList<String> items = FXCollections.observableArrayList(
+                "Single", "Double", "Suite", "Family App");
+        Rayons.setItems(items);
+
     }
 
     private void Verifier_Saisie() throws IOException {
@@ -228,8 +236,8 @@ public class ContratController extends AbstractController {
         if (retour) {
             getApp().gotoPage("commercial/AccueilCommercial");
         } else {
-            Message.setText(message_error);
-            MessageBox.show(getstage(),message_error,"Erreur",MessageBox.ICON_WARNING); 
+            Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
+            a.showAndWait();
         }
     }
 

@@ -17,6 +17,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import regub.AbstractController;
@@ -115,6 +117,8 @@ public class ClientController extends AbstractController {
         if (retour) {
             getApp().gotoPage("commercial/AccueilCommercial");
         } else {
+            Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
+            a.showAndWait();
             this.Message.setText(message_error);
         }
 

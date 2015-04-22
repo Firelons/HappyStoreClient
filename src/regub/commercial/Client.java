@@ -33,6 +33,7 @@ public class Client {
     /**
      * Default constructor.
      */
+    
     public Client() {
         this(null, null, null, null, null, null);
     }
@@ -41,6 +42,11 @@ public class Client {
      * Constructor with some initial data.
      * 
      * @param societe
+     * @param telephone
+     * @param email
+     * @param rue
+     * @param ville
+     * @param postalCode
     
      */
     public Client(String societe, String telephone, String email, String rue,String ville,  String postalCode) {
