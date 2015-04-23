@@ -9,7 +9,13 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import regub.AbstractController;
 import regub.Auth;
 
@@ -22,6 +28,7 @@ public class UserBarController extends AbstractController {
 
     @FXML
     Label lbl_userlogin;
+    private Object event;
 
     @FXML
     public void handleLogout(ActionEvent ev) {
@@ -31,7 +38,15 @@ public class UserBarController extends AbstractController {
 
     @FXML
     public void handleSetting(ActionEvent ev) throws Exception {
-        throw new Exception("non implémenté");
+        Stage stage = new Stage();
+        Parent root = FXMLLoader.load(
+                UserSettingsController.class.getResource("UserSettings.fxml"));
+        stage.setScene(new Scene(root));
+        stage.setTitle("Paramètres");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(
+                ((Node) ev.getSource()).getScene().getWindow());
+        stage.show();
     }
 
     @FXML
@@ -47,7 +62,7 @@ public class UserBarController extends AbstractController {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        if(!Auth.isConnected()){
+        if (!Auth.isConnected()) {
             getApp().gotoPage("login");
         }
         String login = (String) Auth.getUserInfo().get("login");

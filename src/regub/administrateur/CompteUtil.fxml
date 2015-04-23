@@ -11,7 +11,7 @@
 
 <VBox prefHeight="317.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.administrateur.CompteUtilController">
    <children>
-      <fx:include source="../util/UserBar.fxml" />
+      <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
 		<Label alignment="CENTER" text="Compte Utilisateur" textAlignment="CENTER" textFill="#5a809c" textOverrun="WORD_ELLIPSIS">
 			<font>
 				<Font name="Arial Bold" size="18.0" />

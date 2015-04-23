@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.control.*?>
@@ -8,35 +9,33 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.collections.*?>
 
-<AnchorPane prefHeight="395.0" prefWidth="479.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.administrateur.RegionAccueilController">
+
+<VBox prefHeight="410.0" prefWidth="545.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.administrateur.RegionAccueilController">
    <children>
-      <MenuBar layoutX="96.0" layoutY="2.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="File">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
+      <Label layoutX="400.0" layoutY="17.0" text="REGIONS" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font>
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets left="30.0" top="5.0" />
+         </padding>
+      </Label>
       <HBox alignment="CENTER" layoutX="28.0" layoutY="48.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
-            <Label layoutX="28.0" layoutY="48.0" prefHeight="17.0" prefWidth="51.0" text="NOM" textFill="#964a32" />
+            <Label layoutX="28.0" layoutY="48.0" prefHeight="17.0" prefWidth="51.0" text="NOM" textFill="#964a32">
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
+            </Label>
          </children>
       </HBox>
-      <HBox alignment="CENTER" layoutX="28.0" layoutY="79.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+      <HBox alignment="CENTER" layoutX="28.0" layoutY="79.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView layoutX="28.0" layoutY="79.0" prefHeight="150.0" prefWidth="248.0">
+            <ListView layoutX="28.0" layoutY="79.0">
                <items>
                   <FXCollections fx:factory="observableArrayList">
                                   <String fx:value="Alsace" />
@@ -50,19 +49,20 @@
                </items>
             </ListView>
          </children>
+         <padding>
+            <Insets bottom="10.0" />
+         </padding>
       </HBox>
       <HBox alignment="CENTER" layoutX="26.0" layoutY="330.0" spacing="30.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             
-                  <Button layoutX="26.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionAjouter" text="Ajouter" />
+                        <Button layoutX="26.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionAjouter" text="Ajouter" />
             <Button layoutX="179.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionModifier" text="Modifier" />
-            <Button layoutX="338.0" layoutY="330.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="77.0" text="Supprimer" />
+            <Button layoutX="338.0" layoutY="330.0" mnemonicParsing="false" text="Supprimer" />
          </children>
+         <padding>
+            <Insets bottom="10.0" top="10.0" />
+         </padding>
       </HBox>
-      <Label layoutX="400.0" layoutY="17.0" prefHeight="25.0" prefWidth="98.0" text="REGIONS" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <font>
-            <Font name="System Bold" size="16.0" />
-         </font>
-      </Label>
    </children>
-</AnchorPane>
+</VBox>
