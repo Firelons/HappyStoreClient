@@ -8,13 +8,10 @@ package regub.commercial;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,15 +28,15 @@ import regub.util.UserBarController;
  * @author Mesmerus
  */
 public class AccueilCommercialController extends AbstractController {
-    @FXML
-    private ObservableList<Client> clientData = FXCollections.observableArrayList();
+    
+    private final ObservableList<Client> clientData = FXCollections.observableArrayList();
     @FXML
     private TableView<Client> clientTable;
     @FXML
     private TableColumn<Client, String> societe;
     @FXML
     private TableColumn<Client, String> rue;
-    @FXML
+    
     private ResultSet rsClient;//Récupère la liste des clients dans la base de donées
     
     @FXML

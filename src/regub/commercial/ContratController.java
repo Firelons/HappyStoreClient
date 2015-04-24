@@ -8,8 +8,14 @@ package regub.commercial;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Iterator;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +31,7 @@ import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.stage.FileChooser;
 import regub.AbstractController;
+import regub.Auth;
 import regub.Main;
 import regub.util.UserBarController;
 
@@ -76,10 +83,12 @@ public class ContratController extends AbstractController {
     private ListView Regions;
     @FXML
     private Label Message;
-
+    @FXML
+    private ResultSet rsClient;//Récupère la liste des Regions ou des  dans la base de donées
     @FXML
     private UserBarController usermenuController;
-
+    private ObservableList<String> RegionData = FXCollections.observableArrayList();
+    private ObservableList<String> RayonData = FXCollections.observableArrayList();
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
         //  getApp().gotoPage("commercial/AccueilCommercial");
@@ -152,7 +161,7 @@ public class ContratController extends AbstractController {
                     nombresRegions = Regions.getSelectionModel().getSelectedItems().size();
 
                 });
-        montant.setText(String.valueOf(freq * dur * tar*nombresRayons*nombresRegions));
+        montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions));
 
     }
 
@@ -165,11 +174,23 @@ public class ContratController extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        ObservableList<String> items = FXCollections.observableArrayList(
-                "Single", "Double", "Suite", "Family App");
-        Rayons.setItems(items);
+       
+        try {
+            getliste("typerayon");
+        } catch (IOException ex) {
+            Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Rayons.setItems(RayonData);
         Rayons.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        Regions.setItems(items);
+        
+        
+        
+        try {
+            getliste("region");
+        } catch (IOException ex) {
+            Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Regions.setItems(RegionData);
         Regions.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
@@ -273,6 +294,24 @@ public class ContratController extends AbstractController {
             a.showAndWait();
         }
 
+    }
+
+    private void getliste(String Table) throws IOException {
+        System.out.println(Auth.getUserInfo().toString());
+
+        try (Connection cn = Auth.getConnection();
+                Statement st = cn.createStatement()) {
+            String sql = "SELECT * FROM " + Table;
+
+            rsClient = st.executeQuery(sql);
+            while ( rsClient.next()) {
+                  if(Table.compareTo("typerayon")==0) RayonData.add(rsClient.getString("libelle"));
+                  if(Table.compareTo("region")==0) RegionData.add(rsClient.getString("libelle"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private void Save_Client() throws IOException {
