@@ -28,7 +28,7 @@ import regub.util.UserBarController;
  * @author Mesmerus
  */
 public class AccueilCommercialController extends AbstractController {
-    
+    //Proprietés pour le client
     private final ObservableList<Client> clientData = FXCollections.observableArrayList();
     @FXML
     private TableView<Client> clientTable;
@@ -37,11 +37,27 @@ public class AccueilCommercialController extends AbstractController {
     @FXML
     private TableColumn<Client, String> rue;
     
+    //Proprietés pour les vidéos
+    private final ObservableList<Video> videoData = FXCollections.observableArrayList();
+    @FXML
+    private TableView<Video> videoTable;
+    @FXML
+    private TableColumn<Video, String> titre;
+    @FXML
+    private TableColumn<Video, String> date_debut;
+    @FXML
+    private TableColumn<Video, String> date_fin;
+    @FXML
+    private TableColumn<Video,Double> tarif;
+    @FXML
+    private TableColumn<Video,Integer> duree;
+    
     private ResultSet rsClient;//Récupère la liste des clients dans la base de donées
     
     @FXML
     private UserBarController usermenuController;
-
+    
+    
     @FXML
     private void AjouterContrat(ActionEvent event) throws IOException {
         getApp().gotoPage("commercial/Contrat");
@@ -58,7 +74,7 @@ public class AccueilCommercialController extends AbstractController {
 
             rsClient=st.executeQuery(sql);
             while(rsClient.next()){
-                clientData.add(new Client(rsClient.getString("societe"), rsClient.getString("telephone"),rsClient.getString("email"),
+                clientData.add(new Client(rsClient.getInt("idClient"),rsClient.getString("societe"), rsClient.getString("telephone"),rsClient.getString("email"),
                 rsClient.getString("addr_ligne1"),rsClient.getString("ville"),rsClient.getString("code_postal")));
                
             }
@@ -67,28 +83,68 @@ public class AccueilCommercialController extends AbstractController {
             e.printStackTrace();
         }
     }
+        private void getVideoDB(Client client) throws IOException {
+           //Vider la liste des video
+        videoData.clear();
+        
+        System.out.println(Auth.getUserInfo().toString());
+        ResultSet rsVideos;
+        try (Connection cn = Auth.getConnection();
+                Statement st = cn.createStatement()) {
+            //Parametres à changer
+            String sql = "SELECT * FROM video WHERE idClient="+client.getId()+"";
+
+            rsVideos=st.executeQuery(sql);
+            while(rsVideos.next()){
+                videoData.add(new Video(rsVideos.getString("titre"),rsVideos.getInt("duree"), rsVideos.getDouble("tarif"),
+                rsVideos.getString("dateDebut"),rsVideos.getString("dateFin")));
+               System.out.println(rsVideos.getString("titre")+rsVideos.getInt("duree")+ rsVideos.getDouble("tarif")+
+                rsVideos.getString("dateDebut")+rsVideos.getString("dateFin"));
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+    }
     public ObservableList<Client> getClientData()  {
         
         try {
             this.getClientDB();
         } catch (IOException ex) {
              ex.printStackTrace();
-        }
-        
-            clientData.add(new Client("4","4","4","4","4","4")) ;
+        }        
+            //clientData.add(new Client("4","4","4","4","4","4")) ;
         return clientData;
+    }
+    
+    public ObservableList<Video> getVideoData(Client client)  {
+       
+           
+       
+        try {
+            this.getVideoDB(client);
+        } catch (IOException ex) {
+             ex.printStackTrace();
+        }        
+            //clientData.add(new Client("4","4","4","4","4","4")) ;
+        return videoData;
     }
 
     @FXML
     private void AjouterClient(ActionEvent event) throws IOException {
         getApp().gotoPage("commercial/Client");
     }
+    
     @Override
     public void setApp(Main main) {
         super.setApp(main);
         usermenuController.setApp(main);
         
       clientTable.setItems(getClientData());
+      
+      
+      
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -98,6 +154,19 @@ public class AccueilCommercialController extends AbstractController {
         
         societe.setCellValueFactory(cellData -> cellData.getValue().societeProperty());
         rue.setCellValueFactory(cellData -> cellData.getValue().rueProperty());
+        
+        
+        
+      
+        clientTable.getSelectionModel().selectedItemProperty().addListener(
+            (observable, oldValue, newValue) -> videoTable.setItems(getVideoData(newValue)));
+        
+        
+        titre.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
+        date_debut.setCellValueFactory(cellData -> cellData.getValue().date_debutProperty());
+        date_fin.setCellValueFactory(cellData -> cellData.getValue().date_finProperty());
+        duree.setCellValueFactory(cellData -> cellData.getValue().dureeProperty().asObject() );
+        tarif.setCellValueFactory(cellData -> cellData.getValue().tarifProperty().asObject() );
     }
 
 }
