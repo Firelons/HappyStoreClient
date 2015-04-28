@@ -7,6 +7,8 @@
 package regub.commercial;
 
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
@@ -15,7 +17,7 @@ import javafx.beans.property.StringProperty;
  * @author Lons
  */
 public class Client {
-
+    private final IntegerProperty id_client;
     private final StringProperty societe;
     private final StringProperty telephone;
     private final StringProperty email;
@@ -29,12 +31,13 @@ public class Client {
      */
     
     public Client() {
-        this(null, null, null, null, null, null);
+        this(0,null, null, null, null, null, null);
     }
 
     /**
      * Constructor with some initial data.
      * 
+     * @param id_client
      * @param societe
      * @param telephone
      * @param email
@@ -43,7 +46,8 @@ public class Client {
      * @param postalCode
     
      */
-    public Client(String societe, String telephone, String email, String rue,String ville,  String postalCode) {
+    public Client(int id,String societe, String telephone, String email, String rue,String ville,  String postalCode) {
+        this.id_client = new SimpleIntegerProperty(id);
         this.societe = new SimpleStringProperty(societe);
         this.rue = new SimpleStringProperty( rue);
 
@@ -52,8 +56,20 @@ public class Client {
         this.postalCode = new SimpleStringProperty(postalCode);
         this.telephone = new SimpleStringProperty(telephone);
         this.email = new SimpleStringProperty(email);
+        
     }
 
+    public int getId() {
+        return id_client.get();
+    }
+
+    public void setId(int id) {
+        this.id_client.set(id);
+    }
+
+    public IntegerProperty idProperty() {
+        return id_client;
+    }
     public String getSociete() {
         return societe.get();
     }
