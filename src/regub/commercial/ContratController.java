@@ -129,7 +129,7 @@ public class ContratController extends AbstractController {
         try {
             Date datdeb = sf.parse(datedebut.getValue().toString());
             Date datfin = sf.parse(datefin.getValue().toString());
-            EcartDebutFin = (datfin.getTime() - datdeb.getTime()) / 7 * 24 * 3600 * 1000;
+            EcartDebutFin = (datfin.getTime() - datdeb.getTime())/(1000 * 86400)  ;
         } catch (NullPointerException nfe) {
         }
         //ecart en semaine

@@ -186,11 +186,11 @@ public class AccueilCommercialController extends AbstractController {
         //initialisation des bouttons
         //modifications
 
-        ModifierClient.setDisable(true);
+        /*ModifierClient.setDisable(true);
         SupprimerClient.setDisable(true);
         AjouterContrat.setDisable(true);
         ModifierContrat.setDisable(true);
-        SupprimerContrat.setDisable(true);
+        SupprimerContrat.setDisable(true);*/
         
        
     }
