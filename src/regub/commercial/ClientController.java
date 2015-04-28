@@ -69,7 +69,7 @@ public class ClientController extends AbstractController {
         Boolean retour = true;
 
         try {
-            int monentier = Integer.parseInt(this.textTelephone.getText());
+            int monentier = Integer.parseInt(textTelephone.getText());
 
         } catch (NumberFormatException nfe) {
             message_error = "Numéro de Téléphone Invalide";
@@ -77,39 +77,39 @@ public class ClientController extends AbstractController {
 
         }
         try {
-            int monentier1 = Integer.parseInt(this.textBP.getText());
+            int monentier1 = Integer.parseInt(textBP.getText());
 
         } catch (NumberFormatException nfe) {
             message_error = "Boite Postale Invalide";
             retour = false;
         }
-        boolean essai = Pattern.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$", this.textEmail.getText());
+        boolean essai = Pattern.matches("^[_a-z0-9-]+(\\.[_a-z0-9-]+)*@[a-z0-9-]+(\\.[a-z0-9-]+)+$", textEmail.getText());
         if (essai == false) {
             message_error = "Adresse Mail Invalide";
             retour = false;
         }
-        if (this.textBP.getText().length() == 0) {
+        if (textBP.getText().length() == 0) {
             message_error = "Entrez le Code Postal";
             retour = false;
         }
-        if (this.textVille.getText().length() == 0) {
+        if (textVille.getText().length() == 0) {
             message_error = "Entrez la Ville";
             retour = false;
         }
-        if (this.textRue.getText().length() == 0) {
+        if (textRue.getText().length() == 0) {
             message_error = "Entrez l'adresse";
             retour = false;
         }
-        if (this.textEmail.getText().length() == 0) {
+        if (textEmail.getText().length() == 0) {
             message_error = "Entrez l'email";
             retour = false;
         }
-        if (this.textTelephone.getText().length() == 0) {
+        if (textTelephone.getText().length() == 0) {
             message_error = "Entrez le numéro de Téléphone";
             retour = false;
         }
 
-        if (this.textSociete.getText().length() == 0) {
+        if (textSociete.getText().length() == 0) {
             message_error = "Entrez le nom de la societé";
             retour = false;
         }
@@ -117,7 +117,7 @@ public class ClientController extends AbstractController {
         if (!retour) {
             Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
             a.showAndWait();
-            this.Message.setText(message_error);
+            Message.setText(message_error);
         }
         return retour;
     }
@@ -131,12 +131,12 @@ public class ClientController extends AbstractController {
             String sql = "INSERT INTO Client(societe,telephone,email,addr_ligne1,ville,code_postal)"
                     + "VALUES (?,?,?,?,?,?);";
             PreparedStatement st1 = cn.prepareStatement(sql);
-            st1.setString(1, this.textSociete.getText());
-            st1.setString(2, this.textTelephone.getText());
-            st1.setString(3, this.textEmail.getText());
-            st1.setString(4, this.textRue.getText());
-            st1.setString(5, this.textVille.getText());
-            st1.setString(6, this.textBP.getText());
+            st1.setString(1, textSociete.getText());
+            st1.setString(2, textTelephone.getText());
+            st1.setString(3, textEmail.getText());
+            st1.setString(4, textRue.getText());
+            st1.setString(5, textVille.getText());
+            st1.setString(6, textBP.getText());
 
             st1.execute();
 
