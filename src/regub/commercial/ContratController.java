@@ -12,6 +12,9 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -48,7 +51,7 @@ public class ContratController extends AbstractController {
     private double tar;
     private int nombresRayons;
     private int nombresRegions;
-
+    private double EcartDebutFin;
     @FXML
     private Label client;
     @FXML
@@ -70,7 +73,7 @@ public class ContratController extends AbstractController {
     @FXML
     private RadioButton preparation;
     @FXML
-    private RadioButton Annule;
+    private RadioButton annule;
     @FXML
     private DatePicker datevalidation;
     @FXML
@@ -89,27 +92,13 @@ public class ContratController extends AbstractController {
     private UserBarController usermenuController;
     private ObservableList<String> RegionData = FXCollections.observableArrayList();
     private ObservableList<String> RayonData = FXCollections.observableArrayList();
+    private ObservableList<String> dataRayons;
+    private ObservableList<String> dataRegions;
+    private int etat;
+
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
-        //  getApp().gotoPage("commercial/AccueilCommercial");
-        ObservableList<String> data = Rayons.getSelectionModel().getSelectedItems();
-
-        for (Iterator iterator = data.iterator(); iterator.hasNext();) {
-            System.out.println(iterator.next());
-        }
-
-        if (Rayons.getSelectionModel().getSelectedItems().size() == 0) {
-            String message_error = "Entrez les rayons";
-            Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
-            a.showAndWait();
-            boolean retour = false;
-        }
-        if (Regions.getSelectionModel().getSelectedItems().size() == 0) {
-            String message_error = "Entrez les regions";
-            Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
-            a.showAndWait();
-            boolean retour = false;
-        }
+        getApp().gotoPage("commercial/AccueilCommercial");
     }
 
     @FXML
@@ -126,42 +115,52 @@ public class ContratController extends AbstractController {
 
     @FXML
     private void Enregistrer(ActionEvent event) throws IOException {
-        Verifier_Saisie();
-        Save_Client();
+        if (Verifier_Saisie()) {
+            Save_Contrat();
+            getApp().gotoPage("commercial/AccueilCommercial");
+        }
     }
 
     @FXML
     private void calculer(ActionEvent event) throws Exception {
         String message_error = "";
         Boolean retour = true;
+        SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Date datdeb = sf.parse(datedebut.getValue().toString());
+            Date datfin = sf.parse(datefin.getValue().toString());
+            EcartDebutFin = (datfin.getTime() - datdeb.getTime()) / 7 * 24 * 3600 * 1000;
+        } catch (NullPointerException nfe) {
+        }
+        //ecart en semaine
+        System.out.println("lolololo" + EcartDebutFin);
+        
         try {
             tar = Double.parseDouble(tarif.getText());
-
         } catch (NumberFormatException nfe) {
         }
+
         try {
             freq = Double.parseDouble(frequence.getText());
 
         } catch (NumberFormatException nfe) {
         }
+
         try {
             dur = Double.parseDouble(duree.getText());
-
         } catch (NumberFormatException nfe) {
         }
+
         Rayons.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
-
                     nombresRayons = Rayons.getSelectionModel().getSelectedItems().size();
-
                 });
         Regions.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
-
                     nombresRegions = Regions.getSelectionModel().getSelectedItems().size();
-
                 });
-        montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions));
+
+        montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions * EcartDebutFin));
 
     }
 
@@ -174,7 +173,6 @@ public class ContratController extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-       
         try {
             getliste("typerayon");
         } catch (IOException ex) {
@@ -182,9 +180,7 @@ public class ContratController extends AbstractController {
         }
         Rayons.setItems(RayonData);
         Rayons.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-        
-        
-        
+
         try {
             getliste("region");
         } catch (IOException ex) {
@@ -193,11 +189,23 @@ public class ContratController extends AbstractController {
         Regions.setItems(RegionData);
         Regions.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+        datereception.setValue(LocalDate.now());
+        datevalidation.setValue(LocalDate.now());
+
     }
 
-    private void Verifier_Saisie() throws IOException {
+    private boolean Verifier_Saisie() throws IOException {
         String message_error = "";
         Boolean retour = true;
+
+        if (Rayons.getSelectionModel().getSelectedItems().size() == 0) {
+            message_error = "Entrez les rayons";
+            retour = false;
+        }
+        if (Regions.getSelectionModel().getSelectedItems().size() == 0) {
+            message_error = "Entrez les regions";
+            retour = false;
+        }
 
         try {
             int mont = Integer.parseInt(tarif.getText());
@@ -218,6 +226,7 @@ public class ContratController extends AbstractController {
             message_error = "tarif Invalide";
             retour = false;
         }
+
         if (tarif.getText().length() == 0) {
             message_error = "Entrez le tarif";
             retour = false;
@@ -230,11 +239,15 @@ public class ContratController extends AbstractController {
             retour = false;
         }
 
-        if (!valide.isSelected() && !preparation.isSelected() && !Annule.isSelected()) {
-            message_error = "Choisissez un etat";
+        try {
+            if (datedebut.getValue().compareTo(datereception.getValue()) > 0) {
+                message_error = "La date de debut est anterieure a la date de reception";
+                retour = false;
+            }
+        } catch (NullPointerException nfe) {
+            message_error = "Date de reception ou validation invalide";
             retour = false;
         }
-
         try {
             int drecep = datereception.getValue().toString().length();
         } catch (NullPointerException nfe) {
@@ -252,6 +265,15 @@ public class ContratController extends AbstractController {
             int ddebut = datedebut.getValue().toString().length();
         } catch (NullPointerException nfe) {
             message_error = "Date debut invalide";
+            retour = false;
+        }
+        try {
+            if (datedebut.getValue().compareTo(datefin.getValue()) > 0) {
+                message_error = "La date de fin est anterieure a la date de debut";
+                retour = false;
+            }
+        } catch (NullPointerException nfe) {
+            message_error = "Date debut ou date fin invalide";
             retour = false;
         }
 
@@ -287,12 +309,12 @@ public class ContratController extends AbstractController {
             retour = false;
         }
 
-        if (retour) {
-            getApp().gotoPage("commercial/AccueilCommercial");
-        } else {
+        if (!retour) {
             Alert a = new Alert(Alert.AlertType.WARNING, message_error, ButtonType.OK);
             a.showAndWait();
+            this.Message.setText(message_error);
         }
+        return retour;
 
     }
 
@@ -304,9 +326,13 @@ public class ContratController extends AbstractController {
             String sql = "SELECT * FROM " + Table;
 
             rsClient = st.executeQuery(sql);
-            while ( rsClient.next()) {
-                  if(Table.compareTo("typerayon")==0) RayonData.add(rsClient.getString("libelle"));
-                  if(Table.compareTo("region")==0) RegionData.add(rsClient.getString("libelle"));
+            while (rsClient.next()) {
+                if (Table.compareTo("typerayon") == 0) {
+                    RayonData.add(rsClient.getString("libelle"));
+                }
+                if (Table.compareTo("region") == 0) {
+                    RegionData.add(rsClient.getString("libelle"));
+                }
             }
 
         } catch (SQLException e) {
@@ -314,7 +340,27 @@ public class ContratController extends AbstractController {
         }
     }
 
-    private void Save_Client() throws IOException {
+    private void Save_Contrat() throws IOException {
+        if (valide.isSelected()) {
+            etat = 1;
+        } else if (preparation.isSelected()) {
+            etat = 2;
+        }
+        if (annule.isSelected()) {
+            etat = 3;
+        }
+
+        System.out.println(etat);
+        dataRayons = Rayons.getSelectionModel().getSelectedItems();
+        dataRegions = Regions.getSelectionModel().getSelectedItems();
+
+        for (Iterator iterator = dataRayons.iterator(); iterator.hasNext();) {
+            System.out.println(iterator.next());
+        }
+
+        for (Iterator iterator = dataRegions.iterator(); iterator.hasNext();) {
+            System.out.println(iterator.next());
+        }
 
     }
 
