@@ -37,6 +37,7 @@ public class Client {
     /**
      * Constructor with some initial data.
      * 
+     * @param id
      * @param id_client
      * @param societe
      * @param telephone
