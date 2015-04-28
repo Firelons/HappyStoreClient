@@ -17,6 +17,7 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -202,6 +203,15 @@ public class AccueilCommercialController extends AbstractController {
 		
 					}
 				});
+    }
+    @FXML
+    private void ModifierClient(){
+        FXMLLoader loader = new FXMLLoader();
+        ClientController client = loader.getController();
+        getApp().gotoPage("commercial/Client");
+        Client selectedClient = clientTable.getSelectionModel().getSelectedItem();
+        client.setClient(selectedClient);
+        
     }
 
     @Override

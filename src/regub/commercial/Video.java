@@ -52,7 +52,6 @@ public class Video {
     public Video(String titre, int duree, double tarif, String date_d, String date_f ) {
        
         this.titre = new SimpleStringProperty(titre);
-   
         this.duree = new SimpleIntegerProperty(duree);
         this.tarif = new SimpleDoubleProperty(tarif);
         this.date_debut = new SimpleStringProperty(date_d);

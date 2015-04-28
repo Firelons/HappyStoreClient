@@ -44,6 +44,8 @@ public class ClientController extends AbstractController {
     private TextField textBP;
     @FXML
     private Label Message;
+    
+    private Client person;
 
     @FXML
     private UserBarController usermenuController;
@@ -56,7 +58,17 @@ public class ClientController extends AbstractController {
         }
 
     }
+    public void setClient(Client person) {
+        this.person = person;
 
+        textSociete.setText(person.getSociete());
+        textTelephone.setText(person.getTelephone());
+        textEmail.setText(person.getEmail());
+        textRue.setText(person.getRue());
+        textVille.setText(person.getVille());
+        textBP.setText(person.getPostalCode());
+        
+    }
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
         getApp().gotoPage("commercial/AccueilCommercial");
