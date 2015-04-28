@@ -18,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import regub.AbstractController;
@@ -161,23 +162,61 @@ public class AccueilCommercialController extends AbstractController {
 
     }
 
-    private void ClientButton() {
-
+    private void gestionClientButton() {
+             clientTable.getSelectionModel().getSelectedItems().addListener(
+				(ListChangeListener) (c) ->{
+					clientTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+					int nbSelections = clientTable.getSelectionModel().getSelectedItems().size();
+					System.out.println(nbSelections);
+					if (nbSelections==1){
+						ModifierClient.setDisable(false);
+						SupprimerClient.setDisable(false);
+                                                AjouterContrat.setDisable(false);
+					}else if (nbSelections>1){
+						ModifierClient.setDisable(true);
+						SupprimerClient.setDisable(false);
+                                                AjouterContrat.setDisable(true);
+					}else if (nbSelections==0){
+						ModifierClient.setDisable(true);
+						SupprimerClient.setDisable(true);
+		
+					}
+				});
     }
 
-    private void ContratButton() {
-
+    private void gestioncontratButton() {
+            videoTable.getSelectionModel().getSelectedItems().addListener(
+				(ListChangeListener) (c) ->{
+					videoTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+					int nbSelection = videoTable.getSelectionModel().getSelectedItems().size();
+					System.out.println(nbSelection);
+					if (nbSelection==1){
+						ModifierContrat.setDisable(false);
+						SupprimerContrat.setDisable(false);
+					}else if (nbSelection>1){
+						ModifierContrat.setDisable(true);
+						SupprimerContrat.setDisable(false);
+					}else if (nbSelection==0){
+						ModifierContrat.setDisable(true);
+						SupprimerContrat.setDisable(true);
+		
+					}
+				});
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+        
         societe.setCellValueFactory(cellData -> cellData.getValue().societeProperty());
         rue.setCellValueFactory(cellData -> cellData.getValue().rueProperty());
 
         clientTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> videoTable.setItems(getVideoData(newValue)));
-
+        
+       this.gestionClientButton();
+        this.gestioncontratButton();
+        
         titre.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
         date_debut.setCellValueFactory(cellData -> cellData.getValue().date_debutProperty());
         date_fin.setCellValueFactory(cellData -> cellData.getValue().date_finProperty());
