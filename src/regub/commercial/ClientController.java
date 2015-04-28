@@ -59,8 +59,6 @@ public class ClientController extends AbstractController {
 
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
-        this.Verifier_Saisie();
-        this.Save_Client();
         getApp().gotoPage("commercial/AccueilCommercial");
     }
 
