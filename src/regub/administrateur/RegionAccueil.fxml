@@ -9,11 +9,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.collections.*?>
 
-
 <VBox prefHeight="410.0" prefWidth="545.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.administrateur.RegionAccueilController">
    <children>
       <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
-      <Label layoutX="400.0" layoutY="17.0" text="REGIONS" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Label layoutX="400.0" layoutY="17.0" text="Régions" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <font>
             <Font name="System Bold" size="16.0" />
          </font>
@@ -26,10 +25,16 @@
       </Label>
       <HBox alignment="CENTER" layoutX="28.0" layoutY="48.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
-            <Label layoutX="28.0" layoutY="48.0" prefHeight="17.0" prefWidth="51.0" text="NOM" textFill="#964a32">
+            <Label layoutX="28.0" layoutY="48.0" prefHeight="16.0" prefWidth="51.0" text="Noms" textFill="#0d0d0d">
                <padding>
                   <Insets top="10.0" />
                </padding>
+               <HBox.margin>
+                  <Insets bottom="5.0" />
+               </HBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Label>
          </children>
       </HBox>

@@ -7,37 +7,39 @@
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.collections.*?>
+
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
-      <Label alignment="CENTER" text="Compte utilisateur" textAlignment="CENTER">
+      <Label text="Magasin">
          <font>
-            <Font name="System Bold" size="20.0" />
+            <Font name="System Bold" size="16.0" />
          </font>
+         <padding>
+            <Insets left="30.0" top="5.0" />
+         </padding>
       </Label>
-      <TableView prefHeight="261.0" prefWidth="600.0">
+      <TableView prefHeight="200.0" prefWidth="329.0">
         <columns>
-          <TableColumn prefWidth="132.0" text="Nom" />
-          <TableColumn prefWidth="157.0" text="Prénom" />
-          <TableColumn prefWidth="155.0" text="Id Type Compte" />
-          <TableColumn prefWidth="155.0" text="Login" />
+          <TableColumn prefWidth="150.0" text="Code Postal" />
+          <TableColumn prefWidth="150.0" text="Ville" />
+            <TableColumn prefWidth="150.0" text="Nom" />
         </columns>
+         <VBox.margin>
+            <Insets left="10.0" right="150.0" top="10.0" />
+         </VBox.margin>
       </TableView>
-          
-          
-     
-      <HBox prefHeight="54.0" prefWidth="600.0">
+      <HBox prefHeight="100.0" prefWidth="200.0">
          <children>
             <Button mnemonicParsing="false" text="Ajouter">
                <HBox.margin>
-                  <Insets left="20.0" right="20.0" top="20.0" />
+                  <Insets left="120.0" right="10.0" top="20.0" />
                </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" text="Modifier">
                <HBox.margin>
-                  <Insets right="20.0" top="20.0" />
+                  <Insets right="10.0" top="20.0" />
                </HBox.margin>
             </Button>
             <Button mnemonicParsing="false" text="Supprimer">
