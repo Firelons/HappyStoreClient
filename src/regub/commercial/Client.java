@@ -3,9 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package regub.commercial;
-
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -17,6 +15,7 @@ import javafx.beans.property.StringProperty;
  * @author Lons
  */
 public class Client {
+
     private final IntegerProperty id_client;
     private final StringProperty societe;
     private final StringProperty telephone;
@@ -25,39 +24,38 @@ public class Client {
     private final StringProperty ville;
     private final StringProperty postalCode;
 
+    private static Client curClient;
 
     /**
      * Default constructor.
      */
-    
     public Client() {
-        this(0,null, null, null, null, null, null);
+        this(0, null, null, null, null, null, null);
     }
 
     /**
      * Constructor with some initial data.
-     * 
+     *
      * @param id
-     * @param id_client
      * @param societe
      * @param telephone
      * @param email
      * @param rue
      * @param ville
      * @param postalCode
-    
+     *
      */
-    public Client(int id,String societe, String telephone, String email, String rue,String ville,  String postalCode) {
+    public Client(int id, String societe, String telephone, String email, String rue, String ville, String postalCode) {
         this.id_client = new SimpleIntegerProperty(id);
         this.societe = new SimpleStringProperty(societe);
-        this.rue = new SimpleStringProperty( rue);
+        this.rue = new SimpleStringProperty(rue);
 
         // Some initial dummy data, just for convenient testing.
         this.ville = new SimpleStringProperty(ville);
         this.postalCode = new SimpleStringProperty(postalCode);
         this.telephone = new SimpleStringProperty(telephone);
         this.email = new SimpleStringProperty(email);
-        
+
     }
 
     public int getId() {
@@ -71,6 +69,7 @@ public class Client {
     public IntegerProperty idProperty() {
         return id_client;
     }
+
     public String getSociete() {
         return societe.get();
     }
@@ -141,5 +140,13 @@ public class Client {
 
     public StringProperty emailProperty() {
         return email;
+    }
+
+    public static void setCurClient(Client cli){
+        curClient = cli;
+    }
+    
+    public static Client getCurClient(){
+        return curClient;
     }
 }
