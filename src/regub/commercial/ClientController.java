@@ -165,7 +165,12 @@ public class ClientController extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         textSociete.setText(Client.getCurClient().getSociete());
-        //fais toute tes ajouts ici et a la fin on refais un null pour remetre le client courant a null !
+        textTelephone.setText(Client.getCurClient().getTelephone());
+        textEmail.setText(Client.getCurClient().getEmail());
+        textRue.setText(Client.getCurClient().getRue());
+        textVille.setText(Client.getCurClient().getVille());
+        textBP.setText(Client.getCurClient().getPostalCode());
+        //Fais tous tes ajouts ici et a la fin on refais un null pour remetre le client courant à null !
         Client.setCurClient(null);
     }
 }
