@@ -8,6 +8,7 @@ package regub.commercial;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -107,11 +108,11 @@ public class AccueilCommercialController extends AbstractController {
 
         System.out.println(Auth.getUserInfo().toString());
         ResultSet rsVideos;
+        String sql = "SELECT * FROM Video WHERE( idClient = ? );";
         try (Connection cn = Auth.getConnection();
-                Statement st = cn.createStatement()) {
+                PreparedStatement st = cn.prepareStatement(sql)) {
             //Parametres à changer
-            String sql = "SELECT * FROM video WHERE idClient=" + client.getId() + "";
-
+            st.setInt(1, client.getId());
             rsVideos = st.executeQuery(sql);
             while (rsVideos.next()) {
                 videoData.add(new Video(rsVideos.getString("titre"), rsVideos.getInt("duree"), rsVideos.getDouble("tarif"),
