@@ -108,12 +108,12 @@ public class AccueilCommercialController extends AbstractController {
 
         System.out.println(Auth.getUserInfo().toString());
         ResultSet rsVideos;
-        String sql = "SELECT * FROM Video WHERE( idClient = ? );";
+        String sql = "SELECT * FROM Video WHERE idClient = ?";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
             //Parametres à changer
             st.setInt(1, client.getId());
-            rsVideos = st.executeQuery(sql);
+            rsVideos = st.executeQuery();
             while (rsVideos.next()) {
                 videoData.add(new Video(rsVideos.getString("titre"), rsVideos.getInt("duree"), rsVideos.getDouble("tarif"),
                         rsVideos.getString("dateDebut"), rsVideos.getString("dateFin")));
