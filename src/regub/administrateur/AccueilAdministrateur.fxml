@@ -20,14 +20,14 @@
       </Label>
       <VBox alignment="CENTER" prefHeight="286.0" prefWidth="600.0" spacing="6.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#RegionCompteUtil" prefHeight="39.0" prefWidth="200.0" text="Compte Users">
+            <Button mnemonicParsing="false" onAction="#AccueilAdministrateurCompteUtil" prefHeight="39.0" prefWidth="200.0" text="Compte Users">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#RegionAccueil" prefHeight="40.0" prefWidth="200.0" text="Régions" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Magasins" />
-            <Button mnemonicParsing="false" prefHeight="40.0" prefWidth="200.0" text="Type Rayons" />
+            <Button mnemonicParsing="false" onAction="#AccueilAdministrateurRegion" prefHeight="40.0" prefWidth="200.0" text="Régions" />
+            <Button mnemonicParsing="false" onAction="#AccueilAdministrateurMagasins" prefHeight="40.0" prefWidth="200.0" text="Magasins" />
+            <Button mnemonicParsing="false" onAction="#AccueilAdministrateurTypeRayon" prefHeight="40.0" prefWidth="200.0" text="Type Rayons" />
          </children>
       </VBox>
    </children>
