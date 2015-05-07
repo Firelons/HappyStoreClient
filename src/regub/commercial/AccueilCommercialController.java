@@ -34,6 +34,8 @@ import regub.util.UserBarController;
 public class AccueilCommercialController extends AbstractController {
 
     private int testNombrecontrat;
+    //Renvoie si le client a des vidéos ou pas
+    private boolean video_ou_non=false;
     //Proprietés pour le client
     private final ObservableList<Client> clientData = FXCollections.observableArrayList();
     @FXML
@@ -92,9 +94,10 @@ public class AccueilCommercialController extends AbstractController {
             String sql = "SELECT * FROM Client";
 
             rsClient = st.executeQuery(sql);
+            System.out.println(rsClient);
             while (rsClient.next()) {
                 clientData.add(new Client(rsClient.getInt("idClient"), rsClient.getString("societe"), rsClient.getString("telephone"), rsClient.getString("email"),
-                        rsClient.getString("addr_ligne1"), rsClient.getString("ville"), rsClient.getString("code_postal")));
+                rsClient.getString("addr_ligne1"), rsClient.getString("ville"), rsClient.getString("code_postal")));
             }
 
         } catch (SQLException e) {
@@ -114,17 +117,20 @@ public class AccueilCommercialController extends AbstractController {
             //Parametres à changer
             st.setInt(1, client.getId());
             rsVideos = st.executeQuery();
+            
+             System.out.println(rsVideos);
+            if (rsVideos!=null){
+                video_ou_non=true;
+            }
             while (rsVideos.next()) {
                 videoData.add(new Video(rsVideos.getString("titre"), rsVideos.getInt("duree"), rsVideos.getDouble("tarif"),
                         rsVideos.getString("dateDebut"), rsVideos.getString("dateFin")));
                 System.out.println(rsVideos.getString("titre") + rsVideos.getInt("duree") + rsVideos.getDouble("tarif")
                         + rsVideos.getString("dateDebut") + rsVideos.getString("dateFin"));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
     }
 
     public ObservableList<Client> getClientData() {
@@ -169,7 +175,12 @@ public class AccueilCommercialController extends AbstractController {
 					System.out.println(nbSelections);
 					if (nbSelections==1){
 						ModifierClient.setDisable(false);
-						SupprimerClient.setDisable(false);
+                                                if(video_ou_non){
+                                                    SupprimerClient.setDisable(false);
+                                                }else{
+                                                    SupprimerClient.setDisable(true);
+                                                }
+						
                                                 AjouterContrat.setDisable(false);
 					}else if (nbSelections>1){
 						ModifierClient.setDisable(true);
