@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Client: localhost
--- Généré le: Jeu 23 Avril 2015 à 13:45
+-- Généré le: Jeu 07 Mai 2015 à 13:15
 -- Version du serveur: 5.5.41-MariaDB-1ubuntu0.14.04.1
 -- Version de PHP: 5.5.9-1ubuntu4.9
 
@@ -28,7 +28,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getLogin`(IN `log` VARCHAR(64) CHAR
     NO SQL
     DETERMINISTIC
 BEGIN
-	SELECT Compte.nom,Compte.prenom,Compte.login,Compte.creation,TypeCompte.libelle AS type,TypeCompte.dblogin,TypeCompte.dbpassword
+	SELECT Compte.idCompte AS id, Compte.nom,Compte.prenom,Compte.login,Compte.creation,TypeCompte.libelle AS type,TypeCompte.dblogin,TypeCompte.dbpassword
 	FROM Compte INNER JOIN TypeCompte ON Compte.idTypeCompte = TypeCompte.idTypeCompte
 	WHERE (log = Compte.login AND Compte.password = SHA2( CONCAT( pass , Compte.salt),256));
 END$$
@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS `Client` (
   `ville` varchar(64) DEFAULT NULL,
   `code_postal` char(5) NOT NULL,
   PRIMARY KEY (`idClient`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=51 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
 
 --
 -- Contenu de la table `Client`
@@ -82,7 +82,8 @@ INSERT INTO `Client` (`idClient`, `societe`, `telephone`, `email`, `addr_ligne1`
 (47, 'Intermarche', '0800008180', 'landryl@yahoo.com', '24 rue Auguste Chabrieres ', '', ' Paris', '75737'),
 (48, 'Leclerc', '0800865286', 'Francklin@yahoo.com', 'Rue Henri Giffard', '', 'Limoges', '87280'),
 (49, 'Leader Price', '0782584292', 'leader@yahoo.com', 'Rue de la soif', '', 'Lyon', '69000'),
-(50, 'Ginseng', '0641295609', 'ginseng@yahoo.fr', 'Rue des Tanniers', '', 'Lille', '59000');
+(50, 'Ginseng', '0641295609', 'ginseng@yahoo.fr', 'Rue des Tanniers', '', 'Lille', '59000'),
+(51, 'Leader mESMER', '067582235', 'leaderm@yahoo.com', 'Rue de la merde', NULL, 'Lyon', '69000');
 
 -- --------------------------------------------------------
 
