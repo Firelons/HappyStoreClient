@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="364.0" prefWidth="447.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.administrateur.RegionController">
    <children>
-      <VBox prefHeight="200.0" prefWidth="447.0">
+      <VBox prefHeight="200.0" prefWidth="447.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
             <Label alignment="CENTER" prefHeight="30.0" prefWidth="267.0" text="Ajouter/Modifier Région" textAlignment="CENTER">

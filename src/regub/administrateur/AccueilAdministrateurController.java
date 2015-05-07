@@ -23,14 +23,25 @@ public class AccueilAdministrateurController extends AbstractController {
     private UserBarController usermenuController;
 
     @FXML
-    private void RegionAccueil(ActionEvent event) {
+    private void AccueilAdministrateurRegion(ActionEvent event) {
         getApp().gotoPage("administrateur/RegionAccueil");
     }
     
     @FXML
-    private void RegionCompteUtil(ActionEvent event) {
+    private void AccueilAdministrateurCompteUtil(ActionEvent event) {
         getApp().gotoPage("administrateur/CompteUtil");
     }
+    
+    @FXML
+    private void AccueilAdministrateurMagasins(ActionEvent event) {
+        getApp().gotoPage("administrateur/Magasins");
+    }
+    
+    @FXML
+    private void AccueilAdministrateurTypeRayon(ActionEvent event) {
+        getApp().gotoPage("administrateur/TypeRayon");
+    }
+    
     @Override
     public void setApp(Main m) {
         super.setApp(m);
