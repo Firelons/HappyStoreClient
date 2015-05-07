@@ -30,6 +30,7 @@ import regub.util.UserBarController;
  */
 public class ClientController extends AbstractController {
 
+    
     @FXML
     private TextField textSociete;
     @FXML
@@ -163,6 +164,8 @@ public class ClientController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        textSociete.setText(Client.getCurClient().getSociete());
+        //fais toute tes ajouts ici et a la fin on refais un null pour remetre le client courant a null !
+        Client.setCurClient(null);
     }
 }

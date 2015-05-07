@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package regub.commercial;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -52,6 +51,10 @@ public class ContratController extends AbstractController {
     private int nombresRayons;
     private int nombresRegions;
     private double EcartDebutFin;
+    
+    //variable d'utilisation pour recupperer les données du cient. dans ce cas si juste le nom du client en question
+    private Client cli = new Client();
+    
     @FXML
     private Label client;
     @FXML
@@ -129,12 +132,14 @@ public class ContratController extends AbstractController {
         try {
             Date datdeb = sf.parse(datedebut.getValue().toString());
             Date datfin = sf.parse(datefin.getValue().toString());
-            EcartDebutFin = (datfin.getTime() - datdeb.getTime())/(1000 * 86400)  ;
+            EcartDebutFin = (datfin.getTime() - datdeb.getTime()) / (1000 * 86400);
         } catch (NullPointerException nfe) {
         }
-        //ecart en semaine
-        System.out.println("lolololo" + EcartDebutFin);
+        //ecart en semaine auquel on retire les dimanches : nous donne le nombre de jours de diffusion
+        double nombrejours = EcartDebutFin - (int)(EcartDebutFin/7) + 1;
         
+        System.out.println("lolololo" + nombrejours);
+
         try {
             tar = Double.parseDouble(tarif.getText());
         } catch (NumberFormatException nfe) {
@@ -160,10 +165,12 @@ public class ContratController extends AbstractController {
                     nombresRegions = Regions.getSelectionModel().getSelectedItems().size();
                 });
 
-        montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions * EcartDebutFin));
+        montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions * nombrejours));
 
     }
 
+    
+    
     @Override
     public void setApp(Main main) {
         super.setApp(main);
@@ -191,7 +198,12 @@ public class ContratController extends AbstractController {
 
         datereception.setValue(LocalDate.now());
         datevalidation.setValue(LocalDate.now());
-
+        
+        
+        client.setText(Client.getCurClient().getSociete());
+        Client.setCurClient(null);
+        
+       
     }
 
     private boolean Verifier_Saisie() throws IOException {
@@ -361,7 +373,7 @@ public class ContratController extends AbstractController {
         for (Iterator iterator = dataRegions.iterator(); iterator.hasNext();) {
             System.out.println(iterator.next());
         }
-
+        
     }
 
 }

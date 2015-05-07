@@ -9,61 +9,62 @@
 <?import javafx.scene.layout.*?>
 
 <VBox alignment="CENTER" prefHeight="480.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="regub.commercial.ClientController">
-   <children>
-      <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
-      <HBox>
-         <children>
-            <Label alignment="CENTER" text="ajouter/modifier client" textAlignment="CENTER">
-               <font>
-                  <Font name="System Bold" size="20.0" />
-               </font>
-            </Label>
-         </children>
-      </HBox>
-      <Label fx:id="Message" prefHeight="25.0" prefWidth="390.0" textFill="#f50a0a">
-         <font>
-            <Font size="15.0" />
-         </font></Label>
-      <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
-         <children>
-            <GridPane>
-               <children>
-                  <Label text="Sociéte" />
-                  <Label text="Telephone" GridPane.rowIndex="1" />
-                  <Label text="Email" GridPane.rowIndex="2" />
-                  <Label text="Rue" GridPane.rowIndex="3" />
-                  <Label text="Ville" GridPane.rowIndex="4" />
-                  <Label text="Code Postal" GridPane.rowIndex="5" />
-                  <TextField fx:id="textSociete" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Nom de la Sociéte" GridPane.columnIndex="1" />
-                  <TextField fx:id="textTelephone" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Telephone / fax" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField fx:id="textEmail" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="188.0" promptText="\@" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField fx:id="textRue" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="256.0" promptText="Rue" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField fx:id="textVille" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="115.0" promptText="Ville" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                  <TextField fx:id="textBP" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="115.0" promptText="Code Postal" GridPane.columnIndex="1" GridPane.rowIndex="5" />
-               </children>
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="133.0" />
-                  <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="257.0" minWidth="10.0" prefWidth="257.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-         </children>
-      </HBox>
-      <HBox alignment="BOTTOM_CENTER" spacing="20.0">
-         <children>
-            <Button layoutX="187.0" layoutY="394.0" mnemonicParsing="false" onAction="#Enregistrer" text="Enregistrer" />
-            <Button layoutX="268.0" layoutY="369.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="25.0" prefWidth="89.0" text="Annuler" />
-         </children>
-         <padding>
-            <Insets bottom="20.0" top="20.0" />
-         </padding>
-      </HBox>
-   </children>
+    <children>
+        <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
+        <HBox>
+            <children>
+                <Label alignment="CENTER" text="ajouter/modifier client" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="20.0" />
+                    </font>
+                </Label>
+            </children>
+        </HBox>
+        <Label fx:id="Message" prefHeight="25.0" prefWidth="390.0" textFill="#f50a0a">
+            <font>
+                <Font size="15.0" />
+            </font>
+        </Label>
+        <HBox alignment="CENTER" VBox.vgrow="ALWAYS">
+            <children>
+                <GridPane>
+                    <children>
+                        <Label text="Sociéte" />
+                        <Label text="Telephone" GridPane.rowIndex="1" />
+                        <Label text="Email" GridPane.rowIndex="2" />
+                        <Label text="Rue" GridPane.rowIndex="3" />
+                        <Label text="Ville" GridPane.rowIndex="4" />
+                        <Label text="Code Postal" GridPane.rowIndex="5" />
+                        <TextField fx:id="textSociete" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Nom de la Sociéte" GridPane.columnIndex="1" />
+                        <TextField fx:id="textTelephone" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="150.0" promptText="Telephone / fax" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <TextField fx:id="textEmail" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="188.0" promptText="\@" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                        <TextField fx:id="textRue" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="256.0" promptText="Rue" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <TextField fx:id="textVille" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="115.0" promptText="Ville" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                        <TextField fx:id="textBP" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="115.0" promptText="Code Postal" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+                    </children>
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="188.0" minWidth="10.0" prefWidth="133.0" />
+                        <ColumnConstraints fillWidth="false" hgrow="SOMETIMES" maxWidth="257.0" minWidth="10.0" prefWidth="257.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                </GridPane>
+            </children>
+        </HBox>
+        <HBox alignment="BOTTOM_CENTER" spacing="20.0">
+            <children>
+                <Button layoutX="187.0" layoutY="394.0" mnemonicParsing="false" onAction="#Enregistrer" text="Enregistrer" />
+                <Button layoutX="268.0" layoutY="369.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="25.0" prefWidth="89.0" text="Annuler" />
+            </children>
+            <padding>
+                <Insets bottom="20.0" top="20.0" />
+            </padding>
+        </HBox>
+    </children>
 </VBox>

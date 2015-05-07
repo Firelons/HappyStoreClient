@@ -17,7 +17,6 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
@@ -34,7 +33,6 @@ import regub.util.UserBarController;
 public class AccueilCommercialController extends AbstractController {
 
     private int testNombrecontrat;
-
     //Proprietés pour le client
     private final ObservableList<Client> clientData = FXCollections.observableArrayList();
     @FXML
@@ -78,6 +76,8 @@ public class AccueilCommercialController extends AbstractController {
 
     @FXML
     private void AjouterContrat(ActionEvent event) throws IOException {
+     
+        Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Contrat");
     }
 
@@ -94,7 +94,6 @@ public class AccueilCommercialController extends AbstractController {
             while (rsClient.next()) {
                 clientData.add(new Client(rsClient.getInt("idClient"), rsClient.getString("societe"), rsClient.getString("telephone"), rsClient.getString("email"),
                         rsClient.getString("addr_ligne1"), rsClient.getString("ville"), rsClient.getString("code_postal")));
-
             }
 
         } catch (SQLException e) {
@@ -134,7 +133,6 @@ public class AccueilCommercialController extends AbstractController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        //clientData.add(new Client("4","4","4","4","4","4")) ;
         return clientData;
     }
 
@@ -145,7 +143,6 @@ public class AccueilCommercialController extends AbstractController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        //clientData.add(new Client("4","4","4","4","4","4")) ;
         return videoData;
     }
 
@@ -206,11 +203,8 @@ public class AccueilCommercialController extends AbstractController {
     }
     @FXML
     private void ModifierClient(){
-        FXMLLoader loader = new FXMLLoader();
-        ClientController client = loader.getController();
+        Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Client");
-        Client selectedClient = clientTable.getSelectionModel().getSelectedItem();
-        client.setClient(selectedClient);
         
     }
 
