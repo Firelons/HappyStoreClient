@@ -30,7 +30,6 @@ import regub.util.UserBarController;
  */
 public class ClientController extends AbstractController {
 
-    
     @FXML
     private TextField textSociete;
     @FXML
@@ -45,7 +44,7 @@ public class ClientController extends AbstractController {
     private TextField textBP;
     @FXML
     private Label Message;
-    
+
     private Client person;
 
     @FXML
@@ -55,10 +54,12 @@ public class ClientController extends AbstractController {
     private void Enregistrer(ActionEvent event) throws IOException {
         if (Verifier_Saisie()) {
             Save_Client();
+            Client.setCurClient(null);
             getApp().gotoPage("commercial/AccueilCommercial");
         }
 
     }
+
     public void setClient(Client person) {
         this.person = person;
 
@@ -68,10 +69,12 @@ public class ClientController extends AbstractController {
         textRue.setText(person.getRue());
         textVille.setText(person.getVille());
         textBP.setText(person.getPostalCode());
-        
+
     }
+
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
+        Client.setCurClient(null);
         getApp().gotoPage("commercial/AccueilCommercial");
     }
 
@@ -136,19 +139,31 @@ public class ClientController extends AbstractController {
     @FXML
     private void Save_Client() throws IOException {
         System.out.println(Auth.getUserInfo().toString());
+       
+        String operation = "";
+        String sql;
+        boolean update = false;
+        if (Client.getCurClient() != null) {
+            sql = "UPDATE Client SET societe=?, telephone=?, email=?, addr_ligne1=?, ville=?, code_postal=?"
+                    + "WHERE idClient=?;";
+            update = true;
+        } else {
+            sql = "INSERT INTO Client(societe,telephone,email,addr_ligne1,ville,code_postal)"
+                    + "VALUES (?,?,?,?,?,?);";
+        }
 
         try (Connection cn = Auth.getConnection();
-                Statement st = cn.createStatement()) {
-            String sql = "INSERT INTO Client(societe,telephone,email,addr_ligne1,ville,code_postal)"
-                    + "VALUES (?,?,?,?,?,?);";
-            PreparedStatement st1 = cn.prepareStatement(sql);
+                PreparedStatement st1 = cn.prepareStatement(sql)) {
+            
             st1.setString(1, textSociete.getText());
             st1.setString(2, textTelephone.getText());
             st1.setString(3, textEmail.getText());
             st1.setString(4, textRue.getText());
             st1.setString(5, textVille.getText());
             st1.setString(6, textBP.getText());
-
+            if(update){
+                 st1.setInt(7, Client.getCurClient().getId());
+            }
             st1.execute();
 
         } catch (SQLException e) {
@@ -164,13 +179,14 @@ public class ClientController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        textSociete.setText(Client.getCurClient().getSociete());
-        textTelephone.setText(Client.getCurClient().getTelephone());
-        textEmail.setText(Client.getCurClient().getEmail());
-        textRue.setText(Client.getCurClient().getRue());
-        textVille.setText(Client.getCurClient().getVille());
-        textBP.setText(Client.getCurClient().getPostalCode());
-        //Fais tous tes ajouts ici et a la fin on refais un null pour remetre le client courant à null !
-        Client.setCurClient(null);
+        if (Client.getCurClient() != null) {
+            textSociete.setText(Client.getCurClient().getSociete());
+            textTelephone.setText(Client.getCurClient().getTelephone());
+            textEmail.setText(Client.getCurClient().getEmail());
+            textRue.setText(Client.getCurClient().getRue());
+            textVille.setText(Client.getCurClient().getVille());
+            textBP.setText(Client.getCurClient().getPostalCode());
+            //Fais tous tes ajouts ici et a la fin on refais un null pour remetre le client courant à null !
+        }
     }
 }
