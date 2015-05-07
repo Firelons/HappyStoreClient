@@ -7,21 +7,29 @@ package regub.administrateur;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import regub.AbstractController;
+import regub.Main;
+import regub.util.UserBarController;
 
 /**
  * FXML Controller class
  *
  * @author BREGMESTRE
  */
-public class CompteAJMOController implements Initializable {
+public class CompteAJMOController extends AbstractController {
 
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private UserBarController usermenuController;
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-    }    
-    
+    public void setApp(Main m) {
+        super.setApp(m);
+        usermenuController.setApp(m);
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+    }
 }
