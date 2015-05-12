@@ -53,9 +53,9 @@
       <HBox alignment="CENTER" layoutX="32.0" layoutY="69.0" prefHeight="36.0" prefWidth="447.0" spacing="30.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="69.0">
          <children>
             <Label layoutX="14.0" layoutY="46.0" text="Nom Région :" />
-            <TextField layoutX="101.0" layoutY="42.0" prefHeight="25.0" prefWidth="127.0" />
-            <Button layoutX="245.0" layoutY="42.0" mnemonicParsing="false" text="Valider" />
-            <Button layoutX="322.0" layoutY="42.0" mnemonicParsing="false" text="Annuler" />
+            <TextField fx:id="textRegion" layoutX="101.0" layoutY="42.0" prefHeight="25.0" prefWidth="127.0" />
+            <Button layoutX="245.0" layoutY="42.0" mnemonicParsing="false" onAction="#Valider_Region" text="Valider" />
+            <Button layoutX="322.0" layoutY="42.0" mnemonicParsing="false" onAction="#Annuler" text="Annuler" />
          </children>
       </HBox>
    </children>
