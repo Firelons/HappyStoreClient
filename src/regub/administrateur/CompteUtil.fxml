@@ -19,8 +19,8 @@
       </Label>
       <TableView prefHeight="261.0" prefWidth="600.0">
         <columns>
-          <TableColumn prefWidth="132.0" text="Nom" />
-          <TableColumn prefWidth="157.0" text="Prénom" />
+          <TableColumn fx:id="nom"  prefWidth="132.0" text="Nom" />
+          <TableColumn fx:id="prenom" prefWidth="157.0" text="Prénom" />
           <TableColumn prefWidth="155.0" text="Id Type Compte" />
           <TableColumn prefWidth="155.0" text="Login" />
         </columns>
@@ -30,12 +30,12 @@
      
       <HBox prefHeight="54.0" prefWidth="600.0">
          <children>
-            <Button mnemonicParsing="false" text="Ajouter">
+            <Button mnemonicParsing="false" onAction="#CompteUtilAjouter"  text="Ajouter">
                <HBox.margin>
                   <Insets left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Modifier">
+            <Button mnemonicParsing="false" onAction="#CompteUtilModifier"  text="Modifier">
                <HBox.margin>
                   <Insets right="20.0" top="20.0" />
                </HBox.margin>
