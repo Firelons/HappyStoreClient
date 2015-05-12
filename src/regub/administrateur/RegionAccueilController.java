@@ -10,8 +10,10 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import regub.AbstractController;
 import regub.Auth;
@@ -28,6 +30,9 @@ public class RegionAccueilController extends AbstractController {
     
     @FXML
     private ObservableList<String> regionData = FXCollections.observableArrayList();
+    
+    @FXML
+    private ListView<String> listeregion;
     
     @FXML
     private ResultSet rsRegion;
@@ -49,7 +54,7 @@ public class RegionAccueilController extends AbstractController {
 
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
-            String sql = "SELECT * FROM region";
+            String sql = "SELECT * FROM Region";
 
             rsRegion=st.executeQuery(sql);
             while(rsRegion.next()){
@@ -78,6 +83,7 @@ public class RegionAccueilController extends AbstractController {
     public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
+        listeregion.setItems(getRegionData());
     }
     
 

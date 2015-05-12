@@ -40,7 +40,7 @@
       </HBox>
       <HBox alignment="CENTER" layoutX="28.0" layoutY="79.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" VBox.vgrow="ALWAYS">
          <children>
-            <ListView layoutX="28.0" layoutY="79.0">
+            <ListView fx:id="listeregion" layoutX="28.0" layoutY="79.0" onEditStart="#getRegionDB">
                <items>
                   <FXCollections fx:factory="observableArrayList">
                                   <String fx:value="Alsace" />
