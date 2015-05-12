@@ -137,7 +137,7 @@ public class ContratController extends AbstractController {
 
     @FXML
     private void calculer(ActionEvent event) throws Exception {
-        double nombrejours = 0 ;
+        double nombrejours = 0;
         try {
             Date datdeb = sf.parse(datedebut.getValue().toString());
             Date datfin = sf.parse(datefin.getValue().toString());
@@ -146,7 +146,7 @@ public class ContratController extends AbstractController {
         } catch (NullPointerException nfe) {
         }
         //ecart en semaine auquel on retire les dimanches : nous donne le nombre de jours de diffusion
-      
+
         try {
             tar = Double.parseDouble(tarif.getText());
         } catch (NumberFormatException nfe) {
@@ -162,8 +162,6 @@ public class ContratController extends AbstractController {
             dur = Integer.parseInt(duree.getText());
         } catch (NumberFormatException nfe) {
         }
-
-        
 
         montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions * nombrejours));
 
@@ -404,11 +402,12 @@ public class ContratController extends AbstractController {
             System.out.println("Enregistrement des rayons pour le contrat : " + titre.getText());
             RayonsSelect = Rayons.getSelectionModel().getSelectedItems();
             for (String str : RayonsSelect) {
-                String sql = "INSERT INTO diffusionstypesrayons (idVideo,idRayon) VALUES (?,?);";
+                String sql = "INSERT INTO diffusionstypesrayons (idVideo,idTypeRayon) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, videoID);
                     st.setInt(2, RayonData.get(str));
                     st.executeQuery();
+
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -419,9 +418,10 @@ public class ContratController extends AbstractController {
             for (String str : RegionsSelect) {
                 String sql = "INSERT INTO `diffusionregions` (`idRegion`,`idVideo`) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
-                    st.setInt(2, RegionData.get(str));
-                    st.setInt(1, videoID);
+                    st.setInt(1, RegionData.get(str));
+                    st.setInt(2, videoID);
                     st.executeQuery();
+                    System.out.println(sql);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
