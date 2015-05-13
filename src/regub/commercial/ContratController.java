@@ -177,7 +177,7 @@ public class ContratController extends AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            RayonData = getliste("typerayon");
+            RayonData = getliste("TypeRayon");
             Rayons.setItems(FXCollections.observableArrayList(RayonData.keySet()));
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
@@ -185,7 +185,7 @@ public class ContratController extends AbstractController {
         Rayons.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         try {
-            RegionData = getliste("region");
+            RegionData = getliste("Region");
             Regions.setItems(FXCollections.observableArrayList(RegionData.keySet()));
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
@@ -350,15 +350,24 @@ public class ContratController extends AbstractController {
     private HashMap<String, Integer> getliste(String Table) throws IOException {
         System.out.println(Auth.getUserInfo().toString());
         HashMap<String, Integer> resuMap = new HashMap<>();
+        ResultSet res = null;
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
             String sql = "SELECT * FROM " + Table + " ORDER BY libelle ASC";
-            ResultSet res = st.executeQuery(sql);
+            res = st.executeQuery(sql);
             while (res.next()) {
                 resuMap.put(res.getString("libelle"), res.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+            if (res != null){
+                try {
+                    res.close();
+                } catch (SQLException ex) {
+                   ex.printStackTrace();
+                }
+            }
         }
         return resuMap;
     }
@@ -374,8 +383,9 @@ public class ContratController extends AbstractController {
         int videoID;
         System.out.println(Auth.getUserInfo().toString());
         try (Connection cn = Auth.getConnection()) {
-            String sql1 = "INSERT INTO video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)"
+            String sql1 = "INSERT INTO Video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)"
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+            ResultSet res = null;
             try (PreparedStatement st1 = cn.prepareStatement(sql1);) {
                 st1.setString(1, titre.getText());
                 st1.setInt(2, freq);
@@ -389,7 +399,7 @@ public class ContratController extends AbstractController {
                 st1.setString(10, (String) Auth.getUserInfo().get("id"));
                 st1.setInt(11, Client.getCurClient().getId());
                 st1.execute();
-                ResultSet res = st1.getGeneratedKeys();
+                res = st1.getGeneratedKeys();
                 res.next();
                 videoID = res.getInt("idVideo");
                 res.close();
@@ -397,12 +407,16 @@ public class ContratController extends AbstractController {
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
+            } finally {
+                if (res != null) {
+                    res.close();
+                }
             }
 
             System.out.println("Enregistrement des rayons pour le contrat : " + titre.getText());
             RayonsSelect = Rayons.getSelectionModel().getSelectedItems();
             for (String str : RayonsSelect) {
-                String sql = "INSERT INTO diffusionstypesrayons (idVideo,idTypeRayon) VALUES (?,?);";
+                String sql = "INSERT INTO DiffusionsTypesRayons (idVideo,idTypeRayon) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, videoID);
                     st.setInt(2, RayonData.get(str));
@@ -416,7 +430,7 @@ public class ContratController extends AbstractController {
             System.out.println("Enregistrement des regions pour le contrat : " + titre.getText());
             RegionsSelect = Regions.getSelectionModel().getSelectedItems();
             for (String str : RegionsSelect) {
-                String sql = "INSERT INTO `diffusionregions` (`idRegion`,`idVideo`) VALUES (?,?);";
+                String sql = "INSERT INTO `DiffusionRegions` (`idRegion`,`idVideo`) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, RegionData.get(str));
                     st.setInt(2, videoID);
