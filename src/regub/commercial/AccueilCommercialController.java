@@ -35,7 +35,7 @@ public class AccueilCommercialController extends AbstractController {
 
     private int testNombrecontrat;
     //Renvoie si le client a des vidéos ou pas
-    private boolean video_ou_non=false;
+    private boolean video_ou_non = false;
     //Proprietés pour le client
     private final ObservableList<Client> clientData = FXCollections.observableArrayList();
     @FXML
@@ -79,7 +79,7 @@ public class AccueilCommercialController extends AbstractController {
 
     @FXML
     private void AjouterContrat(ActionEvent event) throws IOException {
-     
+
         Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Contrat");
     }
@@ -97,7 +97,7 @@ public class AccueilCommercialController extends AbstractController {
             System.out.println(rsClient);
             while (rsClient.next()) {
                 clientData.add(new Client(rsClient.getInt("idClient"), rsClient.getString("societe"), rsClient.getString("telephone"), rsClient.getString("email"),
-                rsClient.getString("addr_ligne1"), rsClient.getString("ville"), rsClient.getString("code_postal")));
+                        rsClient.getString("addr_ligne1"), rsClient.getString("ville"), rsClient.getString("code_postal")));
             }
 
         } catch (SQLException e) {
@@ -117,10 +117,10 @@ public class AccueilCommercialController extends AbstractController {
             //Parametres à changer
             st.setInt(1, client.getId());
             rsVideos = st.executeQuery();
-            
-             System.out.println(rsVideos);
-            if (rsVideos!=null){
-                video_ou_non=true;
+
+            System.out.println(rsVideos);
+            if (rsVideos != null) {
+                video_ou_non = true;
             }
             while (rsVideos.next()) {
                 videoData.add(new Video(rsVideos.getString("titre"), rsVideos.getInt("duree"), rsVideos.getDouble("tarif"),
@@ -168,71 +168,71 @@ public class AccueilCommercialController extends AbstractController {
     }
 
     private void gestionClientButton() {
-             clientTable.getSelectionModel().getSelectedItems().addListener(
-				(ListChangeListener) (c) ->{
-					clientTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-					int nbSelections = clientTable.getSelectionModel().getSelectedItems().size();
-					System.out.println(nbSelections);
-					if (nbSelections==1){
-						ModifierClient.setDisable(false);
-                                                if(video_ou_non){
-                                                    SupprimerClient.setDisable(false);
-                                                }else{
-                                                    SupprimerClient.setDisable(true);
-                                                }
-						
-                                                AjouterContrat.setDisable(false);
-					}else if (nbSelections>1){
-						ModifierClient.setDisable(true);
-						SupprimerClient.setDisable(false);
-                                                AjouterContrat.setDisable(true);
-					}else if (nbSelections==0){
-						ModifierClient.setDisable(true);
-						SupprimerClient.setDisable(true);
-		
-					}
-				});
+        clientTable.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
+                    clientTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                    int nbSelections = clientTable.getSelectionModel().getSelectedItems().size();
+                    System.out.println(nbSelections);
+                    if (nbSelections == 1) {
+                        ModifierClient.setDisable(false);
+                        if (video_ou_non) {
+                            SupprimerClient.setDisable(false);
+                        } else {
+                            SupprimerClient.setDisable(true);
+                        }
+
+                        AjouterContrat.setDisable(false);
+                    } else if (nbSelections > 1) {
+                        ModifierClient.setDisable(true);
+                        SupprimerClient.setDisable(false);
+                        AjouterContrat.setDisable(true);
+                    } else if (nbSelections == 0) {
+                        ModifierClient.setDisable(true);
+                        SupprimerClient.setDisable(true);
+
+                    }
+                });
     }
 
     private void gestioncontratButton() {
-            videoTable.getSelectionModel().getSelectedItems().addListener(
-				(ListChangeListener) (c) ->{
-					videoTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-					int nbSelection = videoTable.getSelectionModel().getSelectedItems().size();
-					System.out.println(nbSelection);
-					if (nbSelection==1){
-						ModifierContrat.setDisable(false);
-						SupprimerContrat.setDisable(false);
-					}else if (nbSelection>1){
-						ModifierContrat.setDisable(true);
-						SupprimerContrat.setDisable(false);
-					}else if (nbSelection==0){
-						ModifierContrat.setDisable(true);
-						SupprimerContrat.setDisable(true);
-		
-					}
-				});
+        videoTable.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
+                    videoTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                    int nbSelection = videoTable.getSelectionModel().getSelectedItems().size();
+                    System.out.println(nbSelection);
+                    if (nbSelection == 1) {
+                        ModifierContrat.setDisable(false);
+                        SupprimerContrat.setDisable(false);
+                    } else if (nbSelection > 1) {
+                        ModifierContrat.setDisable(true);
+                        SupprimerContrat.setDisable(false);
+                    } else if (nbSelection == 0) {
+                        ModifierContrat.setDisable(true);
+                        SupprimerContrat.setDisable(true);
+
+                    }
+                });
     }
+
     @FXML
-    private void ModifierClient(){
+    private void ModifierClient() {
         Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Client");
-        
+
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
-        
         societe.setCellValueFactory(cellData -> cellData.getValue().societeProperty());
         rue.setCellValueFactory(cellData -> cellData.getValue().rueProperty());
 
         clientTable.getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> videoTable.setItems(getVideoData(newValue)));
-        
-       this.gestionClientButton();
+
+        this.gestionClientButton();
         this.gestioncontratButton();
-        
+
         titre.setCellValueFactory(cellData -> cellData.getValue().titreProperty());
         date_debut.setCellValueFactory(cellData -> cellData.getValue().date_debutProperty());
         date_fin.setCellValueFactory(cellData -> cellData.getValue().date_finProperty());
@@ -246,8 +246,7 @@ public class AccueilCommercialController extends AbstractController {
         AjouterContrat.setDisable(true);
         ModifierContrat.setDisable(true);
         SupprimerContrat.setDisable(true);
-        
-       
+
     }
 
 }

@@ -42,5 +42,6 @@ public class CompteAJMOController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
     }
 }
