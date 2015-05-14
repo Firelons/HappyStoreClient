@@ -38,10 +38,7 @@
             <ListView layoutX="170.0" layoutY="68.0">
               <items>
                   <FXCollections fx:factory="observableArrayList">
-                          <String fx:value="Magazin 1" />
-                          <String fx:value="Magazin 2" />
-                          <String fx:value="Magazin 3" />
-                          <String fx:value="Magazin 4" />
+                          
                   </FXCollections>
               </items>
                <VBox.margin>

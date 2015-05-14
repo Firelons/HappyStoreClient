@@ -6,7 +6,10 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,10 +17,12 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
+import regub.commercial.ContratController;
 import regub.util.UserBarController;
 
 public class RegionAccueilController extends AbstractController {
@@ -28,11 +33,13 @@ public class RegionAccueilController extends AbstractController {
     @FXML
     private UserBarController  usermenuController;
     
-    @FXML
-    private ObservableList<String> regionData = FXCollections.observableArrayList();
+    
+    //private ObservableList<String> regionData = FXCollections.observableArrayList();
     
     @FXML
     private ListView<String> listeregion;
+    
+    private HashMap<String, Integer> regionData;
     
     @FXML
     private ResultSet rsRegion;
@@ -44,11 +51,13 @@ public class RegionAccueilController extends AbstractController {
 
     @FXML
     private void RegionModifier(ActionEvent event) {
+        System.out.println(listeregion.getSelectionModel().getSelectedItem());
+        
         getApp().gotoPage("administrateur/RegionAJMOSU");
     }
 
-         @FXML
-    private void getRegionDB() throws IOException {
+         
+   /* private void getRegionDB() throws IOException {
         
         System.out.println(Auth.getUserInfo().toString());
 
@@ -66,29 +75,54 @@ public class RegionAccueilController extends AbstractController {
             e.printStackTrace();
         }
           
-    }
-    public ObservableList<String> getRegionData()  {
+    } */
+       @FXML  
+    public void getRegionData()  {
         
         try {
-            this.getRegionDB();
+            regionData = getliste("Region");
+            listeregion.setItems(FXCollections.observableArrayList(regionData.keySet()));
         } catch (IOException ex) {
-             ex.printStackTrace();
+            Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
         }
-         regionData.add(new String("4")) ;
-         return regionData;
+        listeregion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+
     }
-    
+    private HashMap<String, Integer> getliste(String Table) throws IOException {
+        System.out.println(Auth.getUserInfo().toString());
+        HashMap<String, Integer> resuMap = new HashMap<>();
+        ResultSet res = null;
+        try (Connection cn = Auth.getConnection();
+                Statement st = cn.createStatement()) {
+            String sql = "SELECT * FROM " + Table + " ORDER BY libelle ASC";
+            res = st.executeQuery(sql);
+            while (res.next()) {
+                resuMap.put(res.getString("libelle"), res.getInt(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (res != null) {
+                try {
+                    res.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return resuMap;
+    }
     
     @Override
     public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
-        listeregion.setItems(getRegionData());
+        //listeregion.setItems(getRegionData());
     }
     
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        getRegionData();
     }
 }
