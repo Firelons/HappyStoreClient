@@ -51,7 +51,9 @@ public class RegionAccueilController extends AbstractController {
 
     @FXML
     private void RegionModifier(ActionEvent event) {
-        System.out.println(listeregion.getSelectionModel().getSelectedItem());
+        int select_region;
+        select_region=regionData.get(listeregion.getSelectionModel().getSelectedItem());
+        System.out.println(regionData.get(listeregion.getSelectionModel().getSelectedItem()));
         
         getApp().gotoPage("administrateur/RegionAJMOSU");
     }

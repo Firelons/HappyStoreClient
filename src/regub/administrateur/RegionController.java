@@ -49,6 +49,8 @@ public class RegionController extends AbstractController {
 
     @FXML
     private ResultSet rsMagazin;
+    
+   
 
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
@@ -142,5 +144,6 @@ public class RegionController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
     }
 }
