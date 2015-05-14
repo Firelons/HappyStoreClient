@@ -44,11 +44,11 @@
                   <Label text="Rue:" GridPane.rowIndex="2" />
                   <Label text="Code postal:" GridPane.rowIndex="3" />
                   <Label text="Ville:" GridPane.rowIndex="4" />
-                  <TextField GridPane.columnIndex="1" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <TextField prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <TextField GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                  <TextField fx:id="textNom" GridPane.columnIndex="1" />
+                  <TextField fx:id="textEmail" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <TextField fx:id="textRue" prefHeight="25.0" prefWidth="197.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <TextField fx:id="textCodePostal" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <TextField fx:id="textVille" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                </children>
                <VBox.margin>
                   <Insets left="20.0" />
@@ -71,7 +71,7 @@
                   <Insets bottom="10.0" left="40.0" />
                </VBox.margin>
             </Label>
-            <ListView prefHeight="138.0" prefWidth="204.0" />
+            <ListView fx:id="listTypeRayon" prefHeight="138.0" prefWidth="204.0" />
          </children>
          <FlowPane.margin>
             <Insets left="60.0" />
