@@ -27,7 +27,7 @@ import regub.util.UserBarController;
 /**
  * FXML Controller class
  *
- * @author Clauther
+ * @author BREGMESTRE
  */
 public class CompteAJMOController extends AbstractController {
 
@@ -107,13 +107,16 @@ public class CompteAJMOController extends AbstractController {
             msg = "L'utilisateur doit avoir un nom";
         } else if (tfPrenom.getText().length() == 0) {
             msg = "L'utilisateur doit avoir un prénom";
-        } else if (pwfPassWord.getText().length() == 0) {
+        } else if (pwfPassWord.getText().length() == 0 && insertion) {
             msg = "L'utilisateur doit avoir un mot de passe non vide";
         } else if (comb_compte.getValue() == null) {
             msg = "L'utilisateur doit avoir un type de compte";
         } else {
             try {
-                if (loginExist(tfLogin.getText() )) {
+                boolean newLogin = insertion
+                        || Utilisateur.getCurUtil().getLogin().get()
+                        .compareTo(tfLogin.getText()) != 0;
+                if (newLogin && loginExist(tfLogin.getText())) {
                     msg = "Ce login est déjà utilisé";
                 } else {
                     return true;
@@ -172,17 +175,22 @@ public class CompteAJMOController extends AbstractController {
     }
 
     private boolean updateUtil() {
-        String sql = "UPDATE `Compte` SET `nom` = ? , `prenom` = ? , `login` = ?, `password` = ?, `idTypeCompte` = "
-                + "(SELECT TypeCompte.idTypeCompte FROM TypeCompte WHERE(TypeCompte.libelle = ?))"
+        boolean setPassw = insertion || !pwfPassWord.getText().isEmpty();
+        String sql = "UPDATE `Compte` SET `nom` = ? , `prenom` = ? , `login` = ?,"
+                + (setPassw ? " `password` = ?," : "")
+                + "`idTypeCompte` = (SELECT TypeCompte.idTypeCompte FROM TypeCompte WHERE(TypeCompte.libelle = ?))"
                 + "WHERE idCompte = ?;";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql);) {
-            st.setString(1, tfNom.getText());
-            st.setString(2, tfPrenom.getText());
-            st.setString(3, tfLogin.getText());
-            st.setString(4, pwfPassWord.getText());
-            st.setString(5, comb_compte.getValue());
-            st.setInt(6, Utilisateur.getCurUtil().getId_util().get());
+            int i = 1;
+            st.setString(i++, tfNom.getText());
+            st.setString(i++, tfPrenom.getText());
+            st.setString(i++, tfLogin.getText());
+            if (setPassw) {
+                st.setString(i++, pwfPassWord.getText());
+            }
+            st.setString(i++, comb_compte.getValue());
+            st.setInt(i++, Utilisateur.getCurUtil().getId_util().get());
             st.executeQuery();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -205,13 +213,14 @@ public class CompteAJMOController extends AbstractController {
             tfPrenom.setText(cur.getPrenom().get());
             comb_compte.setValue(cur.gettype_compte().get());
         }
-
-        tfLogin.textProperty().addListener((str) -> {
-            if (generateLogin) {
-                String pw = ((StringProperty) str).get();
-                pwfPassWord.setText(pw);
-            }
-        });
+        if (insertion) {
+            tfLogin.textProperty().addListener((str) -> {
+                if (generateLogin) {
+                    String pw = ((StringProperty) str).get();
+                    pwfPassWord.setText(pw);
+                }
+            });
+        }
 
         pwfPassWord.textProperty().addListener((str) -> {
             if (generateLogin && pwfPassWord.isFocused()) {
