@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package regub.commercial;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -406,9 +405,19 @@ public class ContratController extends AbstractController {
         System.out.println(Auth.getUserInfo().toString());
         HashMap<String, Integer> resuMap = new HashMap<>();
         ResultSet res = null;
+        String sql;
+        String sql_region=" WHERE EXISTS ( SELECT * FROM magasin WHERE magasin.idRegion = region.idRegion) ";
+        
+        if(Table.equals("Region") ){
+            sql = "SELECT * FROM " + Table + sql_region +" ORDER BY libelle ASC";
+
+        }else{
+            sql = "SELECT * FROM " + Table + " ORDER BY libelle ASC";
+        }
+        
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
-            String sql = "SELECT * FROM " + Table + " ORDER BY libelle ASC";
+            
             res = st.executeQuery(sql);
             while (res.next()) {
                 resuMap.put(res.getString("libelle"), res.getInt(1));
