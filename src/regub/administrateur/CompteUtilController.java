@@ -12,7 +12,10 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import regub.AbstractController;
@@ -24,6 +27,8 @@ public class CompteUtilController extends AbstractController {
 
     //Proprietés pour l'utilisateur
     private final ObservableList<Utilisateur> UtilData = FXCollections.observableArrayList();
+    // teste si il y a des utilisateurs ou pas
+    private boolean si_util = true;
     @FXML
     private TableView<Utilisateur> UtilTable;
     @FXML
@@ -42,6 +47,8 @@ public class CompteUtilController extends AbstractController {
     private Button ModifierUtil;
     @FXML
     private Button SupprimerUtil;
+    
+    private ResultSet rsUtil;//Récupère la liste des clients dans la base de données
 
     @FXML
     private UserBarController usermenuController;
@@ -55,6 +62,14 @@ public class CompteUtilController extends AbstractController {
     private void CompteUtilModifier(ActionEvent event) {
         getApp().gotoPage("administrateur/CompteAJMO");
     }
+    
+    @FXML
+    private void CompteUtilSupprimer(ActionEvent event) {
+        getApp().gotoPage("administrateur/CompteUtil");
+        
+        Alert a = new Alert(Alert.AlertType.WARNING, "voulez-vous vraiment supprimer ces donnees", ButtonType.OK);
+            a.showAndWait();
+    }
 
     @FXML
     private void getUtilDB() throws IOException {
@@ -64,14 +79,14 @@ public class CompteUtilController extends AbstractController {
         try (
                 Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement();
-                ResultSet res = st.executeQuery(sql)) {
+                ResultSet rsUtil = st.executeQuery(sql)) {
 
-            while (res.next()) {
+            while (rsUtil.next()) {
                 UtilData.add(
                         new Utilisateur(
-                                res.getInt("idCompte"), res.getString("nom"),
-                                res.getString("prenom"), res.getString("login"),
-                                res.getString("libelle")
+                                rsUtil.getInt("idCompte"), rsUtil.getString("nom"),
+                                rsUtil.getString("prenom"), rsUtil.getString("login"),
+                                rsUtil.getString("libelle")
                         )
                 );
             }
@@ -80,16 +95,82 @@ public class CompteUtilController extends AbstractController {
             e.printStackTrace();
         }
     }
+    
+    public ObservableList<Utilisateur> getUtilData() {
+        try {
+            this.getUtilDB();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return UtilData;
+    }
+    
+    private void gestionUtilButton() {
+        UtilTable.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
+                    UtilTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                    int nbSelections = UtilTable.getSelectionModel().getSelectedItems().size();
+                    System.out.println(nbSelections);
+                    if (nbSelections == 1) {
+
+                        if (si_util) {
+                            SupprimerUtil.setDisable(false);
+                            ModifierUtil.setDisable(false);
+
+                            /*  if (SupprimerUtil.is) {
+                                Alert a = new Alert(Alert.AlertType.WARNING, "voulez-vous vraiment supprimer ces donnees", ButtonType.OK);
+                                a.showAndWait();
+                                   MessageBox.show(null, // Fenêtre parente
+                                        "Voulez-vous vraiment supprimer cet utilisateur", // Message à afficher
+                                        "Attention", // Titre de la fenêtre
+                                        MessageBox.ICON_WARNING // Icône à afficher
+                                );
+                                
+                                SupprimerUtil.requestFocus();
+                                   return;
+                            }*/
+                             
+
+                        } else {
+                            SupprimerUtil.setDisable(true);
+                            ModifierUtil.setDisable(true);
+                        }
+
+                        //AjouterUtil.setDisable(false);
+                    } else if (nbSelections > 1) {  // selection multiple
+                        ModifierUtil.setDisable(true);
+                        SupprimerUtil.setDisable(false);
+                        
+
+                        //AjouterUtil.setDisable(false);
+                    } else if (nbSelections == 0) {
+                        ModifierUtil.setDisable(true);
+                        SupprimerUtil.setDisable(true);
+                        //AjouterUtil.setDisable(false);
+
+                    }
+                    
+                });
+
+    }
 
     @Override
     public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
+        UtilTable.setItems(getUtilData());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Utilisateur.setCurUtil(null);
+
+        gestionUtilButton();
+
+        AjouterUtil.setDisable(false);
+        ModifierUtil.setDisable(true);
+        SupprimerUtil.setDisable(true);
+
         try {
             getUtilDB();
         } catch (IOException ex) {
