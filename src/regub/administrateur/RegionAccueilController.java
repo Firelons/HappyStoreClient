@@ -128,7 +128,7 @@ public class RegionAccueilController extends AbstractController {
         boolean magasin_ou_pas=false;
         
        
-        String sql="COUNT (*) FROM magasin WHERE idRegion = ?";
+        String sql="COUNT (*) FROM Magasin WHERE idRegion = ?";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
            
