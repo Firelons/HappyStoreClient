@@ -27,7 +27,7 @@ import regub.util.UserBarController;
 /**
  * FXML Controller class
  *
- * @author BREGMESTRE
+ * @author Clauther
  */
 public class CompteAJMOController extends AbstractController {
 
@@ -113,7 +113,7 @@ public class CompteAJMOController extends AbstractController {
             msg = "L'utilisateur doit avoir un type de compte";
         } else {
             try {
-                if (loginExist(tfLogin.getText())) {
+                if (loginExist(tfLogin.getText() )) {
                     msg = "Ce login est déjà utilisé";
                 } else {
                     return true;
