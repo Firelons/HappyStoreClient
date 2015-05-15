@@ -30,17 +30,17 @@
      
       <HBox prefHeight="54.0" prefWidth="600.0">
          <children>
-            <Button mnemonicParsing="false" onAction="#CompteUtilAjouter" text="Ajouter">
+            <Button fx:id="AjouterUtil" mnemonicParsing="false" onAction="#CompteUtilAjouter" text="Ajouter">
                <HBox.margin>
                   <Insets left="20.0" right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" onAction="#CompteUtilModifier" text="Modifier">
+            <Button fx:id="ModifierUtil" disable="true" mnemonicParsing="false" onAction="#CompteUtilModifier" text="Modifier">
                <HBox.margin>
                   <Insets right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Supprimer">
+            <Button fx:id="SupprimerUtil" disable="true" mnemonicParsing="false" text="Supprimer">
                <HBox.margin>
                   <Insets top="20.0" />
                </HBox.margin>
