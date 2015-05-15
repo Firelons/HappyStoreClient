@@ -197,12 +197,17 @@ public class AccueilCommercialController extends AbstractController {
     private void gestioncontratButton() {
         videoTable.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
-                    videoTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                    videoTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     int nbSelection = videoTable.getSelectionModel().getSelectedItems().size();
                     System.out.println(nbSelection);
                     if (nbSelection == 1) {
                         ModifierContrat.setDisable(false);
-                        SupprimerContrat.setDisable(false);
+                        if(video_ou_non){
+                            SupprimerContrat.setDisable(false);
+                        }else{
+                            SupprimerContrat.setDisable(true);
+                        }
+                        
                     } else if (nbSelection > 1) {
                         ModifierContrat.setDisable(true);
                         SupprimerContrat.setDisable(false);
