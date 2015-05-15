@@ -57,8 +57,21 @@ public class CompteUtilController extends AbstractController {
     
      @FXML
     private void CompteUtilModifier(ActionEvent event) {
+        
+        Utilisateur.setCurUtil(UtilTable.getSelectionModel().getSelectedItem());
+        
         getApp().gotoPage("administrateur/CompteAJMO");
     }
+    
+     @FXML
+    private void CompteUtilSupprimer(ActionEvent event) {
+        
+       
+        
+        getApp().gotoPage("administrateur/CompteAJMO");
+    }
+    
+    
      @FXML
      private void getUtilDB() throws IOException{
          
@@ -86,7 +99,7 @@ public class CompteUtilController extends AbstractController {
         return UtilData;
         }
      
-  
+   
 
     @Override
     public void setApp(Main m) {
