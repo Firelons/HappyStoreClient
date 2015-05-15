@@ -18,7 +18,6 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -133,7 +132,6 @@ public class ContratController extends AbstractController {
         dialog.showOpenDialog(getstage());
         if (fichier != null) {
             // Effectuer la sauvegarde. 
-
         }
     }
 
@@ -156,25 +154,20 @@ public class ContratController extends AbstractController {
         } catch (NullPointerException nfe) {
         }
         //ecart en semaine auquel on retire les dimanches : nous donne le nombre de jours de diffusion
-
         try {
             tar = Double.parseDouble(tarif.getText());
         } catch (NumberFormatException nfe) {
         }
-
         try {
             freq = Integer.parseInt(frequence.getText());
 
         } catch (NumberFormatException nfe) {
         }
-
         try {
             dur = Integer.parseInt(duree.getText());
         } catch (NumberFormatException nfe) {
         }
-
         montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions * nombrejours));
-
     }
 
     @Override
@@ -183,12 +176,12 @@ public class ContratController extends AbstractController {
         usermenuController.setApp(main);
     }
 
-    @Override
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
             RayonData = getliste("typerayon");
             Rayons.setItems(FXCollections.observableArrayList(RayonData.keySet()));
+
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -265,12 +258,12 @@ public class ContratController extends AbstractController {
             if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_debut()) >= 0) {
                 save.setDisable(true);
             }
+            for (Map.Entry<String, Integer> entry : Video.getCurVideo().getcurTypeRayon().entrySet()) {
+                Rayons.getSelectionModel().selectIndices(Rayons.getItems().indexOf("" + entry.getKey()));
+            }
 
-            for (Iterator it = Regions.getItems().iterator(); it.hasNext();) {
-                System.out.println("on a donc : " + it.next());
-                for (Map.Entry<String, Integer> entry : Video.getCurVideo().getcurRegions().entrySet()) {
-                    System.out.println("clé et valeur : " + entry.getKey() + " " + entry.getValue());
-                }
+            for (Map.Entry<String, Integer> entry : Video.getCurVideo().getcurRegions().entrySet()) {
+                Regions.getSelectionModel().selectIndices(Regions.getItems().indexOf("" + entry.getKey()));
             }
 
         } else {
@@ -293,7 +286,7 @@ public class ContratController extends AbstractController {
         }
 
         try {
-            tar = Integer.parseInt(tarif.getText());
+            tar = Double.parseDouble(tarif.getText());
 
         } catch (NumberFormatException nfe) {
             message_error = "tarif Invalide";
@@ -396,18 +389,20 @@ public class ContratController extends AbstractController {
         HashMap<String, Integer> resuMap = new HashMap<>();
         ResultSet res = null;
         String sql;
-        String sql_region=" WHERE EXISTS ( SELECT * FROM magasin WHERE magasin.idRegion = region.idRegion) ";
-        
-        if(Table.equals("Region") ){
-            sql = "SELECT * FROM " + Table + sql_region +" ORDER BY libelle ASC";
+        String sql_region = " WHERE EXISTS ( SELECT * FROM magasin WHERE magasin.idRegion = region.idRegion ORDER by `libelle`) ";
 
-        }else{
-            sql = "SELECT * FROM " + Table + " ORDER BY libelle ASC";
+        if (Table.equals("Region")) {
+            sql = "SELECT * FROM " + Table + sql_region + " ORDER by libelle ";
+
+        } else {
+            sql = "SELECT * FROM " + Table + " order by `libelle`";
+
         }
-        
+
+        System.out.println(sql);
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
-            
+
             res = st.executeQuery(sql);
             while (res.next()) {
                 resuMap.put(res.getString("libelle"), res.getInt(1));
@@ -434,11 +429,29 @@ public class ContratController extends AbstractController {
         } else if (annule.isSelected()) {
             statut = 3;
         }
-        int videoID;
+        Rayons.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
+                    nombresRayons = Rayons.getSelectionModel().getSelectedItems().size();
+                });
+        Regions.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
+                    nombresRegions = Regions.getSelectionModel().getSelectedItems().size();
+                });
+
+        int videoID = 0;
         System.out.println(Auth.getUserInfo().toString());
         try (Connection cn = Auth.getConnection()) {
-            String sql1 = "INSERT INTO video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)"
-                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+
+            boolean update = false;
+            String sql1;
+
+            if (Video.getCurVideo() != null) {
+                sql1 = "UPDATE `video` SET `titre`=?,`frequence`=?,`duree`=?,`dateDebut`=?,`dateFin`=?,`dateReception`=?,`dateValidation`=?,`tarif`=?,`statut`=?,`idCommercial`=?,`idClient`=? WHERE `idVideo`=?;";
+                update = true;
+            } else {
+                sql1 = "INSERT INTO video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+            }
+
             try (PreparedStatement st1 = cn.prepareStatement(sql1);) {
                 st1.setString(1, titre.getText());
                 st1.setInt(2, freq);
@@ -451,23 +464,54 @@ public class ContratController extends AbstractController {
                 st1.setInt(9, statut);
                 st1.setString(10, (String) Auth.getUserInfo().get("id"));
                 st1.setInt(11, Client.getCurClient().getId());
-                st1.execute();
-                ResultSet res = st1.getGeneratedKeys();
-                res.next();
-                videoID = res.getInt("idVideo");
-                res.close();
+
+                if (update == true) {
+                    st1.setInt(12, Video.getCurVideo().getidVideo());
+                    st1.execute();
+                } else {
+                    st1.execute();
+                    ResultSet res = st1.getGeneratedKeys();
+                    res.next();
+                    videoID = res.getInt("idVideo");
+                    res.close();
+                }
                 System.out.println(sql1);
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
             }
 
-            System.out.println("Enregistrement des rayons pour le contrat : " + titre.getText());
+            if (update == true) {
+                System.out.println("Suppression des anciens rayons pour le contrat : " + titre.getText());
+                String sql;
+                sql = "DELETE FROM diffusionstypesrayons WHERE idVideo=?;";
+                try (PreparedStatement st = cn.prepareStatement(sql)) {
+                    st.setInt(1, Video.getCurVideo().getidVideo());
+                    st.executeQuery();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+                System.out.println("Suppression des ancienes regions pour le contrat : " + titre.getText());
+                sql = "DELETE FROM diffusionregions WHERE idVideo=?;";
+                try (PreparedStatement st = cn.prepareStatement(sql)) {
+                    st.setInt(1, Video.getCurVideo().getidVideo());
+                    st.executeQuery();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+
+            }
+
             RayonsSelect = Rayons.getSelectionModel().getSelectedItems();
             for (String str : RayonsSelect) {
                 String sql = "INSERT INTO diffusionstypesrayons (idVideo,idTypeRayon) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
-                    st.setInt(1, videoID);
+                    if (update) {
+                        st.setInt(1, Video.getCurVideo().getidVideo());
+                    } else {
+                        st.setInt(1, videoID);
+                    }
                     st.setInt(2, RayonData.get(str));
                     st.executeQuery();
 
@@ -482,7 +526,11 @@ public class ContratController extends AbstractController {
                 String sql = "INSERT INTO `diffusionregions` (`idRegion`,`idVideo`) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, RegionData.get(str));
-                    st.setInt(2, videoID);
+                    if (update == true) {
+                        st.setInt(2, Video.getCurVideo().getidVideo());
+                    } else {
+                        st.setInt(2, videoID);
+                    }
                     st.executeQuery();
                     System.out.println(sql);
                 } catch (SQLException ex) {

@@ -200,13 +200,13 @@ public class Video {
     }
 
     public HashMap<String, Integer> getcurTypeRayon() {
-        String sql = "SELECT * FROM typerayon INNER JOIN diffusionstypesrayons ON typerayon.idTypeRayon = diffusionstypesrayons.idTypeRayon "
-                + " WHERE diffusionstypesrayons.idVideo =? ;";
+        String sql = "SELECT * FROM typerayon INNER JOIN diffusionstypesrayons ON typerayon.idTypeRayon = diffusionstypesrayons.idTypeRayon WHERE diffusionstypesrayons.idVideo = ? ;";
+         System.out.println( "On a ça "+Video.getCurVideo().getidVideo());
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
-
             st.setInt(1, Video.getCurVideo().getidVideo());
-            ResultSet rs = st.executeQuery(sql);
+            ResultSet rs = st.executeQuery();
+          
             while (rs.next()) {
                 rayondata.put(rs.getString("libelle"), rs.getInt("idTypeRayon"));
             }

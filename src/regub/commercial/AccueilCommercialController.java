@@ -79,8 +79,6 @@ public class AccueilCommercialController extends AbstractController {
 
     @FXML
     private void AjouterContrat(ActionEvent event) throws IOException {
-
-        Video.setCurVideo(videoTable.getSelectionModel().getSelectedItem());
         Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Contrat");
     }
