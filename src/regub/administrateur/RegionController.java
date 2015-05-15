@@ -20,14 +20,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-import javafx.fxml.FXML;
 import regub.AbstractController;
-
+import regub.Auth;
 import regub.Main;
 import regub.util.UserBarController;
-
-import regub.Auth;
 
 /**
  *
@@ -40,6 +38,9 @@ public class RegionController extends AbstractController {
 
     @FXML
     private TextField textRegion;
+    
+    @FXML
+    private ListView MagasinTable;
 
     @FXML
     private ObservableList<String> magazinData = FXCollections.observableArrayList();
@@ -49,6 +50,7 @@ public class RegionController extends AbstractController {
 
     @FXML
     private ResultSet rsMagazin;
+    
     
    
 
@@ -106,17 +108,18 @@ public class RegionController extends AbstractController {
 
     @FXML
     private void getMagazinDB() throws IOException {
-
-        System.out.println(Auth.getUserInfo().toString());
-
+    int id_client;
+            System.out.println(Auth.getUserInfo().toString());
+        
+        id_client=RegionAccueilController.select_region_id;
+        System.out.println(id_client);
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
-            String sql = "SELECT * FROM magazin where idRegion = idMagazin";
+            String sql = "SELECT * FROM magasin where idRegion="+id_client+" ";
 
             rsMagazin = st.executeQuery(sql);
             while (rsMagazin.next()) {
                 magazinData.add(new String(rsMagazin.getString("nom")));
-
             }
 
         } catch (SQLException e) {
@@ -132,7 +135,7 @@ public class RegionController extends AbstractController {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-        magazinData.add(new String("4"));
+        //magazinData.add(new String("4"));
         return magazinData;
     }
 
@@ -140,10 +143,12 @@ public class RegionController extends AbstractController {
     public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
+        MagasinTable.setItems(getMagazinData());
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         
+        this.textRegion.setText(RegionAccueilController.select_region);  
     }
 }

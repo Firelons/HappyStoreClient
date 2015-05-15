@@ -35,7 +35,7 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <ListView layoutX="170.0" layoutY="68.0">
+            <ListView fx:id="MagasinTable" layoutX="170.0" layoutY="68.0">
               <items>
                   <FXCollections fx:factory="observableArrayList">
                           

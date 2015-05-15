@@ -61,9 +61,9 @@
       <HBox alignment="CENTER" layoutX="26.0" layoutY="330.0" spacing="30.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
             
-                        <Button layoutX="26.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionAjouter" text="Ajouter" />
-            <Button layoutX="179.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionModifier" text="Modifier" />
-            <Button layoutX="338.0" layoutY="330.0" mnemonicParsing="false" text="Supprimer" />
+                        <Button fx:id="AjouterRegion" layoutX="26.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionAjouter" text="Ajouter" />
+            <Button fx:id="ModifierRegion" layoutX="179.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionModifier" text="Modifier" />
+            <Button fx:id="SupprimerRegion" layoutX="338.0" layoutY="330.0" mnemonicParsing="false" text="Supprimer" />
          </children>
          <padding>
             <Insets bottom="10.0" top="10.0" />

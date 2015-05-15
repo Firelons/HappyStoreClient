@@ -11,11 +11,13 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -31,6 +33,14 @@ public class RegionAccueilController extends AbstractController {
     private TextField NomRegion;
 
     @FXML
+    private Button ModifierRegion;
+    
+    @FXML
+    private Button SupprimerRegion;
+    
+    @FXML
+    private Button AjouterRegion;
+    @FXML
     private UserBarController  usermenuController;
     
     
@@ -43,16 +53,21 @@ public class RegionAccueilController extends AbstractController {
     
     @FXML
     private ResultSet rsRegion;
-
+    
+    public static int select_region_id;
+    public static String select_region;
     @FXML
     private void RegionAjouter(ActionEvent event) {
+        select_region_id=0;
+        select_region=null;
         getApp().gotoPage("administrateur/RegionAJMOSU");
     }
 
     @FXML
     private void RegionModifier(ActionEvent event) {
-        int select_region;
-        select_region=regionData.get(listeregion.getSelectionModel().getSelectedItem());
+        
+        select_region_id=regionData.get(listeregion.getSelectionModel().getSelectedItem());
+        select_region=listeregion.getSelectionModel().getSelectedItem();
         System.out.println(regionData.get(listeregion.getSelectionModel().getSelectedItem()));
         
         getApp().gotoPage("administrateur/RegionAJMOSU");
@@ -114,6 +129,29 @@ public class RegionAccueilController extends AbstractController {
         }
         return resuMap;
     }
+     private void gestionRegionButton() {
+         
+         ModifierRegion.setDisable(true);
+        SupprimerRegion.setDisable(true);
+        
+        listeregion.getSelectionModel().getSelectedItems().addListener(
+                (ListChangeListener) (c) -> {
+                    listeregion.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+                    int nbSelection = listeregion.getSelectionModel().getSelectedItems().size();
+                    System.out.println(nbSelection);
+                    if (nbSelection == 1) {
+                        ModifierRegion.setDisable(false);
+                        SupprimerRegion.setDisable(false);
+                    } else if (nbSelection > 1) {
+                        ModifierRegion.setDisable(true);
+                        SupprimerRegion.setDisable(false);
+                    } else if (nbSelection == 0) {
+                        ModifierRegion.setDisable(true);
+                        SupprimerRegion.setDisable(true);
+
+                    }
+                });
+    }
     
     @Override
     public void setApp(Main m) {
@@ -125,6 +163,8 @@ public class RegionAccueilController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
+        gestionRegionButton() ;
         getRegionData();
     }
 }
