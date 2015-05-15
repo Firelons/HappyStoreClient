@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package regub.commercial;
+
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -15,9 +16,10 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,9 +28,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -37,10 +39,7 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
-import javafx.util.StringConverter;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
@@ -85,6 +84,12 @@ public class ContratController extends AbstractController {
     private DatePicker datefin;
     @FXML
     private DatePicker datereception;
+
+    @FXML
+    private Button browse;
+    @FXML
+    private Button save;
+
     @FXML
     private RadioButton valide;
     @FXML
@@ -116,6 +121,7 @@ public class ContratController extends AbstractController {
 
     @FXML
     private void Annuler(ActionEvent event) throws IOException {
+        Video.setCurVideo(null);
         getApp().gotoPage("commercial/AccueilCommercial");
     }
 
@@ -143,16 +149,10 @@ public class ContratController extends AbstractController {
     private void calculer(ActionEvent event) throws Exception {
         double nombrejours = 0;
         try {
-//            Date datdeb = sf.parse(datedebut.getValue().toString());
-//            Date datfin = sf.parse(datefin.getValue().toString());
-//            EcartDebutFin = (datfin.getTime() - datdeb.getTime()) / (1000 * 86400);
-//            System.out.println(EcartDebutFin);
-            EcartDebutFin = datedebut.getValue().until(datefin.getValue(), ChronoUnit.DAYS);
-//            System.out.println(EcartDebutFin);
-//            nombrejours = EcartDebutFin - (int) (EcartDebutFin / 7) + 1;
-//            System.out.println(nombrejours);
-            nombrejours = EcartDebutFin - datedebut.getValue().until(datefin.getValue(), ChronoUnit.WEEKS);
-//            System.out.println(nombrejours);
+            Date datdeb = sf.parse(datedebut.getValue().toString());
+            Date datfin = sf.parse(datefin.getValue().toString());
+            EcartDebutFin = (datfin.getTime() - datdeb.getTime()) / (1000 * 86400);
+            nombrejours = EcartDebutFin - (int) (EcartDebutFin / 7) + 1;
         } catch (NullPointerException nfe) {
         }
         //ecart en semaine auquel on retire les dimanches : nous donne le nombre de jours de diffusion
@@ -187,7 +187,7 @@ public class ContratController extends AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            RayonData = getliste("TypeRayon");
+            RayonData = getliste("typerayon");
             Rayons.setItems(FXCollections.observableArrayList(RayonData.keySet()));
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
@@ -195,59 +195,13 @@ public class ContratController extends AbstractController {
         Rayons.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         try {
-            RegionData = getliste("Region");
+            RegionData = getliste("region");
             Regions.setItems(FXCollections.observableArrayList(RegionData.keySet()));
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
         }
+
         Regions.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
-        StringConverter<LocalDate> conv = new StringConverter<LocalDate>() {
-
-            @Override
-            public String toString(LocalDate object) {
-                if (object != null) {
-                    return DateTimeFormatter.ISO_LOCAL_DATE.format(object);
-                } else {
-                    return "";
-                }
-            }
-
-            @Override
-            public LocalDate fromString(String string) {
-                if (string != null) {
-                    return LocalDate.parse(string, DateTimeFormatter.ISO_DATE);
-                } else {
-                    return null;
-                }
-            }
-        };
-
-        EventHandler<KeyEvent> datelbd = new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                DatePicker d = (DatePicker) (((TextField) event.getSource()).getParent());
-                if (!d.isShowing()) {
-                    if (event.getCode().compareTo(KeyCode.SPACE) == 0) {
-                        event.consume();
-                        d.show();
-                    }
-                }
-            }
-        };
-        datereception.setConverter(conv);
-        datereception.getEditor().setOnKeyReleased(datelbd);
-        datereception.setValue(LocalDate.now());
-
-        datedebut.setConverter(conv);
-        datedebut.getEditor().setOnKeyReleased(datelbd);
-
-        datefin.setConverter(conv);
-        datefin.getEditor().setOnKeyReleased(datelbd);
-
-        datevalidation.setConverter(conv);
-        datevalidation.getEditor().setOnKeyReleased(datelbd);
-        datevalidation.setValue(LocalDate.now());
 
         client.setText(Client.getCurClient().getSociete());
         Rayons.getSelectionModel().getSelectedItems().addListener(
@@ -277,6 +231,7 @@ public class ContratController extends AbstractController {
                 duree.setStyle("-fx-background-color: #FFB2B4;");
             }
         });
+
         frequence.textProperty().addListener((str) -> {
             try {
                 freq = Integer.parseInt(((StringProperty) str).getValue());
@@ -287,6 +242,41 @@ public class ContratController extends AbstractController {
                 frequence.setStyle("-fx-background-color: #FFB2B4;");
             }
         });
+
+        if (Video.getCurVideo() != null) {
+            titre.setText(Video.getCurVideo().getTitre());
+            frequence.setText("" + Video.getCurVideo().getfrequence());
+            duree.setText("" + Video.getCurVideo().getDuree());
+            datedebut.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_debut()));
+            datefin.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_fin()));
+            datereception.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_reception()));
+            datevalidation.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_validation()));
+            tarif.setText("" + Video.getCurVideo().getTarif());
+
+            if (Video.getCurVideo().getStatut() == 1) {
+                valide.setSelected(true);
+            } else if (Video.getCurVideo().getStatut() == 2) {
+                preparation.setSelected(true);
+            } else if (Video.getCurVideo().getStatut() == 3) {
+                annule.setSelected(true);
+            }
+            tarif.setDisable(true);
+            browse.setDisable(true);
+            if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_debut()) >= 0) {
+                save.setDisable(true);
+            }
+
+            for (Iterator it = Regions.getItems().iterator(); it.hasNext();) {
+                System.out.println("on a donc : " + it.next());
+                for (Map.Entry<String, Integer> entry : Video.getCurVideo().getcurRegions().entrySet()) {
+                    System.out.println("clé et valeur : " + entry.getKey() + " " + entry.getValue());
+                }
+            }
+
+        } else {
+            datereception.setValue(LocalDate.now());
+            datevalidation.setValue(LocalDate.now());
+        }
     }
 
     private boolean Verifier_Saisie() throws IOException {
@@ -447,23 +437,22 @@ public class ContratController extends AbstractController {
         int videoID;
         System.out.println(Auth.getUserInfo().toString());
         try (Connection cn = Auth.getConnection()) {
-            String sql1 = "INSERT INTO Video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)"
+            String sql1 = "INSERT INTO video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)"
                     + "VALUES (?,?,?,?,?,?,?,?,?,?,?);";
-            ResultSet res = null;
             try (PreparedStatement st1 = cn.prepareStatement(sql1);) {
                 st1.setString(1, titre.getText());
                 st1.setInt(2, freq);
                 st1.setInt(3, dur);
-                st1.setDate(4, java.sql.Date.valueOf(datedebut.getValue()));
-                st1.setDate(5, java.sql.Date.valueOf(datefin.getValue()));
-                st1.setDate(6, java.sql.Date.valueOf(datereception.getValue()));
-                st1.setDate(7, java.sql.Date.valueOf(datevalidation.getValue()));
+                st1.setDate(4, java.sql.Date.valueOf(datedebut.getValue().toString()));
+                st1.setDate(5, java.sql.Date.valueOf(datefin.getValue().toString()));
+                st1.setDate(6, java.sql.Date.valueOf(datereception.getValue().toString()));
+                st1.setDate(7, java.sql.Date.valueOf(datevalidation.getValue().toString()));
                 st1.setDouble(8, tar);
                 st1.setInt(9, statut);
                 st1.setString(10, (String) Auth.getUserInfo().get("id"));
                 st1.setInt(11, Client.getCurClient().getId());
                 st1.execute();
-                res = st1.getGeneratedKeys();
+                ResultSet res = st1.getGeneratedKeys();
                 res.next();
                 videoID = res.getInt("idVideo");
                 res.close();
@@ -471,16 +460,12 @@ public class ContratController extends AbstractController {
             } catch (SQLException e) {
                 e.printStackTrace();
                 return;
-            } finally {
-                if (res != null) {
-                    res.close();
-                }
             }
 
             System.out.println("Enregistrement des rayons pour le contrat : " + titre.getText());
             RayonsSelect = Rayons.getSelectionModel().getSelectedItems();
             for (String str : RayonsSelect) {
-                String sql = "INSERT INTO DiffusionsTypesRayons (idVideo,idTypeRayon) VALUES (?,?);";
+                String sql = "INSERT INTO diffusionstypesrayons (idVideo,idTypeRayon) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, videoID);
                     st.setInt(2, RayonData.get(str));
@@ -494,7 +479,7 @@ public class ContratController extends AbstractController {
             System.out.println("Enregistrement des regions pour le contrat : " + titre.getText());
             RegionsSelect = Regions.getSelectionModel().getSelectedItems();
             for (String str : RegionsSelect) {
-                String sql = "INSERT INTO `DiffusionRegions` (`idRegion`,`idVideo`) VALUES (?,?);";
+                String sql = "INSERT INTO `diffusionregions` (`idRegion`,`idVideo`) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, RegionData.get(str));
                     st.setInt(2, videoID);

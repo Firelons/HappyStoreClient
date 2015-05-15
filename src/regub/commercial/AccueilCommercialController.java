@@ -80,18 +80,26 @@ public class AccueilCommercialController extends AbstractController {
     @FXML
     private void AjouterContrat(ActionEvent event) throws IOException {
 
+        Video.setCurVideo(videoTable.getSelectionModel().getSelectedItem());
         Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Contrat");
     }
 
     @FXML
+    private void ModifierContrat(ActionEvent event) throws IOException {
+
+        Video.setCurVideo(videoTable.getSelectionModel().getSelectedItem());
+        Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
+        getApp().gotoPage("commercial/Contrat");
+    }
+
     private void getClientDB() throws IOException {
 
         System.out.println(Auth.getUserInfo().toString());
 
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
-            String sql = "SELECT * FROM Client";
+            String sql = "SELECT * FROM Client" + " ORDER BY societe ASC ";
 
             rsClient = st.executeQuery(sql);
             System.out.println(rsClient);
@@ -111,20 +119,19 @@ public class AccueilCommercialController extends AbstractController {
 
         System.out.println(Auth.getUserInfo().toString());
         ResultSet rsVideos;
-        String sql = "SELECT * FROM Video WHERE idClient = ?";
+        String sql = "SELECT * FROM Video WHERE idClient = ?" + " ORDER BY titre ASC";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
             //Parametres à changer
             st.setInt(1, client.getId());
-            rsVideos = st.executeQuery();
 
+            rsVideos = st.executeQuery();
             System.out.println(rsVideos);
             if (rsVideos != null) {
                 video_ou_non = true;
             }
             while (rsVideos.next()) {
-                videoData.add(new Video(rsVideos.getString("titre"), rsVideos.getInt("duree"), rsVideos.getDouble("tarif"),
-                        rsVideos.getString("dateDebut"), rsVideos.getString("dateFin")));
+                videoData.add(new Video(rsVideos.getInt("idVideo"),rsVideos.getString("titre"), rsVideos.getInt("frequence"), rsVideos.getInt("duree"), rsVideos.getString("dateDebut"), rsVideos.getString("dateFin"), rsVideos.getString("dateReception"), rsVideos.getString("dateValidation"), rsVideos.getDouble("tarif"),rsVideos.getInt("statut")));
                 System.out.println(rsVideos.getString("titre") + rsVideos.getInt("duree") + rsVideos.getDouble("tarif")
                         + rsVideos.getString("dateDebut") + rsVideos.getString("dateFin"));
             }
@@ -170,7 +177,7 @@ public class AccueilCommercialController extends AbstractController {
     private void gestionClientButton() {
         clientTable.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
-                    clientTable.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                    clientTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     int nbSelections = clientTable.getSelectionModel().getSelectedItems().size();
                     System.out.println(nbSelections);
                     if (nbSelections == 1) {
@@ -202,12 +209,7 @@ public class AccueilCommercialController extends AbstractController {
                     System.out.println(nbSelection);
                     if (nbSelection == 1) {
                         ModifierContrat.setDisable(false);
-                        if(video_ou_non){
-                            SupprimerContrat.setDisable(false);
-                        }else{
-                            SupprimerContrat.setDisable(true);
-                        }
-                        
+                        SupprimerContrat.setDisable(false);
                     } else if (nbSelection > 1) {
                         ModifierContrat.setDisable(true);
                         SupprimerContrat.setDisable(false);
@@ -246,6 +248,8 @@ public class AccueilCommercialController extends AbstractController {
         //initialisation des bouttons
         //modifications
 
+        Client.setCurClient(null);
+        Video.setCurVideo(null);
         ModifierClient.setDisable(true);
         SupprimerClient.setDisable(true);
         AjouterContrat.setDisable(true);

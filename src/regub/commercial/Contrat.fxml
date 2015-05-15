@@ -68,7 +68,7 @@
                                 <HBox alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                     <children>
                                         <TextField fx:id="fich" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="238.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                        <Button fx:id="button" mnemonicParsing="false" onAction="#browse" prefHeight="25.0" prefWidth="100.0" text="Browse" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                        <Button fx:id="browse" mnemonicParsing="false" onAction="#browse" prefHeight="25.0" prefWidth="100.0" text="Browse" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                                     </children>
                                 </HBox>
                                 <Label text="Date Reception" GridPane.rowIndex="6" />
@@ -139,7 +139,7 @@
         </VBox>
         <HBox alignment="BOTTOM_CENTER" spacing="15.0">
             <children>
-                <Button layoutX="245.0" layoutY="423.0" mnemonicParsing="false" onAction="#Enregistrer" prefHeight="25.0" prefWidth="106.0" text="Enregistrer" />
+                <Button fx:id="save" layoutX="245.0" layoutY="423.0" mnemonicParsing="false" onAction="#Enregistrer" prefHeight="25.0" prefWidth="106.0" text="Enregistrer" />
                 <Button layoutX="339.0" layoutY="423.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="25.0" prefWidth="107.0" text="Annuler" />
             </children>
             <padding>
