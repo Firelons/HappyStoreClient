@@ -101,7 +101,7 @@ public class MagasinAJMOController  extends AbstractController {
             String sql = "INSERT INTO Region(libelle)"
                     + "VALUES (?);";
             PreparedStatement st1 = cn.prepareStatement(sql);
-            st1.setString(1, this.textRegion.getText());
+            //st1.setString(1, this.textRegion.getText());
             st1.execute();
 
         } catch (SQLException e) {
