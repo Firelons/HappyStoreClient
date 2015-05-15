@@ -84,12 +84,22 @@ public class RegionController extends AbstractController {
 
         System.out.println(Auth.getUserInfo().toString());
 
+         boolean update = false;
+         String sql;
+        if (RegionAccueilController.select_region_id!=0) {
+            sql = "UPDATE Region SET libelle=? WHERE idRegion=?;";
+            update = true;
+        } else {
+            sql = "INSERT INTO Region(libelle) VALUES (?);";
+        }
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
-            String sql = "INSERT INTO Region(libelle)"
-                    + "VALUES (?);";
+            
             PreparedStatement st1 = cn.prepareStatement(sql);
             st1.setString(1, this.textRegion.getText());
+            if(update){
+                 st1.setInt(2,RegionAccueilController.select_region_id );
+            }
             st1.execute();
 
         } catch (SQLException e) {

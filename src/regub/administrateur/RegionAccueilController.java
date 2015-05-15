@@ -127,14 +127,15 @@ public class RegionAccueilController extends AbstractController {
         ResultSet res = null;
         boolean magasin_ou_pas=false;
         
-        String sql="SELECT * FROM magasin WHERE idRegion = ?";
+       
+        String sql="COUNT (*) FROM magasin WHERE idRegion = ?";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
            
             
             st.setInt(1, select_region_id);
             res = st.executeQuery();
-            if (res != null) 
+            
                 magasin_ou_pas= true;
          
         } catch (SQLException e) {
@@ -179,11 +180,12 @@ public class RegionAccueilController extends AbstractController {
                     System.out.println(nbSelection);
                     if (nbSelection == 1) {
                         ModifierRegion.setDisable(false);
-                        if(magasin_ou_pas()){
+                        SupprimerRegion.setDisable(false);
+                        /*if(magasin_ou_pas()){
                             SupprimerRegion.setDisable(false);
                         }else{
                             SupprimerRegion.setDisable(true);
-                        }
+                        }*/
                         
                     } else if (nbSelection > 1) {
                         ModifierRegion.setDisable(true);
