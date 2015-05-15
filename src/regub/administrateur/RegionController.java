@@ -103,7 +103,6 @@ public class RegionController extends AbstractController {
             Save_Region();
             getApp().gotoPage("administrateur/RegionAccueil");
         }
-
     }
 
     @FXML
@@ -148,7 +147,6 @@ public class RegionController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        
         this.textRegion.setText(RegionAccueilController.select_region);  
     }
 }

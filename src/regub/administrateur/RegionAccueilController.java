@@ -3,6 +3,7 @@ package regub.administrateur;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -24,6 +25,7 @@ import javafx.scene.control.TextField;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
+import regub.commercial.Client;
 import regub.commercial.ContratController;
 import regub.util.UserBarController;
 
@@ -69,8 +71,28 @@ public class RegionAccueilController extends AbstractController {
         select_region_id=regionData.get(listeregion.getSelectionModel().getSelectedItem());
         select_region=listeregion.getSelectionModel().getSelectedItem();
         System.out.println(regionData.get(listeregion.getSelectionModel().getSelectedItem()));
-        
         getApp().gotoPage("administrateur/RegionAJMOSU");
+    }
+    
+    @FXML
+    private void RegionSupprimer(ActionEvent event) {
+        
+        select_region_id=regionData.get(listeregion.getSelectionModel().getSelectedItem());
+        select_region=listeregion.getSelectionModel().getSelectedItem();     
+    
+        String sql;
+        
+        sql = "DELETE FROM region WHERE idRegion="+select_region_id+" ";
+        try (Connection cn = Auth.getConnection();
+                PreparedStatement st1 = cn.prepareStatement(sql)) {
+            
+            st1.execute();
+           
+            } catch (SQLException e) {
+            e.printStackTrace();
+        }
+            
+        //getApp().gotoPage("administrateur/RegionAJMOSU");
     }
 
          

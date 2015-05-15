@@ -43,13 +43,7 @@
             <ListView fx:id="listeregion" layoutX="28.0" layoutY="79.0">
                <items>
                   <FXCollections fx:factory="observableArrayList">
-                                  <String fx:value="Alsace" />
-                                  <String fx:value="Aquitaine" />
-                                  <String fx:value="Auvergne" />
-                                  <String fx:value="Basse Normondie" />
-                                  <String fx:value="Bougogne" />
-                                  <String fx:value="Bretagne" />
-                                  <String fx:value="Centre" />
+                                  
                   </FXCollections>
                </items>
             </ListView>
@@ -63,7 +57,7 @@
             
                         <Button fx:id="AjouterRegion" layoutX="26.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionAjouter" text="Ajouter" />
             <Button fx:id="ModifierRegion" layoutX="179.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionModifier" text="Modifier" />
-            <Button fx:id="SupprimerRegion" layoutX="338.0" layoutY="330.0" mnemonicParsing="false" text="Supprimer" />
+            <Button fx:id="SupprimerRegion" layoutX="338.0" layoutY="330.0" mnemonicParsing="false" onAction="#RegionSupprimer" text="Supprimer" />
          </children>
          <padding>
             <Insets bottom="10.0" top="10.0" />
