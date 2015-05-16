@@ -23,6 +23,7 @@ import javafx.scene.control.TextField;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
+import regub.commercial.Client;
 import regub.util.UserBarController;
 
 /**
@@ -92,16 +93,30 @@ public class MagasinAJMOController  extends AbstractController {
     }
 
     @FXML
-    private void Save_Region() throws IOException {
+    private void Save_Magasin() throws IOException {
 
         System.out.println(Auth.getUserInfo().toString());
+       
+        String operation = "";
+        String sql;
+        boolean update = false;
+        
+            sql = "INSERT INTO `magasin`(`idMagasin`, `nom`, `addr_ligne1`, `addr_ligne2`, `code_postal`, `idRegion`, `ville`) VALUES (??,??,??,??,??,??,??);";
+            
+       
 
         try (Connection cn = Auth.getConnection();
-                Statement st = cn.createStatement()) {
-            String sql = "INSERT INTO Region(libelle)"
-                    + "VALUES (?);";
-            PreparedStatement st1 = cn.prepareStatement(sql);
-            //st1.setString(1, this.textRegion.getText());
+                PreparedStatement st1 = cn.prepareStatement(sql)) {
+            
+            st1.setString(1, textNom.getText());
+            st1.setString(2, textEmail.getText());
+            st1.setString(3, textRue.getText());
+            st1.setString(4, textCodePostal.getText());
+            st1.setString(5, textVille.getText());
+            
+            if(update){
+                 st1.setInt(7, Client.getCurClient().getId());
+            }
             st1.execute();
 
         } catch (SQLException e) {
