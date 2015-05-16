@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
-
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,7 +43,7 @@ public class RegionAccueilController extends AbstractController {
     @FXML
     private UserBarController  usermenuController;
     
-    
+
     //private ObservableList<String> regionData = FXCollections.observableArrayList();
     
     @FXML
@@ -91,8 +89,7 @@ public class RegionAccueilController extends AbstractController {
             } catch (SQLException e) {
             e.printStackTrace();
         }
-            
-        //getApp().gotoPage("administrateur/RegionAJMOSU");
+        getApp().gotoPage("administrateur/RegionAccueil");
     }
 
          
@@ -117,7 +114,6 @@ public class RegionAccueilController extends AbstractController {
     } */
        @FXML  
     public void getRegionData()  {
-        
         try {
             regionData = getliste("Region");
             listeregion.setItems(FXCollections.observableArrayList(regionData.keySet()));
@@ -126,6 +122,27 @@ public class RegionAccueilController extends AbstractController {
         }
         listeregion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
+    }
+    public boolean magasin_ou_pas(){
+        ResultSet res = null;
+        boolean magasin_ou_pas=false;
+        
+       
+        String sql="COUNT (*) FROM magasin WHERE idRegion = ?";
+        try (Connection cn = Auth.getConnection();
+                PreparedStatement st = cn.prepareStatement(sql)) {
+           
+            
+            st.setInt(1, select_region_id);
+            res = st.executeQuery();
+            
+                magasin_ou_pas= true;
+         
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } 
+        System.out.println(res);
+        return magasin_ou_pas;
     }
     private HashMap<String, Integer> getliste(String Table) throws IOException {
         System.out.println(Auth.getUserInfo().toString());
@@ -164,6 +181,12 @@ public class RegionAccueilController extends AbstractController {
                     if (nbSelection == 1) {
                         ModifierRegion.setDisable(false);
                         SupprimerRegion.setDisable(false);
+                        /*if(magasin_ou_pas()){
+                            SupprimerRegion.setDisable(false);
+                        }else{
+                            SupprimerRegion.setDisable(true);
+                        }*/
+                        
                     } else if (nbSelection > 1) {
                         ModifierRegion.setDisable(true);
                         SupprimerRegion.setDisable(false);
