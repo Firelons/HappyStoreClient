@@ -488,6 +488,7 @@ public class ContratController extends AbstractController {
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, Video.getCurVideo().getidVideo());
                     st.executeQuery();
+                    System.out.println(sql);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -497,6 +498,7 @@ public class ContratController extends AbstractController {
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, Video.getCurVideo().getidVideo());
                     st.executeQuery();
+                    System.out.println(sql);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -514,6 +516,7 @@ public class ContratController extends AbstractController {
                     }
                     st.setInt(2, RayonData.get(str));
                     st.executeQuery();
+                    System.out.println(sql + str);
 
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -532,7 +535,7 @@ public class ContratController extends AbstractController {
                         st.setInt(2, videoID);
                     }
                     st.executeQuery();
-                    System.out.println(sql);
+                    System.out.println(sql + str);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }

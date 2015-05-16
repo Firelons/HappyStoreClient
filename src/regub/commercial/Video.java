@@ -198,6 +198,9 @@ public class Video {
         }
                return regiondata;
     }
+    public  void setCurRegions(HashMap<String, Integer> reg) {
+        regiondata = reg;
+    }
 
     public HashMap<String, Integer> getcurTypeRayon() {
         String sql = "SELECT * FROM typerayon INNER JOIN diffusionstypesrayons ON typerayon.idTypeRayon = diffusionstypesrayons.idTypeRayon WHERE diffusionstypesrayons.idVideo = ? ;";
@@ -214,6 +217,9 @@ public class Video {
             e.printStackTrace();
         }
         return rayondata;
+    }
+     public  void setCurTypeRayon(HashMap<String, Integer> ray) {
+        rayondata = ray;
     }
 
 }
