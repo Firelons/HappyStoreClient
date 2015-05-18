@@ -179,19 +179,19 @@ public class ContratController extends AbstractController {
     public void initialize(URL location, ResourceBundle resources) {
 
         try {
-            RayonData = getliste("typerayon");
+            RayonData = getliste("TypeRayon");
             Rayons.setItems(FXCollections.observableArrayList(RayonData.keySet()));
 
         } catch (IOException ex) {
-            Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
         Rayons.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         try {
-            RegionData = getliste("region");
+            RegionData = getliste("Region");
             Regions.setItems(FXCollections.observableArrayList(RegionData.keySet()));
         } catch (IOException ex) {
-            Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
+             ex.printStackTrace();
         }
 
         Regions.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
@@ -390,7 +390,7 @@ public class ContratController extends AbstractController {
         HashMap<String, Integer> resuMap = new HashMap<>();
         ResultSet res = null;
         String sql;
-        String sql_region = " WHERE EXISTS ( SELECT * FROM magasin WHERE magasin.idRegion = region.idRegion ORDER by `libelle`) ";
+        String sql_region = " WHERE EXISTS ( SELECT * FROM Magasin WHERE Magasin.idRegion = Region.idRegion ORDER by `libelle`) ";
 
         if (Table.equals("Region")) {
             sql = "SELECT * FROM " + Table + sql_region + " ORDER by libelle ";
@@ -451,10 +451,10 @@ public class ContratController extends AbstractController {
             String sql1;
 
             if (Video.getCurVideo() != null) {
-                sql1 = "UPDATE `video` SET `titre`=?,`frequence`=?,`duree`=?,`dateDebut`=?,`dateFin`=?,`dateReception`=?,`dateValidation`=?,`tarif`=?,`statut`=?,`idCommercial`=?,`idClient`=? WHERE `idVideo`=?;";
+                sql1 = "UPDATE `Video` SET `titre`=?,`frequence`=?,`duree`=?,`dateDebut`=?,`dateFin`=?,`dateReception`=?,`dateValidation`=?,`tarif`=?,`statut`=?,`idCommercial`=?,`idClient`=? WHERE `idVideo`=?;";
                 update = true;
             } else {
-                sql1 = "INSERT INTO video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?);";
+                sql1 = "INSERT INTO Video(titre,frequence,duree,dateDebut,dateFin,dateReception,dateValidation,tarif,statut,idCommercial,idClient)" + "VALUES (?,?,?,?,?,?,?,?,?,?,?);";
             }
 
             try (PreparedStatement st1 = cn.prepareStatement(sql1);) {
@@ -489,7 +489,7 @@ public class ContratController extends AbstractController {
             if (update == true) {
                 System.out.println("Suppression des anciens rayons pour le contrat : " + titre.getText());
                 String sql;
-                sql = "DELETE FROM diffusionstypesrayons WHERE idVideo=?;";
+                sql = "DELETE FROM DiffusionsTypesRayons WHERE idVideo=?;";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, Video.getCurVideo().getidVideo());
                     st.executeQuery();
@@ -512,7 +512,7 @@ public class ContratController extends AbstractController {
 
             RayonsSelect = Rayons.getSelectionModel().getSelectedItems();
             for (String str : RayonsSelect) {
-                String sql = "INSERT INTO diffusionstypesrayons (idVideo,idTypeRayon) VALUES (?,?);";
+                String sql = "INSERT INTO DiffusionsTypesRayons (idVideo,idTypeRayon) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     if (update) {
                         st.setInt(1, Video.getCurVideo().getidVideo());
@@ -531,7 +531,7 @@ public class ContratController extends AbstractController {
             System.out.println("Enregistrement des regions pour le contrat : " + titre.getText());
             RegionsSelect = Regions.getSelectionModel().getSelectedItems();
             for (String str : RegionsSelect) {
-                String sql = "INSERT INTO `diffusionregions` (`idRegion`,`idVideo`) VALUES (?,?);";
+                String sql = "INSERT INTO `DiffusionRegions` (`idRegion`,`idVideo`) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, RegionData.get(str));
                     if (update == true) {

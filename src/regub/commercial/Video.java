@@ -184,8 +184,8 @@ public class Video {
 
     public HashMap<String, Integer> getcurRegions() {
         regiondata.clear();
-        String sql = "SELECT * FROM region INNER JOIN diffusionregions ON  region.idRegion=diffusionregions.idRegion "
-                + " WHERE diffusionregions.idVideo= ? ;";
+        String sql = "SELECT * FROM Region INNER JOIN DiffusionRegions ON  Region.idRegion=DiffusionRegions.idRegion "
+                + " WHERE DiffusionRegions.idVideo= ? ;";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
             st.setInt(1, Video.getCurVideo().getidVideo());
@@ -204,7 +204,7 @@ public class Video {
     
     public HashMap<String, Integer> getcurTypeRayon() {
         rayondata.clear();
-        String sql = "SELECT * FROM typerayon INNER JOIN diffusionstypesrayons ON typerayon.idTypeRayon = diffusionstypesrayons.idTypeRayon WHERE diffusionstypesrayons.idVideo = ? ;";
+        String sql = "SELECT * FROM TypeRayon INNER JOIN DiffusionsTypesRayons ON TypeRayon.idTypeRayon = DiffusionsTypesRayons.idTypeRayon WHERE DiffusionsTypesRayons.idVideo = ? ;";
          System.out.println( "On a ça "+Video.getCurVideo().getidVideo());
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
