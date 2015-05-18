@@ -15,7 +15,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
@@ -85,8 +87,9 @@ public class RegionAccueilController extends AbstractController {
             st1.execute();
            
             } catch (SQLException e) {
-            e.printStackTrace();
-        }
+            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer cette région !! ", ButtonType.OK);
+            a.showAndWait();
+            }
         getApp().gotoPage("administrateur/RegionAccueil");
     }
 
@@ -121,27 +124,7 @@ public class RegionAccueilController extends AbstractController {
         listeregion.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
-    public boolean magasin_ou_pas(){
-        ResultSet res = null;
-        boolean magasin_ou_pas=false;
-        
-       
-        String sql="COUNT (*) FROM Magasin WHERE idRegion = ?";
-        try (Connection cn = Auth.getConnection();
-                PreparedStatement st = cn.prepareStatement(sql)) {
-           
-            
-            st.setInt(1, select_region_id);
-            res = st.executeQuery();
-            
-                magasin_ou_pas= true;
-         
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } 
-        System.out.println(res);
-        return magasin_ou_pas;
-    }
+
     private HashMap<String, Integer> getliste(String Table) throws IOException {
         System.out.println(Auth.getUserInfo().toString());
         HashMap<String, Integer> resuMap = new HashMap<>();

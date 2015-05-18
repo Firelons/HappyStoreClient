@@ -22,7 +22,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import regub.AbstractController;
@@ -95,6 +97,8 @@ public class TypeRayonController extends AbstractController {
            
             } catch (SQLException e) {
             e.printStackTrace();
+            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer ce type de rayon car il appartient à au moins un magasin !! ", ButtonType.OK);
+            a.showAndWait();
         }
         getApp().gotoPage("administrateur/TypeRayon");
     }
