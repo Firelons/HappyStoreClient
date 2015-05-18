@@ -158,7 +158,7 @@ public class ContratController extends AbstractController {
 //            System.out.println(EcartDebutFin);
 //            nombrejours = EcartDebutFin - (int) (EcartDebutFin / 7) + 1;
 //            System.out.println(nombrejours);
-            nombrejours = EcartDebutFin - datedebut.getValue().until(datefin.getValue(), ChronoUnit.WEEKS);
+            nombrejours = EcartDebutFin - datedebut.getValue().until(datefin.getValue(), ChronoUnit.WEEKS)+1;
 //            System.out.println(nombrejours);
         } catch (NullPointerException nfe) {
         }
@@ -246,7 +246,7 @@ public class ContratController extends AbstractController {
         datereception.setConverter(conv);
         datereception.getEditor().setOnKeyReleased(datelbd);
         datereception.setValue(LocalDate.now());
-
+        
         datedebut.setConverter(conv);
         datedebut.getEditor().setOnKeyReleased(datelbd);
 
