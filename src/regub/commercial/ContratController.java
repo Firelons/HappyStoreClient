@@ -258,6 +258,7 @@ public class ContratController extends AbstractController {
             if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_debut()) >= 0) {
                 save.setDisable(true);
             }
+
             for (Map.Entry<String, Integer> entry : Video.getCurVideo().getcurTypeRayon().entrySet()) {
                 Rayons.getSelectionModel().selectIndices(Rayons.getItems().indexOf("" + entry.getKey()));
             }
@@ -422,6 +423,10 @@ public class ContratController extends AbstractController {
     }
 
     private void Save_Contrat() throws IOException, ParseException, SQLException {
+        Alert a = new Alert(
+                Alert.AlertType.INFORMATION,
+                null,
+                ButtonType.OK);
         if (valide.isSelected()) {
             statut = 1;
         } else if (preparation.isSelected()) {
@@ -541,6 +546,13 @@ public class ContratController extends AbstractController {
                 }
             }
 
+            if (update == true) {
+                a.setContentText("Modifications éffectuées.");
+            } else {
+                a.setContentText("Enregistrements éffectués.");
+            }
+            
+                a.showAndWait();
         }
     }
 

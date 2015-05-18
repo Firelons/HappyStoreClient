@@ -29,7 +29,7 @@ import regub.util.UserBarController;
 
 /**
  *
- * @author Mesmerus
+ * @author Lons & Mesmerus
  */
 public class AccueilCommercialController extends AbstractController {
 
@@ -246,6 +246,7 @@ public class AccueilCommercialController extends AbstractController {
         //initialisation des bouttons
         //modifications
 
+        
         Client.setCurClient(null);
         Video.setCurVideo(null);
         ModifierClient.setDisable(true);

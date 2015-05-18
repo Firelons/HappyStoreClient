@@ -16,12 +16,11 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.ObservableList;
 import regub.Auth;
 
 /**
  *
- * @author Lons
+ * @author Mesmerus
  */
 public class Video {
 
@@ -184,6 +183,7 @@ public class Video {
     }
 
     public HashMap<String, Integer> getcurRegions() {
+        regiondata.clear();
         String sql = "SELECT * FROM region INNER JOIN diffusionregions ON  region.idRegion=diffusionregions.idRegion "
                 + " WHERE diffusionregions.idVideo= ? ;";
         try (Connection cn = Auth.getConnection();
@@ -201,8 +201,9 @@ public class Video {
     public  void setCurRegions(HashMap<String, Integer> reg) {
         regiondata = reg;
     }
-
+    
     public HashMap<String, Integer> getcurTypeRayon() {
+        rayondata.clear();
         String sql = "SELECT * FROM typerayon INNER JOIN diffusionstypesrayons ON typerayon.idTypeRayon = diffusionstypesrayons.idTypeRayon WHERE diffusionstypesrayons.idVideo = ? ;";
          System.out.println( "On a ça "+Video.getCurVideo().getidVideo());
         try (Connection cn = Auth.getConnection();

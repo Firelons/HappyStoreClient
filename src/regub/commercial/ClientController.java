@@ -25,7 +25,7 @@ import regub.util.UserBarController;
 
 /**
  *
- * @author Mesmerus
+ * @author Lons
  */
 public class ClientController extends AbstractController {
 

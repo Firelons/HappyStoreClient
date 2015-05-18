@@ -55,7 +55,7 @@
                                 <TextField fx:id="titre" maxHeight="-Infinity" maxWidth="-Infinity" promptText="Nom de la titre" GridPane.columnIndex="1" />
                                 <HBox alignment="CENTER_LEFT" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                     <children>
-                                        <TextField fx:id="frequence" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="74.0" promptText=" diffusion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                        <TextField fx:id="frequence" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="28.0" prefWidth="76.0" promptText=" diffusion" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                         <Label prefHeight="17.0" prefWidth="59.0" text="/jours" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                                     </children>
                                 </HBox>
@@ -91,16 +91,19 @@
                                     </children>
                                 </HBox>
                                 <DatePicker fx:id="datevalidation" editable="false" prefHeight="25.0" prefWidth="128.0" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                                <TextField fx:id="tarif" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="81.0" promptText="trarif" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+                                <TextField fx:id="tarif" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="29.0" prefWidth="81.0" promptText="trarif" GridPane.columnIndex="1" GridPane.rowIndex="9" />
                                 <HBox alignment="CENTER_LEFT" spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="10">
                                     <children>
                                         <HBox alignment="CENTER">
                                             <children>
-                                                <TextField fx:id="montant" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="25.0" prefWidth="129.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="10" />
+                                                <TextField fx:id="montant" disable="true" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="30.0" prefWidth="163.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="10">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font></TextField>
                                                 <Label prefHeight="29.0" prefWidth="24.0" text="€" />
                                             </children>
                                         </HBox>
-                                        <Button mnemonicParsing="false" onAction="#calculer" prefHeight="25.0" prefWidth="64.0" text="Calculer" GridPane.columnIndex="1" GridPane.rowIndex="10" />
+                                        <Button mnemonicParsing="false" onAction="#calculer" prefHeight="25.0" prefWidth="77.0" text="Calculer" GridPane.columnIndex="1" GridPane.rowIndex="10" />
                                     </children>
                                 </HBox>
                             </children>
