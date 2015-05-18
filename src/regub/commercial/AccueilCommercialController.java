@@ -72,8 +72,6 @@ public class AccueilCommercialController extends AbstractController {
     @FXML
     private Button SupprimerContrat;
 
-    private ResultSet rsClient;//Récupère la liste des clients dans la base de donées
-
     @FXML
     private UserBarController usermenuController;
 
@@ -94,16 +92,20 @@ public class AccueilCommercialController extends AbstractController {
     private void getClientDB() throws IOException {
 
         System.out.println(Auth.getUserInfo().toString());
-
+        String sql = "SELECT * FROM Client ORDER BY societe ASC ";
         try (Connection cn = Auth.getConnection();
-                Statement st = cn.createStatement()) {
-            String sql = "SELECT * FROM Client" + " ORDER BY societe ASC ";
-
-            rsClient = st.executeQuery(sql);
-            System.out.println(rsClient);
+                Statement st = cn.createStatement();
+                ResultSet rsClient = st.executeQuery(sql);) {
             while (rsClient.next()) {
-                clientData.add(new Client(rsClient.getInt("idClient"), rsClient.getString("societe"), rsClient.getString("telephone"), rsClient.getString("email"),
-                        rsClient.getString("addr_ligne1"), rsClient.getString("ville"), rsClient.getString("code_postal")));
+                clientData.add(new Client(
+                        rsClient.getInt("idClient"),
+                        rsClient.getString("societe"),
+                        rsClient.getString("telephone"),
+                        rsClient.getString("email"),
+                        rsClient.getString("addr_ligne1"),
+                        rsClient.getString("ville"),
+                        rsClient.getString("code_postal")
+                ));
             }
 
         } catch (SQLException e) {
@@ -116,22 +118,28 @@ public class AccueilCommercialController extends AbstractController {
         videoData.clear();
 
         System.out.println(Auth.getUserInfo().toString());
-        ResultSet rsVideos;
-        String sql = "SELECT * FROM Video WHERE idClient = ?" + " ORDER BY titre ASC";
+        String sql = "SELECT * FROM Video WHERE idClient = ?"
+                + " ORDER BY titre ASC";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st = cn.prepareStatement(sql)) {
             //Parametres à changer
             st.setInt(1, client.getId());
-
-            rsVideos = st.executeQuery();
-            System.out.println(rsVideos);
-            if (rsVideos != null) {
-                video_ou_non = true;
-            }
-            while (rsVideos.next()) {
-                videoData.add(new Video(rsVideos.getInt("idVideo"),rsVideos.getString("titre"), rsVideos.getInt("frequence"), rsVideos.getInt("duree"), rsVideos.getString("dateDebut"), rsVideos.getString("dateFin"), rsVideos.getString("dateReception"), rsVideos.getString("dateValidation"), rsVideos.getDouble("tarif"),rsVideos.getInt("statut")));
-                System.out.println(rsVideos.getString("titre") + rsVideos.getInt("duree") + rsVideos.getDouble("tarif")
-                        + rsVideos.getString("dateDebut") + rsVideos.getString("dateFin"));
+            try (ResultSet rsVideos = st.executeQuery()) {
+                video_ou_non = rsVideos.getFetchSize() > 0;
+                while (rsVideos.next()) {
+                    videoData.add(new Video(
+                            rsVideos.getInt("idVideo"),
+                            rsVideos.getString("titre"),
+                            rsVideos.getInt("frequence"),
+                            rsVideos.getInt("duree"),
+                            rsVideos.getString("dateDebut"),
+                            rsVideos.getString("dateFin"),
+                            rsVideos.getString("dateReception"),
+                            rsVideos.getString("dateValidation"),
+                            rsVideos.getDouble("tarif"),
+                            rsVideos.getInt("statut"))
+                    );
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -246,7 +254,6 @@ public class AccueilCommercialController extends AbstractController {
         //initialisation des bouttons
         //modifications
 
-        
         Client.setCurClient(null);
         Video.setCurVideo(null);
         ModifierClient.setDisable(true);
