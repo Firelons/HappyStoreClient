@@ -13,7 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,7 +22,6 @@ import javafx.scene.control.TextField;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
-import regub.commercial.Client;
 import regub.commercial.ContratController;
 import regub.util.UserBarController;
 
@@ -80,7 +78,7 @@ public class RegionAccueilController extends AbstractController {
     
         String sql;
         
-        sql = "DELETE FROM region WHERE idRegion="+select_region_id+" ";
+        sql = "DELETE FROM Region WHERE idRegion="+select_region_id+" ";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st1 = cn.prepareStatement(sql)) {
             

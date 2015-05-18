@@ -22,11 +22,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.control.TextField;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
@@ -89,7 +87,7 @@ public class TypeRayonController extends AbstractController {
     
         String sql;
         
-        sql = "DELETE FROM typerayon WHERE idTypeRayon="+select_rayon_id+" ";
+        sql = "DELETE FROM TypeRayon WHERE idTypeRayon="+select_rayon_id+" ;";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st1 = cn.prepareStatement(sql)) {
             
@@ -105,7 +103,7 @@ public class TypeRayonController extends AbstractController {
     @FXML  
     public void getRayonData()  {
         try {
-            rayonData = getliste("typerayon");
+            rayonData = getliste("TypeRayon");
             listerayon.setItems(FXCollections.observableArrayList(rayonData.keySet()));
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
