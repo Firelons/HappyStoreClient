@@ -91,7 +91,7 @@ public class AccueilCommercialController extends AbstractController {
 
     private void getClientDB() throws IOException {
 
-        System.out.println(Auth.getUserInfo().toString());
+        //System.out.println(Auth.getUserInfo().toString());
         String sql = "SELECT * FROM Client ORDER BY societe ASC ";
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement();
@@ -117,7 +117,6 @@ public class AccueilCommercialController extends AbstractController {
         //Vider la liste des video
         videoData.clear();
 
-        System.out.println(Auth.getUserInfo().toString());
         String sql = "SELECT * FROM Video WHERE idClient = ?"
                 + " ORDER BY titre ASC";
         try (Connection cn = Auth.getConnection();
@@ -185,7 +184,6 @@ public class AccueilCommercialController extends AbstractController {
                 (ListChangeListener) (c) -> {
                     clientTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     int nbSelections = clientTable.getSelectionModel().getSelectedItems().size();
-                    System.out.println(nbSelections);
                     if (nbSelections == 1) {
                         ModifierClient.setDisable(false);
                         if (video_ou_non) {
@@ -212,7 +210,6 @@ public class AccueilCommercialController extends AbstractController {
                 (ListChangeListener) (c) -> {
                     videoTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     int nbSelection = videoTable.getSelectionModel().getSelectedItems().size();
-                    System.out.println(nbSelection);
                     if (nbSelection == 1) {
                         ModifierContrat.setDisable(false);
                         SupprimerContrat.setDisable(false);
