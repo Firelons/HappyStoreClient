@@ -5,7 +5,6 @@
  */
 package regub.administrateur;
 
-
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -33,18 +32,17 @@ import regub.Main;
 
 import regub.util.UserBarController;
 
-
 /**
  * FXML Controller class
  *
  * @author BREGMESTRE
  */
 public class TypeRayonAJMOController extends AbstractController {
-    
-   @FXML
+
+    @FXML
     private TextField NomRayon;
 
-   @FXML
+    @FXML
     private UserBarController usermenuController;
     @FXML
     private ListView MagasinTable;
@@ -56,16 +54,10 @@ public class TypeRayonAJMOController extends AbstractController {
     private Label Message;
 
     @FXML
-    private ResultSet rsMagazin;
-    
-    
-   
-
-    @FXML
     private void Annuler(ActionEvent event) throws IOException {
         getApp().gotoPage("administrateur/TypeRayon");
     }
-    
+
     @FXML
     private void Magasins(ActionEvent event) {
         getApp().gotoPage("administrateur/Magasins");
@@ -96,9 +88,9 @@ public class TypeRayonAJMOController extends AbstractController {
 
         System.out.println(Auth.getUserInfo().toString());
 
-         boolean update = false;
-         String sql;
-        if (TypeRayonController.select_rayon_id!=0) {
+        boolean update = false;
+        String sql;
+        if (TypeRayonController.select_rayon_id != 0) {
             sql = "UPDATE TypeRayon SET libelle=? WHERE idTypeRayon=?;";
             update = true;
         } else {
@@ -106,11 +98,11 @@ public class TypeRayonAJMOController extends AbstractController {
         }
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
-            
+
             PreparedStatement st1 = cn.prepareStatement(sql);
             st1.setString(1, this.NomRayon.getText());
-            if(update){
-                 st1.setInt(2,TypeRayonController.select_rayon_id );
+            if (update) {
+                st1.setInt(2, TypeRayonController.select_rayon_id);
             }
             st1.execute();
 
@@ -129,18 +121,18 @@ public class TypeRayonAJMOController extends AbstractController {
 
     @FXML
     private void getMagazinDB() throws IOException {
-    int id_Rayon;
-            System.out.println(Auth.getUserInfo().toString());
-        
-        id_Rayon=TypeRayonController.select_rayon_id;
-        System.out.println(id_Rayon);
-        try (Connection cn = Auth.getConnection();
-                Statement st = cn.createStatement()) {
-            String sql = "SELECT * FROM magasin INNER JOIN rayons ON rayons.idMagasin =magasin.idMagasin WHERE idTypeRayon="+id_Rayon+" ";
+        int id_Rayon;
+        System.out.println(Auth.getUserInfo().toString());
 
-            rsMagazin = st.executeQuery(sql);
+        id_Rayon = TypeRayonController.select_rayon_id;
+        System.out.println(id_Rayon);
+        String sql = "SELECT * FROM Magasin INNER JOIN Rayons ON Rayons.idMagasin = Magasin.idMagasin WHERE idTypeRayon=" + id_Rayon + " ;";
+        try (Connection cn = Auth.getConnection();
+                Statement st = cn.createStatement(); 
+                ResultSet rsMagazin  = st.executeQuery(sql)) {
+
             while (rsMagazin.next()) {
-                magazinData.add(new String(rsMagazin.getString("nom")));
+                magazinData.add(rsMagazin.getString("nom"));
             }
 
         } catch (SQLException e) {
@@ -169,13 +161,6 @@ public class TypeRayonAJMOController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.NomRayon.setText(TypeRayonController.select_rayon);  
+        this.NomRayon.setText(TypeRayonController.select_rayon);
     }
 }
-
-    
-    
-
-    
-    
-

@@ -57,7 +57,7 @@ public class Main extends Application {
             loader.setLocation(Main.class.getResource(pageName + ".fxml"));
             page = loader.load(in);
         } catch (IOException e) {
-            System.err.println(e.getMessage());
+            e.printStackTrace();
             return;
         }
         AbstractController ac = (AbstractController) loader.getController();

@@ -48,8 +48,6 @@ public class RegionController extends AbstractController {
     @FXML
     private Label Message;
 
-    @FXML
-    private ResultSet rsMagazin;
     
     
    
@@ -122,13 +120,13 @@ public class RegionController extends AbstractController {
         
         id_client=RegionAccueilController.select_region_id;
         System.out.println(id_client);
+        String sql = "SELECT * FROM Magasin WHERE idRegion="+id_client+" ";
         try (Connection cn = Auth.getConnection();
-                Statement st = cn.createStatement()) {
-            String sql = "SELECT * FROM magasin where idRegion="+id_client+" ";
+                Statement st = cn.createStatement();
+                ResultSet rsMagazin = st.executeQuery(sql);) {
 
-            rsMagazin = st.executeQuery(sql);
             while (rsMagazin.next()) {
-                magazinData.add(new String(rsMagazin.getString("nom")));
+                magazinData.add(rsMagazin.getString("nom"));
             }
 
         } catch (SQLException e) {
