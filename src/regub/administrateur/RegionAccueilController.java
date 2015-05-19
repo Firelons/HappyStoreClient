@@ -131,6 +131,7 @@ public class RegionAccueilController extends AbstractController {
         ResultSet res = null;
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
+            
             String sql = "SELECT * FROM " + Table + " ORDER BY libelle ASC";
             res = st.executeQuery(sql);
             while (res.next()) {

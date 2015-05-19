@@ -22,7 +22,7 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="14.0" layoutY="325.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button layoutX="14.0" layoutY="325.0" mnemonicParsing="false" text="MAGASINS" />
+            <Button layoutX="14.0" layoutY="325.0" mnemonicParsing="false" onAction="#Magasins" text="MAGASINS" />
          </children>
       </HBox>
       <VBox alignment="CENTER" layoutX="104.0" layoutY="111.0" prefHeight="182.0" prefWidth="447.0" spacing="10.0" AnchorPane.bottomAnchor="71.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="111.0">

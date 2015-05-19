@@ -57,6 +57,11 @@ public class RegionController extends AbstractController {
         getApp().gotoPage("administrateur/RegionAccueil");
     }
 
+      @FXML
+    private void Magasins(ActionEvent event) {
+        getApp().gotoPage("administrateur/Magasins");
+    }
+    
     private boolean Verifier_Saisie() throws IOException {
 
         String message_error = "";
