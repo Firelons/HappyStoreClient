@@ -500,12 +500,12 @@ public class ContratController extends AbstractController {
                 ButtonType.OK);
         if (valide.isSelected()) {
             statut = 1;
+            datevalidation.setValue(LocalDate.parse("" +LocalDate.now()));
         } else if (preparation.isSelected()) {
             statut = 2;
         } else if (annule.isSelected()) {
             statut = 3;
             datefin.setValue(LocalDate.parse("" + datedebut.getValue().toString()));
-
         }
         Rayons.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
