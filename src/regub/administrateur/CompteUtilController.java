@@ -96,14 +96,6 @@ public class CompteUtilController extends AbstractController {
         }
     }
     
-    public ObservableList<Utilisateur> getUtilData() {
-        try {
-            this.getUtilDB();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return UtilData;
-    }
     
     private void gestionUtilButton() {
         UtilTable.getSelectionModel().getSelectedItems().addListener(
@@ -158,7 +150,6 @@ public class CompteUtilController extends AbstractController {
     public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
-        UtilTable.setItems(getUtilData());
     }
 
     @Override
