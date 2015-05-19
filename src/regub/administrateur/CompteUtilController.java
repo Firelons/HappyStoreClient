@@ -3,6 +3,7 @@ package regub.administrateur;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -21,6 +22,8 @@ import javafx.scene.control.TableView;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
+//import static regub.administrateur.RegionAccueilController.select_region;
+//import static regub.administrateur.RegionAccueilController.select_region_id;
 import regub.util.UserBarController;
 
 public class CompteUtilController extends AbstractController {
@@ -50,6 +53,8 @@ public class CompteUtilController extends AbstractController {
     
     private ResultSet rsUtil;//Récupère la liste des clients dans la base de données
 
+    
+    private static int ID;
     @FXML
     private UserBarController usermenuController;
 
@@ -65,11 +70,26 @@ public class CompteUtilController extends AbstractController {
     
     @FXML
     private void CompteUtilSupprimer(ActionEvent event) {
-        getApp().gotoPage("administrateur/CompteUtil");
+   
         
-        Alert a = new Alert(Alert.AlertType.WARNING, "voulez-vous vraiment supprimer ces donnees", ButtonType.OK);
+        ID = Utilisateur.getCurUtil().getId_util().get();
+          
+    
+        String sql;
+        
+        sql = "DELETE FROM Compte WHERE idCompte="+ID+" ";
+        try (Connection cn = Auth.getConnection();
+                PreparedStatement st1 = cn.prepareStatement(sql)) {
+            
+            st1.execute();
+           
+            } catch (SQLException e) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer cette région !! ", ButtonType.OK);
             a.showAndWait();
+            }
+        getApp().gotoPage("administrateur/CompteUtil");
     }
+    
 
     @FXML
     private void getUtilDB() throws IOException {
@@ -96,14 +116,6 @@ public class CompteUtilController extends AbstractController {
         }
     }
     
-    public ObservableList<Utilisateur> getUtilData() {
-        try {
-            this.getUtilDB();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        return UtilData;
-    }
     
     private void gestionUtilButton() {
         UtilTable.getSelectionModel().getSelectedItems().addListener(
@@ -158,7 +170,6 @@ public class CompteUtilController extends AbstractController {
     public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
-        UtilTable.setItems(getUtilData());
     }
 
     @Override

@@ -40,7 +40,7 @@
                   <Insets right="20.0" top="20.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="SupprimerUtil" disable="true" mnemonicParsing="false" text="Supprimer">
+            <Button fx:id="SupprimerUtil" disable="true" mnemonicParsing="false" onAction="#CompteUtilSupprimer" text="Supprimer">
                <HBox.margin>
                   <Insets top="20.0" />
                </HBox.margin>
