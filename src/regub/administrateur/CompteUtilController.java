@@ -50,16 +50,16 @@ public class CompteUtilController extends AbstractController {
     private Button ModifierUtil;
     @FXML
     private Button SupprimerUtil;
-    
+
     private ResultSet rsUtil;//Récupère la liste des clients dans la base de données
 
-    
     private static int ID;
     @FXML
     private UserBarController usermenuController;
 
     @FXML
     private void CompteUtilAjouter(ActionEvent event) {
+        Utilisateur.setCurUtil(null);
         getApp().gotoPage("administrateur/CompteAJMO");
     }
 
@@ -67,29 +67,26 @@ public class CompteUtilController extends AbstractController {
     private void CompteUtilModifier(ActionEvent event) {
         getApp().gotoPage("administrateur/CompteAJMO");
     }
-    
+
     @FXML
     private void CompteUtilSupprimer(ActionEvent event) {
-   
-        
+
         ID = Utilisateur.getCurUtil().getId_util().get();
-          
-    
+
         String sql;
-        
-        sql = "DELETE FROM Compte WHERE idCompte="+ID+" ";
+
+        sql = "DELETE FROM Compte WHERE idCompte=" + ID + " ";
         try (Connection cn = Auth.getConnection();
                 PreparedStatement st1 = cn.prepareStatement(sql)) {
-            
+
             st1.execute();
-           
-            } catch (SQLException e) {
+
+        } catch (SQLException e) {
             Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer cette région !! ", ButtonType.OK);
             a.showAndWait();
-            }
+        }
         getApp().gotoPage("administrateur/CompteUtil");
     }
-    
 
     @FXML
     private void getUtilDB() throws IOException {
@@ -115,8 +112,7 @@ public class CompteUtilController extends AbstractController {
             e.printStackTrace();
         }
     }
-    
-    
+
     private void gestionUtilButton() {
         UtilTable.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
@@ -130,19 +126,17 @@ public class CompteUtilController extends AbstractController {
                             ModifierUtil.setDisable(false);
 
                             /*  if (SupprimerUtil.is) {
-                                Alert a = new Alert(Alert.AlertType.WARNING, "voulez-vous vraiment supprimer ces donnees", ButtonType.OK);
-                                a.showAndWait();
-                                   MessageBox.show(null, // Fenêtre parente
-                                        "Voulez-vous vraiment supprimer cet utilisateur", // Message à afficher
-                                        "Attention", // Titre de la fenêtre
-                                        MessageBox.ICON_WARNING // Icône à afficher
-                                );
+                             Alert a = new Alert(Alert.AlertType.WARNING, "voulez-vous vraiment supprimer ces donnees", ButtonType.OK);
+                             a.showAndWait();
+                             MessageBox.show(null, // Fenêtre parente
+                             "Voulez-vous vraiment supprimer cet utilisateur", // Message à afficher
+                             "Attention", // Titre de la fenêtre
+                             MessageBox.ICON_WARNING // Icône à afficher
+                             );
                                 
-                                SupprimerUtil.requestFocus();
-                                   return;
-                            }*/
-                             
-
+                             SupprimerUtil.requestFocus();
+                             return;
+                             }*/
                         } else {
                             SupprimerUtil.setDisable(true);
                             ModifierUtil.setDisable(true);
@@ -152,7 +146,6 @@ public class CompteUtilController extends AbstractController {
                     } else if (nbSelections > 1) {  // selection multiple
                         ModifierUtil.setDisable(true);
                         SupprimerUtil.setDisable(false);
-                        
 
                         //AjouterUtil.setDisable(false);
                     } else if (nbSelections == 0) {
@@ -161,7 +154,7 @@ public class CompteUtilController extends AbstractController {
                         //AjouterUtil.setDisable(false);
 
                     }
-                    
+
                 });
 
     }
