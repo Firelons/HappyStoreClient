@@ -97,7 +97,7 @@ public class MagasinAJMOController extends AbstractController {
         int idmag = -1;
         if (insertion) {
             sql = "INSERT INTO `Magasin`(`nom`,`addr_ligne1`, `addr_ligne2`, `code_postal`, `idRegion`, `ville`) "
-                    + "VALUES( ? , ? , ? , ?,(SELECT `idRegion` FROM `Region` WHERE(libelle = ?)) , ? );";
+                    + "VALUES( ? , ? , ? , ?, ? , ? );";
         } else {
             sql = "UPDATE `Magasin` SET `nom` = ?,`addr_ligne1` = ?, `addr_ligne2` = ?, `code_postal` = ?, "
                     + "`idRegion`= ?, `ville` = ? "
