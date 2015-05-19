@@ -5,9 +5,15 @@
  */
 package regub.commercial;
 
+import static java.awt.SystemColor.window;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.CopyOption;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -41,9 +47,11 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.util.StringConverter;
 import regub.AbstractController;
 import regub.Auth;
+import regub.Config;
 import regub.Main;
 import regub.util.UserBarController;
 
@@ -128,13 +136,15 @@ public class ContratController extends AbstractController {
     }
 
     @FXML
-    private void browse(ActionEvent event) {
-
+    private void browse(ActionEvent event) throws IOException {
         final FileChooser dialog = new FileChooser();
+        dialog.setInitialDirectory(new File(System.getProperty("user.home")));
         dialog.setTitle("Choisir un fichier mp4");
-        dialog.showOpenDialog(getstage());
+        dialog.getExtensionFilters().addAll(
+                new ExtensionFilter("Video Files", "*.mp4"));
+        fichier = dialog.showOpenDialog(getstage());
         if (fichier != null) {
-            // Effectuer la sauvegarde. 
+            fich.setText(fichier.getAbsolutePath());
         }
     }
 
@@ -158,7 +168,7 @@ public class ContratController extends AbstractController {
 //            System.out.println(EcartDebutFin);
 //            nombrejours = EcartDebutFin - (int) (EcartDebutFin / 7) + 1;
 //            System.out.println(nombrejours);
-            nombrejours = EcartDebutFin - datedebut.getValue().until(datefin.getValue(), ChronoUnit.WEEKS)+1;
+            nombrejours = EcartDebutFin - datedebut.getValue().until(datefin.getValue(), ChronoUnit.WEEKS) + 1;
 //            System.out.println(nombrejours);
         } catch (NullPointerException nfe) {
         }
@@ -246,7 +256,7 @@ public class ContratController extends AbstractController {
         datereception.setConverter(conv);
         datereception.getEditor().setOnKeyReleased(datelbd);
         datereception.setValue(LocalDate.now());
-        
+
         datedebut.setConverter(conv);
         datedebut.getEditor().setOnKeyReleased(datelbd);
 
@@ -306,7 +316,7 @@ public class ContratController extends AbstractController {
             datereception.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_reception()));
             datevalidation.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_validation()));
             tarif.setText("" + Video.getCurVideo().getTarif());
-
+            fich.setText("Video Déja enregistrée.");
             if (Video.getCurVideo().getStatut() == 1) {
                 valide.setSelected(true);
             } else if (Video.getCurVideo().getStatut() == 2) {
@@ -316,7 +326,7 @@ public class ContratController extends AbstractController {
             }
             tarif.setDisable(true);
             browse.setDisable(true);
-            if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_debut()) >= 0) {
+            if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_debut()) >= 0 || Video.getCurVideo().getStatut() == 3) {
                 save.setDisable(true);
             }
 
@@ -405,10 +415,10 @@ public class ContratController extends AbstractController {
             retour = false;
         }
 
-        /*if (fich.getText().length() == 0) {
-         message_error = "Entrez le fichier mp4";
-         retour = false;
-         }*/
+        if (fich.getText().length() == 0) {
+            message_error = "Entrez le fichier mp4";
+            retour = false;
+        }
         try {
             dur = Integer.parseInt(duree.getText());
 
@@ -451,10 +461,10 @@ public class ContratController extends AbstractController {
         HashMap<String, Integer> resuMap = new HashMap<>();
         ResultSet res = null;
         String sql;
-        // String sql_region = " WHERE EXISTS ( SELECT * FROM Magasin WHERE Magasin.idRegion = Region.idRegion ORDER by `libelle`) ";
+        String sql_region = " WHERE EXISTS ( SELECT * FROM Magasin WHERE Magasin.idRegion = Region.idRegion ORDER by `libelle`) ";
 
         if (Table.equals("Region")) {
-            sql = "SELECT * FROM " + Table /*+ sql_region */ + " ORDER by libelle ";
+            sql = "SELECT * FROM " + Table + sql_region + " ORDER by libelle ";
 
         } else {
             sql = "SELECT * FROM " + Table + " order by `libelle`";
@@ -494,6 +504,8 @@ public class ContratController extends AbstractController {
             statut = 2;
         } else if (annule.isSelected()) {
             statut = 3;
+            datefin.setValue(LocalDate.parse("" + datedebut.getValue().toString()));
+
         }
         Rayons.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
@@ -531,7 +543,7 @@ public class ContratController extends AbstractController {
                 st1.setString(10, (String) Auth.getUserInfo().get("id"));
                 st1.setInt(11, Client.getCurClient().getId());
 
-                if (update == true) {
+                if (update) {
                     st1.setInt(12, Video.getCurVideo().getidVideo());
                     st1.execute();
                 } else {
@@ -546,15 +558,37 @@ public class ContratController extends AbstractController {
                 e.printStackTrace();
                 return;
             }
+            if (!update) {
 
-            if (update == true) {
+                try {
+                    System.out.println("Enregistrement du fichier Video");
+                    if (fichier != null) {
+                        String t = Config.getConfig().get("rep_video").replace("$(HOME)", System.getProperty("user.home"));
+                        File target = new File(t + videoID + ".mp4");
+                        target.mkdirs();
+                        Files.copy(Paths.get(fichier.getPath()), Paths.get(target.getPath()), StandardCopyOption.REPLACE_EXISTING);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    String sql = "DELETE FROM Video WHERE idVideo=?;";
+                    try (PreparedStatement st = cn.prepareStatement(sql)) {
+                        st.setInt(1, videoID);
+                        st.executeQuery();
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+                    Alert al = new Alert(Alert.AlertType.ERROR, "Erreur d'enregistrement, Réesayez!", ButtonType.OK);
+                    al.showAndWait();
+                    return;
+                }
+            }
+            if (update) {
                 System.out.println("Suppression des anciens rayons pour le contrat : " + titre.getText());
                 String sql;
                 sql = "DELETE FROM DiffusionsTypesRayons WHERE idVideo=?;";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, Video.getCurVideo().getidVideo());
                     st.executeQuery();
-                    System.out.println(sql);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -595,7 +629,7 @@ public class ContratController extends AbstractController {
                 String sql = "INSERT INTO `DiffusionRegions` (`idRegion`,`idVideo`) VALUES (?,?);";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, RegionData.get(str));
-                    if (update == true) {
+                    if (update) {
                         st.setInt(2, Video.getCurVideo().getidVideo());
                     } else {
                         st.setInt(2, videoID);
@@ -607,7 +641,7 @@ public class ContratController extends AbstractController {
                 }
             }
 
-            if (update == true) {
+            if (update) {
                 a.setContentText("Modifications éffectuées.");
             } else {
                 a.setContentText("Enregistrements éffectués.");

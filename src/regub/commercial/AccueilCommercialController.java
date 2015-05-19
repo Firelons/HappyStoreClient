@@ -12,13 +12,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -59,6 +63,8 @@ public class AccueilCommercialController extends AbstractController {
     private TableColumn<Video, Double> tarif;
     @FXML
     private TableColumn<Video, Integer> duree;
+    @FXML
+    private TableColumn<Video, Integer> statut;
 
     //boutons de la page
     @FXML
@@ -87,6 +93,28 @@ public class AccueilCommercialController extends AbstractController {
         Video.setCurVideo(videoTable.getSelectionModel().getSelectedItem());
         Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Contrat");
+    }
+
+    @FXML
+    private void AnnulerContrat(ActionEvent event) throws IOException {
+
+        LocalDate datdeb = LocalDate.parse(videoTable.getSelectionModel().getSelectedItem().getDate_debut());
+        LocalDate datfin = LocalDate.parse(videoTable.getSelectionModel().getSelectedItem().getDate_fin());
+//       datfin = sf.parse(datefin.getValue().toString());
+        Alert a = new Alert(
+                Alert.AlertType.INFORMATION,
+                null,
+                ButtonType.OK);
+        if (datfin.isAfter(LocalDate.now())&& videoTable.getSelectionModel().getSelectedItem().getStatut() != 3) {
+            videoTable.getSelectionModel().getSelectedItem().setDate_fin(videoTable.getSelectionModel().getSelectedItem().getDate_debut());
+            videoTable.getSelectionModel().getSelectedItem().setStatut(3);
+            a.setContentText("Le contrat a été annulé.");
+            SupprimerContrat.setDisable(true);
+            a.showAndWait();
+        }else{
+            a.setContentText("Erreur d'annulation.");
+            a.showAndWait();
+        }
     }
 
     private void getClientDB() throws IOException {
@@ -211,8 +239,14 @@ public class AccueilCommercialController extends AbstractController {
                     videoTable.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
                     int nbSelection = videoTable.getSelectionModel().getSelectedItems().size();
                     if (nbSelection == 1) {
+                        LocalDate datdeb = LocalDate.parse(videoTable.getSelectionModel().getSelectedItem().getDate_debut());
+                        LocalDate datfin = LocalDate.parse(videoTable.getSelectionModel().getSelectedItem().getDate_fin());
+                        if (datfin.isBefore(LocalDate.now())  || videoTable.getSelectionModel().getSelectedItem().getStatut() == 3 ) {
+                            SupprimerContrat.setDisable(true);
+                        } else {
+                            SupprimerContrat.setDisable(false);
+                        }
                         ModifierContrat.setDisable(false);
-                        SupprimerContrat.setDisable(false);
                     } else if (nbSelection > 1) {
                         ModifierContrat.setDisable(true);
                         SupprimerContrat.setDisable(false);
@@ -248,6 +282,7 @@ public class AccueilCommercialController extends AbstractController {
         date_fin.setCellValueFactory(cellData -> cellData.getValue().date_finProperty());
         duree.setCellValueFactory(cellData -> cellData.getValue().dureeProperty().asObject());
         tarif.setCellValueFactory(cellData -> cellData.getValue().tarifProperty().asObject());
+        statut.setCellValueFactory(cellData -> cellData.getValue().StatutProperty().asObject());
         //initialisation des bouttons
         //modifications
 

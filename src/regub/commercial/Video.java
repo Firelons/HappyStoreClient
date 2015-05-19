@@ -130,8 +130,8 @@ public class Video {
         return date_fin.get();
     }
 
-    public void setDate_fin(String postalCode) {
-        this.date_fin.set(postalCode);
+    public void setDate_fin(String datefin) {
+        this.date_fin.set(datefin);
     }
 
     public StringProperty date_finProperty() {
@@ -160,6 +160,10 @@ public class Video {
 
     public void setStatut(int stat) {
         this.statut.set(stat);
+    }
+    
+    public IntegerProperty StatutProperty() {
+        return statut;
     }
 
     public double getTarif() {
