@@ -7,6 +7,7 @@ package regub.administrateur;
 
 import java.net.URL;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -15,7 +16,9 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -54,6 +57,8 @@ public class MagasinsController extends AbstractController {
 
     @FXML
     private Button btnSupprimer;
+    
+    private static int ID;
 
     @Override
     public void setApp(Main m) {
@@ -61,6 +66,27 @@ public class MagasinsController extends AbstractController {
         usermenuController.setApp(m);
     }
 
+    @FXML 
+    void handleSupprimer(){
+    
+        ID = Magasin.getCurMag().getId();
+
+        String sql;
+
+        sql = "DELETE FROM magasin WHERE idMagasin=" + ID + " ";
+        try (Connection cn = Auth.getConnection();
+                PreparedStatement st1 = cn.prepareStatement(sql)) {
+
+            st1.execute();
+
+        } catch (SQLException e) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer ce magasin !! ", ButtonType.OK);
+            a.showAndWait();
+        }
+        getApp().gotoPage("administrateur/Magasins");
+    
+    }
+    
     @FXML
     void handleAjouter() {
         Magasin.setCurMag(null);
@@ -89,10 +115,14 @@ public class MagasinsController extends AbstractController {
                                 res.getString("ville"))
                 );
             }
-        } catch (SQLException ex) {
+        } 
+        
+      catch (SQLException ex) {
             ex.printStackTrace();
+           
         }
         tableMagasin.setItems(magList);
+        
     }
 
     @Override
