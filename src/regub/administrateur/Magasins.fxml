@@ -33,7 +33,7 @@
          <children>
             <Button fx:id="btnAjouter" mnemonicParsing="false" onAction="#handleAjouter" text="Ajouter" />
             <Button fx:id="btnModifier" disable="true" mnemonicParsing="false" onAction="#handleModifier" text="Modifier" />
-            <Button fx:id="btnSupprimer" disable="true" mnemonicParsing="false" text="Supprimer" />
+            <Button fx:id="btnSupprimer" disable="true" mnemonicParsing="false" onAction="#handleSupprimer" text="Supprimer" />
          </children>
          <padding>
             <Insets bottom="6.0" top="4.0" />
