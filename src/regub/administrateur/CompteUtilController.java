@@ -82,7 +82,7 @@ public class CompteUtilController extends AbstractController {
             st1.execute();
 
         } catch (SQLException e) {
-            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer cette région !! ", ButtonType.OK);
+            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer cet utilisateur !! ", ButtonType.OK);
             a.showAndWait();
         }
         getApp().gotoPage("administrateur/CompteUtil");
