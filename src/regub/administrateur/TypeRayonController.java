@@ -34,7 +34,7 @@ import static regub.administrateur.TypeRayonController.select_rayon;
 import static regub.administrateur.TypeRayonController.select_rayon_id;
 import regub.commercial.ContratController;
 import regub.util.UserBarController;
-
+import java.text.Collator;
 /**
  * FXML Controller class
  *
@@ -108,7 +108,9 @@ public class TypeRayonController extends AbstractController {
     public void getRayonData()  {
         try {
             rayonData = getliste("TypeRayon");
-            listerayon.setItems(FXCollections.observableArrayList(rayonData.keySet()));
+            listerayon.setItems(FXCollections.observableArrayList(
+                    rayonData.keySet()).sorted(
+                            (String o1, String o2) -> Collator.getInstance().compare(o1, o2)));
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
         }

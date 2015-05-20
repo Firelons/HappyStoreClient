@@ -12,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Collator;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -132,6 +133,7 @@ public class RegionController extends AbstractController {
 
             while (rsMagazin.next()) {
                 magazinData.add(rsMagazin.getString("nom"));
+                
             }
 
         } catch (SQLException e) {
@@ -155,7 +157,8 @@ public class RegionController extends AbstractController {
     public void setApp(Main m) {
         super.setApp(m);
         usermenuController.setApp(m);
-        MagasinTable.setItems(getMagazinData());
+        MagasinTable.setItems(getMagazinData().sorted(
+                            (String o1, String o2) -> Collator.getInstance().compare(o1, o2)));
     }
 
     @Override

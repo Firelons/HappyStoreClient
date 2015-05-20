@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Collator;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import javafx.beans.Observable;
@@ -232,7 +233,9 @@ public class MagasinAJMOController extends AbstractController {
                     typeRayon.put(s, i);
                 }
                 listTypeRayon.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-                listTypeRayon.setItems(FXCollections.observableArrayList(typeRayon.keySet()));
+                listTypeRayon.setItems(FXCollections.observableArrayList(   typeRayon .keySet()).sorted(
+                            (String o1, String o2) -> Collator.getInstance().compare(o1, o2)));
+             
             }
 
             if (insertion) {
