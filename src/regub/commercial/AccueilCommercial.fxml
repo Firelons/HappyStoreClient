@@ -43,7 +43,7 @@
                            <children>
                               <Button layoutX="3.0" layoutY="305.0" mnemonicParsing="false" onAction="#AjouterClient" text="Ajout" />
                               <Button fx:id="ModifierClient" layoutX="52.0" layoutY="305.0" mnemonicParsing="false" onAction="#ModifierClient" text="Modifier" />
-                              <Button fx:id="SupprimerClient" layoutX="123.0" layoutY="305.0" mnemonicParsing="false" text="Suppr" />
+                              <Button fx:id="SupprimerClient" layoutX="123.0" layoutY="305.0" mnemonicParsing="false" onAction="#SupprimerClient" text="Suppr" />
                            </children>
                            <VBox.margin>
                               <Insets bottom="5.0" top="5.0" />
