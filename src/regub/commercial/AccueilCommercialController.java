@@ -172,6 +172,27 @@ public class AccueilCommercialController extends AbstractController {
             e.printStackTrace();
         }
     }
+    
+        @FXML
+    private void SupprimerClient(ActionEvent event) {
+        
+      
+    
+        String sql;
+        
+        sql = "DELETE FROM Client WHERE idClient="+clientTable.getSelectionModel().getSelectedItem().getId()+" ";
+        System.out.println(clientTable.getSelectionModel().getSelectedItem().getId());
+        try (Connection cn = Auth.getConnection();
+                PreparedStatement st1 = cn.prepareStatement(sql)) {
+            
+            st1.execute();
+           
+            } catch (SQLException e) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer ce client !! ", ButtonType.OK);
+            a.showAndWait();
+            }
+        getApp().gotoPage("commercial/AccueilCommercial");
+    }
 
     public ObservableList<Client> getClientData() {
 
@@ -214,12 +235,7 @@ public class AccueilCommercialController extends AbstractController {
                     int nbSelections = clientTable.getSelectionModel().getSelectedItems().size();
                     if (nbSelections == 1) {
                         ModifierClient.setDisable(false);
-                        if (video_ou_non) {
-                            SupprimerClient.setDisable(false);
-                        } else {
-                            SupprimerClient.setDisable(true);
-                        }
-
+                        SupprimerClient.setDisable(false);
                         AjouterContrat.setDisable(false);
                     } else if (nbSelections > 1) {
                         ModifierClient.setDisable(true);
