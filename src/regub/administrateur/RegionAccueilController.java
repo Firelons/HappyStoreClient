@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.Collator;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -117,7 +119,10 @@ public class RegionAccueilController extends AbstractController {
     public void getRegionData()  {
         try {
             regionData = getliste("Region");
-            listeregion.setItems(FXCollections.observableArrayList(regionData.keySet()));
+            listeregion.setItems(FXCollections.observableArrayList(
+                    regionData.keySet()).sorted(
+                            (String o1, String o2) -> Collator.getInstance().compare(o1, o2))
+            );
         } catch (IOException ex) {
             Logger.getLogger(ContratController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -132,7 +137,7 @@ public class RegionAccueilController extends AbstractController {
         try (Connection cn = Auth.getConnection();
                 Statement st = cn.createStatement()) {
             
-            String sql = "SELECT * FROM " + Table + " ORDER BY libelle ASC";
+            String sql = "SELECT * FROM " + Table +";";
             res = st.executeQuery(sql);
             while (res.next()) {
                 resuMap.put(res.getString("libelle"), res.getInt(1));
