@@ -214,7 +214,9 @@ public class MagasinAJMOController extends AbstractController {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        combRegion.setItems(FXCollections.observableArrayList(lstRegion.keySet()));
+        combRegion.setItems((FXCollections.observableArrayList(
+                    lstRegion.keySet()).sorted(
+                            (String o1, String o2) -> Collator.getInstance().compare(o1, o2))));
         if (!insertion) {
             combRegion.setValue(curReg);
         }
