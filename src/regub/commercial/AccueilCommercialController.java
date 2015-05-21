@@ -181,27 +181,6 @@ public class AccueilCommercialController extends AbstractController {
             e.printStackTrace();
         }
     }
-    
-        @FXML
-    private void SupprimerClient(ActionEvent event) {
-        
-      
-    
-        String sql;
-        
-        sql = "DELETE FROM Client WHERE idClient="+clientTable.getSelectionModel().getSelectedItem().getId()+" ";
-        System.out.println(clientTable.getSelectionModel().getSelectedItem().getId());
-        try (Connection cn = Auth.getConnection();
-                PreparedStatement st1 = cn.prepareStatement(sql)) {
-            
-            st1.execute();
-           
-            } catch (SQLException e) {
-            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer ce client !! ", ButtonType.OK);
-            a.showAndWait();
-            }
-        getApp().gotoPage("commercial/AccueilCommercial");
-    }
 
     public ObservableList<Client> getClientData() {
 
