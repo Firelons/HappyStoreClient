@@ -19,11 +19,12 @@
             <Insets left="30.0" top="5.0" />
          </padding>
       </Label>
-      <TableView fx:id="tableMagasin" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tableMagasin" prefHeight="285.0" prefWidth="617.0" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="colCodePostal" prefWidth="150.0" text="Code Postal" />
-          <TableColumn fx:id="colVille" prefWidth="150.0" text="Ville" />
-            <TableColumn fx:id="colNom" maxWidth="1.7976931348623157E308" prefWidth="200.0" text="Nom" />
+            <TableColumn fx:id="colMag" maxWidth="1.7976931348623157E308" prefWidth="129.0" text="idMagasin" />
+            <TableColumn fx:id="colNom" maxWidth="1.7976931348623157E308" prefWidth="138.0" text="Nom" />
+          <TableColumn fx:id="colCodePostal" prefWidth="165.0" text="Code Postal" />
+          <TableColumn fx:id="colVille" prefWidth="147.0" text="Ville" />
         </columns>
          <VBox.margin>
             <Insets left="10.0" right="10.0" top="10.0" />
