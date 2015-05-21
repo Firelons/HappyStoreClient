@@ -14,7 +14,7 @@
         <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
         <HBox alignment="CENTER_LEFT">
             <children>
-                <Label alignment="CENTER" text="ajouter/modifier contrat" textAlignment="CENTER">
+                <Label fx:id="contratoperation" alignment="CENTER" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>

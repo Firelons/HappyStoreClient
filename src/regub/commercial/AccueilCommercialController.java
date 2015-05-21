@@ -12,7 +12,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -105,16 +104,27 @@ public class AccueilCommercialController extends AbstractController {
                 Alert.AlertType.INFORMATION,
                 null,
                 ButtonType.OK);
-        if (datfin.isAfter(LocalDate.now())&& videoTable.getSelectionModel().getSelectedItem().getStatut() != 3) {
-            videoTable.getSelectionModel().getSelectedItem().setDate_fin(videoTable.getSelectionModel().getSelectedItem().getDate_debut());
-            videoTable.getSelectionModel().getSelectedItem().setStatut(3);
-            a.setContentText("Le contrat a été annulé.");
-            SupprimerContrat.setDisable(true);
-            a.showAndWait();
-        }else{
-            a.setContentText("Erreur d'annulation.");
-            a.showAndWait();
+        if (datfin.isAfter(LocalDate.now()) && videoTable.getSelectionModel().getSelectedItem().getStatut() != 3) {
+            String sql = "UPDATE Video SET dateFin=?,statut=? "
+                    + " WHERE idVideo=?;";
+            try (Connection cn = Auth.getConnection();
+                    PreparedStatement st1 = cn.prepareStatement(sql)) {
+                st1.setString(1, "" + LocalDate.now());
+                st1.setInt(2, 3);
+                st1.setInt(3, videoTable.getSelectionModel().getSelectedItem().getidVideo());
+                st1.execute();
+                a.setContentText("Le contrat a été annulé.");
+                SupprimerContrat.setDisable(true);
+                a.showAndWait();
+                videoTable.getSelectionModel().getSelectedItem().setStatut(3);
+                videoTable.getSelectionModel().getSelectedItem().setDate_fin("" + LocalDate.now());
+            } catch (SQLException e) {
+                e.printStackTrace();
+                a.setContentText("Erreur d'annulation.");
+                a.showAndWait();
+            }
         }
+
     }
 
     private void getClientDB() throws IOException {
@@ -144,7 +154,6 @@ public class AccueilCommercialController extends AbstractController {
     private void getVideoDB(Client client) throws IOException {
         //Vider la liste des video
         videoData.clear();
-
         String sql = "SELECT * FROM Video WHERE idClient = ?"
                 + " ORDER BY titre ASC";
         try (Connection cn = Auth.getConnection();
@@ -164,8 +173,8 @@ public class AccueilCommercialController extends AbstractController {
                             rsVideos.getString("dateReception"),
                             rsVideos.getString("dateValidation"),
                             rsVideos.getDouble("tarif"),
-                            rsVideos.getInt("statut"))
-                    );
+                            rsVideos.getInt("statut")
+                    ));
                 }
             }
         } catch (SQLException e) {
@@ -198,6 +207,25 @@ public class AccueilCommercialController extends AbstractController {
         getApp().gotoPage("commercial/Client");
     }
 
+    @FXML
+    private void SupprimerClient(ActionEvent event) {
+
+        String sql;
+
+        sql = "DELETE FROM Client WHERE idClient=" + clientTable.getSelectionModel().getSelectedItem().getId() + " ";
+        System.out.println(clientTable.getSelectionModel().getSelectedItem().getId());
+        try (Connection cn = Auth.getConnection();
+                PreparedStatement st1 = cn.prepareStatement(sql)) {
+            st1.execute();
+            Alert a = new Alert(Alert.AlertType.INFORMATION, "Suppression éffectuée", ButtonType.OK);
+            a.showAndWait();
+        } catch (SQLException e) {
+            Alert a = new Alert(Alert.AlertType.WARNING, "Vous ne pouvez pas supprimer ce client !! ", ButtonType.OK);
+            a.showAndWait();
+        }
+        getApp().gotoPage("commercial/AccueilCommercial");
+    }
+
     @Override
     public void setApp(Main main) {
         super.setApp(main);
@@ -214,12 +242,7 @@ public class AccueilCommercialController extends AbstractController {
                     int nbSelections = clientTable.getSelectionModel().getSelectedItems().size();
                     if (nbSelections == 1) {
                         ModifierClient.setDisable(false);
-                        if (video_ou_non) {
-                            SupprimerClient.setDisable(false);
-                        } else {
-                            SupprimerClient.setDisable(true);
-                        }
-
+                        SupprimerClient.setDisable(false);
                         AjouterContrat.setDisable(false);
                     } else if (nbSelections > 1) {
                         ModifierClient.setDisable(true);
@@ -241,7 +264,7 @@ public class AccueilCommercialController extends AbstractController {
                     if (nbSelection == 1) {
                         LocalDate datdeb = LocalDate.parse(videoTable.getSelectionModel().getSelectedItem().getDate_debut());
                         LocalDate datfin = LocalDate.parse(videoTable.getSelectionModel().getSelectedItem().getDate_fin());
-                        if (datfin.isBefore(LocalDate.now())  || videoTable.getSelectionModel().getSelectedItem().getStatut() == 3 ) {
+                        if (datfin.isBefore(LocalDate.now()) || videoTable.getSelectionModel().getSelectedItem().getStatut() == 3) {
                             SupprimerContrat.setDisable(true);
                         } else {
                             SupprimerContrat.setDisable(false);
@@ -259,7 +282,7 @@ public class AccueilCommercialController extends AbstractController {
     }
 
     @FXML
-    private void ModifierClient() {
+    private void ModifierClient(ActionEvent event) throws IOException {
         Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
         getApp().gotoPage("commercial/Client");
 

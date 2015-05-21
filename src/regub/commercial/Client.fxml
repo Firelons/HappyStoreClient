@@ -13,7 +13,7 @@
         <fx:include fx:id="usermenu" source="../util/UserBar.fxml" />
         <HBox>
             <children>
-                <Label alignment="CENTER" text="ajouter/modifier client" textAlignment="CENTER">
+                <Label fx:id="clientoperation" alignment="CENTER" textAlignment="CENTER">
                     <font>
                         <Font name="System Bold" size="20.0" />
                     </font>

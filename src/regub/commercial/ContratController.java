@@ -5,13 +5,10 @@
  */
 package regub.commercial;
 
-import static java.awt.SystemColor.window;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Connection;
@@ -94,12 +91,10 @@ public class ContratController extends AbstractController {
     private DatePicker datefin;
     @FXML
     private DatePicker datereception;
-
     @FXML
     private Button browse;
     @FXML
     private Button save;
-
     @FXML
     private RadioButton valide;
     @FXML
@@ -118,6 +113,8 @@ public class ContratController extends AbstractController {
     private ListView Regions;
     @FXML
     private Label Message;
+    @FXML
+    private Label contratoperation;
     @FXML
     private UserBarController usermenuController;
 
@@ -172,8 +169,6 @@ public class ContratController extends AbstractController {
 //            System.out.println(nombrejours);
         } catch (NullPointerException nfe) {
         }
-        //ecart en semaine auquel on retire les dimanches : nous donne le nombre de jours de diffusion
-
         try {
             tar = Double.parseDouble(tarif.getText());
         } catch (NumberFormatException nfe) {
@@ -316,7 +311,8 @@ public class ContratController extends AbstractController {
             datereception.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_reception()));
             datevalidation.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_validation()));
             tarif.setText("" + Video.getCurVideo().getTarif());
-            fich.setText("Video Déja enregistrée.");
+            fich.setText("Video n°"+Video.getCurVideo().getidVideo());
+            contratoperation.setText("Modifier contrat");
             if (Video.getCurVideo().getStatut() == 1) {
                 valide.setSelected(true);
             } else if (Video.getCurVideo().getStatut() == 2) {
@@ -324,9 +320,13 @@ public class ContratController extends AbstractController {
             } else if (Video.getCurVideo().getStatut() == 3) {
                 annule.setSelected(true);
             }
+            duree.setDisable(true);
             tarif.setDisable(true);
             browse.setDisable(true);
-            if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_debut()) >= 0 || Video.getCurVideo().getStatut() == 3) {
+            if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_debut()) > 0) {
+                datedebut.setDisable(true);
+            }
+            if (LocalDate.now().toString().compareTo(Video.getCurVideo().getDate_fin()) > 0 || Video.getCurVideo().getStatut() == 3) {
                 save.setDisable(true);
             }
 
@@ -341,6 +341,7 @@ public class ContratController extends AbstractController {
         } else {
             datereception.setValue(LocalDate.now());
             datevalidation.setValue(LocalDate.now());
+            contratoperation.setText("Ajouter contrat");
         }
     }
 
@@ -505,7 +506,7 @@ public class ContratController extends AbstractController {
             statut = 2;
         } else if (annule.isSelected()) {
             statut = 3;
-            datefin.setValue(LocalDate.parse("" + datedebut.getValue().toString()));
+            datefin.setValue(LocalDate.parse("" +LocalDate.now()));
         }
         Rayons.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
@@ -540,7 +541,7 @@ public class ContratController extends AbstractController {
                 st1.setDate(7, java.sql.Date.valueOf(datevalidation.getValue()));
                 st1.setDouble(8, tar);
                 st1.setInt(9, statut);
-                st1.setString(10, (String) Auth.getUserInfo().get("id"));
+                st1.setInt(10, Integer.parseInt((String) Auth.getUserInfo().get("id")));
                 st1.setInt(11, Client.getCurClient().getId());
 
                 if (update) {

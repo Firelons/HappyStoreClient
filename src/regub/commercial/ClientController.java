@@ -43,7 +43,8 @@ public class ClientController extends AbstractController {
     private TextField textBP;
     @FXML
     private Label Message;
-
+    @FXML
+    private Label clientoperation;
     private Client person;
 
     @FXML
@@ -179,6 +180,7 @@ public class ClientController extends AbstractController {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if (Client.getCurClient() != null) {
+            clientoperation.setText("Modifier client");
             textSociete.setText(Client.getCurClient().getSociete());
             textTelephone.setText(Client.getCurClient().getTelephone());
             textEmail.setText(Client.getCurClient().getEmail());
@@ -186,6 +188,9 @@ public class ClientController extends AbstractController {
             textVille.setText(Client.getCurClient().getVille());
             textBP.setText(Client.getCurClient().getPostalCode());
             //Fais tous tes ajouts ici et a la fin on refais un null pour remetre le client courant à null !
+        }
+        else{
+            clientoperation.setText("Ajouter client");
         }
     }
 }
