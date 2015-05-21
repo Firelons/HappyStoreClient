@@ -595,7 +595,7 @@ public class ContratController extends AbstractController {
                 }
 
                 System.out.println("Suppression des ancienes regions pour le contrat : " + titre.getText());
-                sql = "DELETE FROM diffusionregions WHERE idVideo=?;";
+                sql = "DELETE FROM DiffusionRegions WHERE idVideo=?;";
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     st.setInt(1, Video.getCurVideo().getidVideo());
                     st.executeQuery();
