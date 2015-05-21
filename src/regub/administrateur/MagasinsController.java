@@ -42,12 +42,17 @@ public class MagasinsController extends AbstractController {
 
     @FXML
     private TableColumn<Magasin, String> colCodePostal;
+    
+    @FXML
+    private TableColumn<Magasin, Integer> colMag;
 
     @FXML
     private TableColumn<Magasin, String> colVille;
 
     @FXML
     private TableColumn<Magasin, String> colNom;
+    
+    
 
     @FXML
     private Button btnAjouter;
@@ -127,6 +132,7 @@ public class MagasinsController extends AbstractController {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        colMag.setCellValueFactory(cellData -> cellData.getValue().getIdProperty().asObject());
         colCodePostal.setCellValueFactory(cellData -> cellData.getValue().getCodePostalProperty());
         colNom.setCellValueFactory(cellData -> cellData.getValue().getNomProperty());
         colVille.setCellValueFactory(cellData -> cellData.getValue().getVilleProperty());
