@@ -41,6 +41,10 @@ public class AccueilAdministrateurController extends AbstractController {
     private void AccueilAdministrateurTypeRayon(ActionEvent event) {
         getApp().gotoPage("administrateur/TypeRayon");
     }
+    @FXML
+    private void AccueilCommercial(ActionEvent event) {
+        getApp().gotoPage("commercial/AccueilCommercial");
+    }
     
     @Override
     public void setApp(Main m) {
