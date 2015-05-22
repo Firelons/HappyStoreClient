@@ -14,6 +14,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ObservableObjectValue;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -25,6 +29,7 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.util.Callback;
 import regub.AbstractController;
 import regub.Auth;
 import regub.Main;
@@ -63,7 +68,7 @@ public class AccueilCommercialController extends AbstractController {
     @FXML
     private TableColumn<Video, Integer> duree;
     @FXML
-    private TableColumn<Video, Integer> statut;
+    private TableColumn<Video, String> statut;
 
     //boutons de la page
     @FXML
@@ -305,7 +310,17 @@ public class AccueilCommercialController extends AbstractController {
         date_fin.setCellValueFactory(cellData -> cellData.getValue().date_finProperty());
         duree.setCellValueFactory(cellData -> cellData.getValue().dureeProperty().asObject());
         tarif.setCellValueFactory(cellData -> cellData.getValue().tarifProperty().asObject());
-        statut.setCellValueFactory(cellData -> cellData.getValue().StatutProperty().asObject());
+        statut.setCellValueFactory((cellData) ->{
+            switch(cellData.getValue().getStatut()){
+                case 1:
+                    return new SimpleStringProperty("validé");
+                case 2:
+                    return new SimpleStringProperty("en preparation");
+                default:
+                    return new SimpleStringProperty("annulé");
+            }
+           
+        });
         //initialisation des bouttons
         //modifications
 

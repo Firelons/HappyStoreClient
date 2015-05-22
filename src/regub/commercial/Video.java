@@ -154,7 +154,7 @@ public class Video {
         this.date_validation.set(dateval);
     }
 
-    public double getStatut() {
+    public int getStatut() {
         return statut.get();
     }
 

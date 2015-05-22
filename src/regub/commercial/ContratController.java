@@ -311,14 +311,18 @@ public class ContratController extends AbstractController {
             datereception.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_reception()));
             datevalidation.setValue(LocalDate.parse("" + Video.getCurVideo().getDate_validation()));
             tarif.setText("" + Video.getCurVideo().getTarif());
-            fich.setText("Video n°"+Video.getCurVideo().getidVideo());
+            fich.setText("Video n°" + Video.getCurVideo().getidVideo());
             contratoperation.setText("Modifier contrat");
-            if (Video.getCurVideo().getStatut() == 1) {
-                valide.setSelected(true);
-            } else if (Video.getCurVideo().getStatut() == 2) {
-                preparation.setSelected(true);
-            } else if (Video.getCurVideo().getStatut() == 3) {
-                annule.setSelected(true);
+            switch (Video.getCurVideo().getStatut()) {
+                case 1:
+                    valide.setSelected(true);
+                    break;
+                case 2:
+                    preparation.setSelected(true);
+                    break;
+                default:
+                    annule.setSelected(true);
+                    break;
             }
             duree.setDisable(true);
             tarif.setDisable(true);
@@ -501,12 +505,12 @@ public class ContratController extends AbstractController {
                 ButtonType.OK);
         if (valide.isSelected()) {
             statut = 1;
-            datevalidation.setValue(LocalDate.parse("" +LocalDate.now()));
+            datevalidation.setValue(LocalDate.parse("" + LocalDate.now()));
         } else if (preparation.isSelected()) {
             statut = 2;
         } else if (annule.isSelected()) {
             statut = 3;
-            datefin.setValue(LocalDate.parse("" +LocalDate.now()));
+            datefin.setValue(LocalDate.parse("" + LocalDate.now()));
         }
         Rayons.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
