@@ -1,3 +1,7 @@
 /build/
 /dist/
+/lib/
+/nbproject/
 /config.properties
+/build.xml
+/manifest.mf
