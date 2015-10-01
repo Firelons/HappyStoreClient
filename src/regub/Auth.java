@@ -53,8 +53,10 @@ public class Auth {
     public static void connect(String login, String pass) throws ClassNotFoundException, SQLException {
         Class.forName("org.mariadb.jdbc.Driver");
         Config conf = Config.getConfig();
-        url = "jdbc:mariadb://" + conf.get("db_address") + ':' + conf.get("db_port") + '/' + conf.get("db_name");
+        url = "jdbc:mysql://" + conf.get("db_address") + ':' + conf.get("db_port") + '/' + conf.get("db_name")
+                + "/?noAccessToProcedureBodies=true";
         try (Connection cn = DriverManager.getConnection(url, conf.get("db_login"), conf.get("db_password"))) {
+
             PreparedStatement st = cn.prepareCall("call " + conf.get("db_proc_name") + "(?,?)");
             st.setString(1, login);
             st.setString(2, pass);
@@ -108,13 +110,14 @@ public class Auth {
     public static HashMap getUserInfo() {
         return userInfo;
     }
+
     /**
      * Permet de changer le mot de passe de l'utilisateur connecte
-     * 
+     *
      * @param oldpass ancien mot de passe
      * @param newpass nouveau mot de passe
      * @return true si le mot de passe a change
-     * @throws SQLException 
+     * @throws SQLException
      */
     public static boolean changePassword(String oldpass, String newpass) throws SQLException {
         try (Connection con = Auth.getConnection();
@@ -125,9 +128,9 @@ public class Auth {
             st.execute();
             ResultSet r = st.getResultSet();
             r.next();
-            return  r.getInt(1) == 1;
+            return r.getInt(1) == 1;
         } catch (SQLException ex) {
-           throw ex;
+            throw ex;
         }
     }
 }
