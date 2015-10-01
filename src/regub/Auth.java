@@ -46,7 +46,7 @@ public class Auth {
      *
      * @param login
      * @param pass
-     * @throws ClassNotFoundException si mariadb-java-client-1.1.8 n'est pas
+     * @throws ClassNotFoundException si mariadb-java-client-1.*.* n'est pas
      * dans le ClassPath
      * @throws SQLException
      */
