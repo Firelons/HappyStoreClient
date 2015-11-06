@@ -3,23 +3,45 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<field name="COLUMN_0" class="java.lang.String"/>
+	<field name="COLUMN_1" class="java.lang.String"/>
+	<field name="COLUMN_2" class="java.lang.String"/>
+	<field name="COLUMN_3" class="java.lang.String"/>
+	<field name="COLUMN_4" class="java.lang.String"/>
+	<field name="COLUMN_5" class="java.lang.String"/>
+        <field name="COLUMN_6" class="java.lang.String"/>
+	<field name="COLUMN_7" class="java.lang.String"/>
+	<field name="COLUMN_8" class="java.lang.String"/>
+	<field name="COLUMN_9" class="java.lang.String"/>
+        <field name="COLUMN_10" class="java.lang.String"/>
+	<field name="COLUMN_11" class="java.lang.String"/>
+	<field name="COLUMN_12" class="java.lang.String"/>
+	<field name="COLUMN_13" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="45" splitType="Stretch"/>
+		<band height="45" splitType="Stretch">
+			<staticText>
+				<reportElement x="165" y="0" width="223" height="25" forecolor="#0033CC" uuid="af4af769-f130-4395-b343-fb513a038482"/>
+				<textElement>
+					<font size="20"/>
+				</textElement>
+				<text><![CDATA[DEVIS DE DIFFUSION]]></text>
+			</staticText>
+		</band>
 	</title>
 	<pageHeader>
 		<band height="112" splitType="Stretch">
 			<staticText>
-				<reportElement x="344" y="6" width="91" height="19" uuid="65de67d7-bc90-4d17-a68e-1731bda4dbbb"/>
+				<reportElement x="344" y="6" width="54" height="19" uuid="65de67d7-bc90-4d17-a68e-1731bda4dbbb"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[SOCIETE]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="435" y="6" width="83" height="19" uuid="c1865d1b-5469-47db-91d0-de99916c6c05"/>
+				<reportElement x="398" y="6" width="120" height="19" uuid="c1865d1b-5469-47db-91d0-de99916c6c05"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
@@ -30,15 +52,15 @@
 				<textFieldExpression><![CDATA[$F{COLUMN_1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="344" y="45" width="54" height="20" uuid="0b5caf23-22da-434e-be05-b00089c5f6aa"/>
+				<reportElement x="344" y="45" width="44" height="20" uuid="0b5caf23-22da-434e-be05-b00089c5f6aa"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="398" y="45" width="90" height="20" uuid="315f5c7b-6b70-4d23-9e2d-62b64f4d38b3"/>
+				<reportElement x="388" y="45" width="74" height="20" uuid="315f5c7b-6b70-4d23-9e2d-62b64f4d38b3"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_3}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="374" y="65" width="114" height="20" uuid="dc8f7775-a7f8-45a4-b7a1-fd572401ce1e"/>
+				<reportElement x="404" y="65" width="114" height="20" uuid="dc8f7775-a7f8-45a4-b7a1-fd572401ce1e"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_4}]]></textFieldExpression>
 			</textField>
 			<staticText>
@@ -50,16 +72,97 @@
 				<text><![CDATA[Email : ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="388" y="85" width="100" height="20" uuid="abddd0b6-ab67-46e5-abce-3d7d8da1226a"/>
+				<reportElement x="404" y="85" width="114" height="20" uuid="abddd0b6-ab67-46e5-abce-3d7d8da1226a"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_5}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="462" y="45" width="56" height="20" uuid="d03ca782-6836-48e0-8e35-49a20dca2f53"/>
+				<text><![CDATA[     France]]></text>
+			</staticText>
 		</band>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="38" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch"/>
+		<band height="304" splitType="Stretch">
+			<staticText>
+				<reportElement x="23" y="0" width="100" height="20" uuid="8137998d-10be-4601-9d0b-289062712150"/>
+				<text><![CDATA[Titre de la vidéo :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="28" width="112" height="20" uuid="6c5977c2-e260-44c9-8ff2-10f2c35737fa"/>
+				<text><![CDATA[Diffusion validée par : ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="28" width="166" height="20" uuid="2b44454b-8e26-4f19-abdd-dd4ac0ae9f97"/>
+				<text><![CDATA[Date de Validation de diffusion :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="58" width="185" height="20" uuid="7e053d49-f3f1-4068-bfec-0d2f767d0059"/>
+				<text><![CDATA[Date de début de diffusion prévue :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="286" y="0" width="148" height="20" uuid="14bb7d6b-a3d2-4124-9b1b-6d020c2570f0"/>
+				<text><![CDATA[Durée de la vidéo à diffuser :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="89" width="166" height="20" uuid="24105117-c46b-4e62-a882-8ad96610b6b1"/>
+				<text><![CDATA[Date de fin de diffusion prévue :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="121" width="263" height="20" uuid="e9795556-e6af-414f-8d17-c0052ffe7f31"/>
+				<text><![CDATA[Fréquence prévue de diffusion de vidéos par jour :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="151" width="161" height="20" uuid="7515915a-d442-4c0b-90a9-bf28a619bf37"/>
+				<text><![CDATA[Tarif de diffusion à la seconde :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="296" y="151" width="148" height="20" uuid="3917fc6a-e80c-4157-8da3-e211a9120616"/>
+				<text><![CDATA[Montant total de diffusion :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="185" width="185" height="20" uuid="aa79dc4c-4c36-4041-bc6b-81a4903f87ea"/>
+				<text><![CDATA[Régions de diffusions  concernés :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="23" y="240" width="213" height="20" uuid="2c059549-a91a-4cf0-a501-6da7e4961d75"/>
+				<text><![CDATA[Type de rayons de diffusions  concernés :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="0" width="100" height="20" uuid="52cf551b-4b09-4a73-ae0a-e737da5e2b50"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_6}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="0" width="100" height="20" uuid="fcf4afb2-7dbb-424b-bf11-8746ac8bc63e"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_7}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="455" y="28" width="100" height="20" uuid="cb06160f-19a0-47ee-bcef-0606a74fcd51"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_8}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="58" width="100" height="20" uuid="37dfcdcd-0840-4d02-a12d-4822f55dc19f"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_9}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="286" y="121" width="100" height="20" uuid="344d02d1-c201-45e1-9b4e-b47439f8648b"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="186" y="151" width="100" height="20" uuid="84cb9349-cf97-47a7-a467-ee5322d20ce7"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_12}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="151" width="100" height="20" uuid="13675f51-7176-47b7-b482-6d5c9d34c293"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="219" y="89" width="100" height="20" uuid="f0edc740-a0c2-459e-b906-e0c3d0f586f0"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_10}]]></textFieldExpression>
+			</textField>
+		</band>
 	</detail>
 	<columnFooter>
 		<band height="45" splitType="Stretch"/>
