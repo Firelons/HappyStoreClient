@@ -6,12 +6,13 @@
 package regub.commercial;
 
 import javax.swing.table.DefaultTableModel;
-import java.util.HashMap;
+
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.data.JRTableModelDataSource;
+
 import net.sf.jasperreports.view.JasperViewer;
 
 import java.io.File;
@@ -155,8 +156,9 @@ public class ContratController extends AbstractController {
             //JasperCompileManager.compileReportToFile("reports/report1.jrxml");
             jasperPrint = JasperFillManager.fillReport(x, new HashMap(),
                     new JRTableModelDataSource(tableModel));
-            JasperViewer jasperViewer = new JasperViewer(jasperPrint);
-            jasperViewer.setVisible(true);
+            //JasperViewer jasperViewer = new JasperViewer(jasperPrint);
+            //jasperViewer.setVisible(true);
+            JasperViewer.viewReport(jasperPrint, false);
         } catch (JRException ex) {
             ex.printStackTrace();
         }
@@ -164,16 +166,31 @@ public class ContratController extends AbstractController {
     
          private void TableModelData() {
              
+             Client courant = Client.getCurClient();
              
-        String[] columnNames = {"Nom", "Adresse", "Code", "Ville","Numéro","Mail"};
+             
+        String[] columnNames = {"Nom", "Adresse", "Code", "Ville","Numéro","Mail"
+                                ,"Titre","Duree","Date_Validation","Debut","Fin"
+                                ,"freq","tarif","montant"};
         String[][] data = {
-            {Client.getCurClient().getSociete(),
-             Client.getCurClient().getRue(), 
-             Client.getCurClient().getPostalCode(), 
-             Client.getCurClient().getVille(),
-             Client.getCurClient().getTelephone(), 
-            Client.getCurClient().getEmail()},
-            
+            //Pour le client
+            {courant.getSociete(),
+             courant.getRue(), 
+             courant.getPostalCode(), 
+             courant.getVille(),
+             courant.getTelephone(), 
+             courant.getEmail(),
+           //Pour le contrat du client
+            this.titre.getText(),
+            this.duree.getText(),
+            this.datevalidation.toString(),
+            this.datedebut.toString(),
+            this.datefin.toString(),
+            this.frequence.getText(),
+            this.tarif.getText(),
+            this.montant.getText(),
+
+             },
         };
         tableModel = new DefaultTableModel(data,columnNames);
     
