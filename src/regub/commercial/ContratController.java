@@ -183,9 +183,9 @@ public class ContratController extends AbstractController {
            //Pour le contrat du client
             this.titre.getText(),
             this.duree.getText(),
-            this.datevalidation.toString(),
-            this.datedebut.toString(),
-            this.datefin.toString(),
+            Video.getCurVideo().getDate_validation(),
+            Video.getCurVideo().getDate_debut(),
+            Video.getCurVideo().getDate_fin(),
             this.frequence.getText(),
             this.tarif.getText(),
             this.montant.getText(),
@@ -531,12 +531,13 @@ public class ContratController extends AbstractController {
         ResultSet res = null;
         String sql;
         String sql_region = " WHERE EXISTS ( SELECT * FROM Magasin WHERE Magasin.idRegion = Region.idRegion ORDER by `libelle`) ";
+        String sql_rayon = " WHERE EXISTS ( SELECT * FROM Rayons WHERE TypeRayon.idTypeRayon = Rayons.idTypeRayon ORDER by `libelle`) ";
 
         if (Table.equals("Region")) {
             sql = "SELECT * FROM " + Table + sql_region + " ORDER by libelle ";
 
         } else {
-            sql = "SELECT * FROM " + Table + " order by `libelle`";
+            sql = "SELECT * FROM " + Table + sql_rayon +" order by `libelle`";
 
         }
 
