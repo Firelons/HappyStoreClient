@@ -135,6 +135,8 @@ public class ContratController extends AbstractController {
     private Label contratoperation;
     @FXML
     private UserBarController usermenuController;
+    
+    private int nombremagasin;
 
     @FXML
     private ToggleGroup etatContrat;
@@ -184,7 +186,7 @@ public class ContratController extends AbstractController {
              
         String[] columnNames = {"Nom", "Adresse", "Code", "Ville","Numéro","Mail"
                                 ,"Titre","Duree","Debut","Fin"
-                                ,"freq","tarif","Régions","Rayons","Nombre_Diff","Duree_Diff","montant"};
+                                ,"freq","tarif","Régions","Rayons","Magasins","Nombre_Diff","Duree_Diff","montant"};
         String[][] data = {
             //Pour le client
             {courant.getSociete(),
@@ -203,10 +205,9 @@ public class ContratController extends AbstractController {
             this.tarif.getText(),
             Integer.toString(this.nombresRegions),
             Integer.toString(this.nombresRayons),
+            Integer.toString(this.nombremagasin),
             Double.toString(this.nb_jours*this.freq),
             Double.toString(this.nb_jours),
-            
-            
             this.montant.getText(),
 
              },
@@ -241,6 +242,11 @@ public class ContratController extends AbstractController {
     private void Modif_Montant (ActionEvent event) throws IOException {
         montant.setText(String.valueOf(0));
     }
+    
+    
+    private void GetMagasins(ActionEvent event) throws Exception {
+        
+    }
     @FXML
     private void calculer(ActionEvent event) throws Exception {
         double nombrejours = 0;
@@ -273,13 +279,54 @@ public class ContratController extends AbstractController {
         } catch (NumberFormatException nfe) {
         }
         //Requete de sélection
-        //SELECT Magasin.nom,TypeRayon.libelle,Region.libelle FROM Region,Magasin,Rayons,TypeRayon WHERE Region.idRegion=Magasin.idRegion AND Rayons.idMagasin=Magasin.idMagasin AND Rayons.idTypeRayon =TypeRayon.idTypeRayon;
+        // Récupération des magasins concernés
+        this.nombremagasin=0;
+        String liste_magasin [] = new String [0];
+        String test ;
+         try (Connection cn = Auth.getConnection()) {    
+            RayonsSelect = Rayons.getSelectionModel().getSelectedItems();
+            this.RegionsSelect = this.Regions.getSelectionModel().getSelectedItems();
+            for (String str : RayonsSelect) {
+            for (String str1 : RegionsSelect ) {
+                String sql ="SELECT DISTINCT Magasin.nom FROM Region,Magasin,Rayons,TypeRayon "
+                + " WHERE Region.idRegion=Magasin.idRegion"
+                + " AND Rayons.idMagasin=Magasin.idMagasin "
+                + " AND Rayons.idTypeRayon =TypeRayon.idTypeRayon"
+                + " AND Rayons.idTypeRayon = ? "
+                + " AND Region.idRegion= ? "
+                + "ORDER BY Magasin.nom";
+         
+                try (PreparedStatement st = cn.prepareStatement(sql)) {
+                    
+                    st.setInt(1, RayonData.get(str));
+                    st.setInt(2, RegionData.get(str1));
+                    ResultSet rs = st.executeQuery();
+                    //System.out.println(sql + str);
+                    while (rs.next()) {
+                       // System.out.print("Colonne 1 renvoyée ");
+                        
+                        
+                        this.nombremagasin++;
+
+                        //System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3));
+                    }
+                    rs.close();
+                    st.close();
+                    
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            }
+         }
+        
+         
         this.nb_jours = nombrejours;
         System.out.println(this.nb_jours);
         DecimalFormat df = new DecimalFormat ( ) ;
         df.setMaximumFractionDigits ( 2 ) ; 
         
-         montant.setText(String.valueOf(df.format(freq * dur * tar * nombresRayons * nombresRegions * this.nb_jours)));
+         montant.setText(String.valueOf(df.format(freq * dur * tar * nombresRayons * nombresRegions * this.nb_jours*this.nombremagasin)));
     }
 
     @Override
