@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8776902f-54a9-4af3-a8b7-a675fa57a1d2">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="0"/>
+	<property name="ireport.x" value="38"/>
 	<property name="ireport.y" value="211"/>
 	<field name="COLUMN_0" class="java.lang.String"/>
 	<field name="COLUMN_1" class="java.lang.String"/>
@@ -20,6 +20,7 @@
 	<field name="COLUMN_14" class="java.lang.String"/>
 	<field name="COLUMN_15" class="java.lang.String"/>
 	<field name="COLUMN_16" class="java.lang.String"/>
+        <field name="COLUMN_17" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -195,7 +196,7 @@
 				<textFieldExpression><![CDATA[$F{COLUMN_9}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="23" y="292" width="148" height="20" uuid="2df292f0-3477-45e5-a9c8-848c596ec844"/>
+				<reportElement x="23" y="333" width="148" height="20" uuid="2df292f0-3477-45e5-a9c8-848c596ec844"/>
 				<text><![CDATA[Montant total de diffusion :]]></text>
 			</staticText>
 			<textField>
@@ -207,31 +208,31 @@
 				<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="292" width="100" height="20" uuid="15239834-c48c-4e35-9521-5fe05fb3344c"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+				<reportElement x="171" y="333" width="100" height="20" uuid="15239834-c48c-4e35-9521-5fe05fb3344c"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_17}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="225" width="100" height="20" uuid="cd82c70a-9ec3-47bb-a47f-87484871913b"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_14}]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="23" y="225" width="148" height="20" uuid="55dd367b-7cfd-4138-8e1c-fa7ee4c43300"/>
-				<text><![CDATA[Nombre total de diffusion :]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="171" y="259" width="100" height="20" uuid="a3094e19-ad47-4c88-9c6a-d2b5142b0492"/>
+				<reportElement x="171" y="265" width="100" height="20" uuid="cd82c70a-9ec3-47bb-a47f-87484871913b"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_15}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="23" y="259" width="148" height="20" uuid="47710a76-3847-46d1-b1db-b8f90319e36e"/>
+				<reportElement x="23" y="265" width="148" height="20" uuid="55dd367b-7cfd-4138-8e1c-fa7ee4c43300"/>
+				<text><![CDATA[Nombre total de diffusion :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="171" y="300" width="100" height="20" uuid="a3094e19-ad47-4c88-9c6a-d2b5142b0492"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_16}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="23" y="300" width="148" height="20" uuid="47710a76-3847-46d1-b1db-b8f90319e36e"/>
 				<text><![CDATA[Durée totale de prestation :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="271" y="259" width="37" height="20" uuid="c91f0a37-77bc-4371-90bb-b253f2e02220"/>
+				<reportElement x="271" y="300" width="37" height="20" uuid="c91f0a37-77bc-4371-90bb-b253f2e02220"/>
 				<text><![CDATA[Jours]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="271" y="292" width="37" height="20" uuid="f88b8b0f-13c6-4e3b-834c-32b7f1a765e5"/>
+				<reportElement x="271" y="333" width="37" height="20" uuid="f88b8b0f-13c6-4e3b-834c-32b7f1a765e5"/>
 				<text><![CDATA[Euros]]></text>
 			</staticText>
 			<staticText>
@@ -242,6 +243,14 @@
 				<reportElement x="388" y="102" width="37" height="20" uuid="df1da4b8-29fd-4005-b854-059290d36478"/>
 				<text><![CDATA[/Jours]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="23" y="229" width="213" height="20" uuid="9b771d7b-c199-40dc-81f1-15d9921786b1"/>
+				<text><![CDATA[Nombre de magasins concernés :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="236" y="229" width="100" height="20" uuid="12d669b8-461f-47c3-ba8a-274166f95c23"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_14}]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>
