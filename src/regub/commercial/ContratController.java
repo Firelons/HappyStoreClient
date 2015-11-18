@@ -26,6 +26,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -34,6 +35,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -82,8 +85,11 @@ public class ContratController extends AbstractController {
     private int mont;
     private int dval;
     private int statut;
+    private int nb_diff;
     //variable d'utilisation pour recupperer les données du cient. dans ce cas si juste le nom du client en question
     private final Client cli = new Client();
+    
+    private double nb_jours =0;
 
     @FXML
     private Label client;
@@ -148,6 +154,13 @@ public class ContratController extends AbstractController {
     
     @FXML
     private void Consulter(ActionEvent event) throws IOException {
+        try {
+            this.calculer(event);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        
+        
         JasperPrint jasperPrint = null;
         net.sf.jasperreports.engine.JasperReport x = null; 
         TableModelData();
@@ -170,8 +183,8 @@ public class ContratController extends AbstractController {
              
              
         String[] columnNames = {"Nom", "Adresse", "Code", "Ville","Numéro","Mail"
-                                ,"Titre","Duree","Date_Validation","Debut","Fin"
-                                ,"freq","tarif","montant"};
+                                ,"Titre","Duree","Debut","Fin"
+                                ,"freq","tarif","Régions","Rayons","Nombre_Diff","Duree_Diff","montant"};
         String[][] data = {
             //Pour le client
             {courant.getSociete(),
@@ -183,15 +196,23 @@ public class ContratController extends AbstractController {
            //Pour le contrat du client
             this.titre.getText(),
             this.duree.getText(),
-            Video.getCurVideo().getDate_validation(),
+
             Video.getCurVideo().getDate_debut(),
             Video.getCurVideo().getDate_fin(),
             this.frequence.getText(),
             this.tarif.getText(),
+            Integer.toString(this.nombresRegions),
+            Integer.toString(this.nombresRayons),
+            Double.toString(this.nb_jours*this.freq),
+            Double.toString(this.nb_jours),
+            
+            
             this.montant.getText(),
 
              },
         };
+        
+        
         tableModel = new DefaultTableModel(data,columnNames);
     
     }
@@ -216,7 +237,10 @@ public class ContratController extends AbstractController {
             getApp().gotoPage("commercial/AccueilCommercial");
         }
     }
-
+    @FXML 
+    private void Modif_Montant (ActionEvent event) throws IOException {
+        montant.setText(String.valueOf(0));
+    }
     @FXML
     private void calculer(ActionEvent event) throws Exception {
         double nombrejours = 0;
@@ -248,9 +272,14 @@ public class ContratController extends AbstractController {
             dur = Integer.parseInt(duree.getText());
         } catch (NumberFormatException nfe) {
         }
-
-        montant.setText(String.valueOf(freq * dur * tar * nombresRayons * nombresRegions * nombrejours));
-
+        //Requete de sélection
+        //SELECT Magasin.nom,TypeRayon.libelle,Region.libelle FROM Region,Magasin,Rayons,TypeRayon WHERE Region.idRegion=Magasin.idRegion AND Rayons.idMagasin=Magasin.idMagasin AND Rayons.idTypeRayon =TypeRayon.idTypeRayon;
+        this.nb_jours = nombrejours;
+        System.out.println(this.nb_jours);
+        DecimalFormat df = new DecimalFormat ( ) ;
+        df.setMaximumFractionDigits ( 2 ) ; 
+        
+         montant.setText(String.valueOf(df.format(freq * dur * tar * nombresRayons * nombresRegions * this.nb_jours)));
     }
 
     @Override
