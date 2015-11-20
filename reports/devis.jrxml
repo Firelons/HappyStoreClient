@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8776902f-54a9-4af3-a8b7-a675fa57a1d2">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="38"/>
-	<property name="ireport.y" value="211"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
+	<parameter name="montant" class="java.lang.String"/>
 	<field name="COLUMN_0" class="java.lang.String"/>
 	<field name="COLUMN_1" class="java.lang.String"/>
 	<field name="COLUMN_2" class="java.lang.String"/>
@@ -20,7 +21,7 @@
 	<field name="COLUMN_14" class="java.lang.String"/>
 	<field name="COLUMN_15" class="java.lang.String"/>
 	<field name="COLUMN_16" class="java.lang.String"/>
-        <field name="COLUMN_17" class="java.lang.String"/>
+	<field name="COLUMN_17" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -208,10 +209,6 @@
 				<textFieldExpression><![CDATA[$F{COLUMN_13}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="171" y="333" width="100" height="20" uuid="15239834-c48c-4e35-9521-5fe05fb3344c"/>
-				<textFieldExpression><![CDATA[$F{COLUMN_17}]]></textFieldExpression>
-			</textField>
-			<textField>
 				<reportElement x="171" y="265" width="100" height="20" uuid="cd82c70a-9ec3-47bb-a47f-87484871913b"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_15}]]></textFieldExpression>
 			</textField>
@@ -250,6 +247,10 @@
 			<textField>
 				<reportElement x="236" y="229" width="100" height="20" uuid="12d669b8-461f-47c3-ba8a-274166f95c23"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_14}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="171" y="333" width="100" height="20" uuid="15239834-c48c-4e35-9521-5fe05fb3344c"/>
+				<textFieldExpression><![CDATA[$P{montant}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
