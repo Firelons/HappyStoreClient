@@ -90,7 +90,7 @@ public class ContratController extends AbstractController {
     private final Client cli = new Client();
     
     private double nb_jours =0;
-
+    private Map parameters;
     @FXML
     private Label client;
     @FXML
@@ -163,13 +163,14 @@ public class ContratController extends AbstractController {
         }
         
         
+       
         JasperPrint jasperPrint = null;
         net.sf.jasperreports.engine.JasperReport x = null; 
         TableModelData();
         try {
             x = JasperCompileManager.compileReport("reports/devis.jrxml");
             //JasperCompileManager.compileReportToFile("reports/report1.jrxml");
-            jasperPrint = JasperFillManager.fillReport(x, new HashMap(),
+            jasperPrint = JasperFillManager.fillReport(x, parameters,
                     new JRTableModelDataSource(tableModel));
             //JasperViewer jasperViewer = new JasperViewer(jasperPrint);
             //jasperViewer.setVisible(true);
@@ -182,35 +183,32 @@ public class ContratController extends AbstractController {
          private void TableModelData() {
              
              Client courant = Client.getCurClient();
-             
-             
+
+         parameters = new HashMap(); 
+         parameters.put("Nom", courant.getSociete());
+         parameters.put("Adresse", courant.getRue());
+         parameters.put("Code", courant.getPostalCode());
+         parameters.put("Ville", courant.getVille());
+         parameters.put("Numero", courant.getTelephone());
+         parameters.put("Mail", courant.getEmail());
+         parameters.put("Titre", this.titre.getText());
+         parameters.put("Duree", this.duree.getText());
+         parameters.put("Debut", Video.getCurVideo().getDate_debut());
+         parameters.put("Fin", Video.getCurVideo().getDate_fin());
+         parameters.put("Frequence", this.frequence.getText());
+         parameters.put("Tarif", this.tarif.getText());
+         parameters.put("Regions", Integer.toString(this.nombresRegions));
+         parameters.put("Rayons", Integer.toString(this.nombresRayons));
+         parameters.put("Magasins", Integer.toString(this.nombremagasin));
+         parameters.put("Nombre_Diff", Double.toString(this.nb_jours*this.freq));
+         parameters.put("Duree_Diff", Double.toString(this.nb_jours));
+         parameters.put("montant", this.montant.getText());     
         String[] columnNames = {"Nom", "Adresse", "Code", "Ville","Numéro","Mail"
                                 ,"Titre","Duree","Debut","Fin"
                                 ,"freq","tarif","Régions","Rayons","Magasins","Nombre_Diff","Duree_Diff","montant"};
         String[][] data = {
             //Pour le client
-            {courant.getSociete(),
-             courant.getRue(), 
-             courant.getPostalCode(), 
-             courant.getVille(),
-             courant.getTelephone(), 
-             courant.getEmail(),
-           //Pour le contrat du client
-            this.titre.getText(),
-            this.duree.getText(),
 
-            Video.getCurVideo().getDate_debut(),
-            Video.getCurVideo().getDate_fin(),
-            this.frequence.getText(),
-            this.tarif.getText(),
-            Integer.toString(this.nombresRegions),
-            Integer.toString(this.nombresRayons),
-            Integer.toString(this.nombremagasin),
-            Double.toString(this.nb_jours*this.freq),
-            Double.toString(this.nb_jours),
-            this.montant.getText(),
-
-             },
         };
         
         
