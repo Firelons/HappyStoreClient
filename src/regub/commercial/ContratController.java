@@ -206,7 +206,7 @@ public class ContratController extends AbstractController {
         String[] columnNames = {"Nom", "Adresse", "Code", "Ville","Numéro","Mail"
                                 ,"Titre","Duree","Debut","Fin"
                                 ,"freq","tarif","Régions","Rayons","Magasins","Nombre_Diff","Duree_Diff","montant"};
-        String[][] data = {
+        String[][] data = {{""},{""}
             //Pour le client
 
         };
