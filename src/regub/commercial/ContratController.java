@@ -86,6 +86,8 @@ public class ContratController extends AbstractController {
     private int dval;
     private int statut;
     private int nb_diff;
+    
+    private String [][] data = new String [15][3];
     //variable d'utilisation pour recupperer les données du cient. dans ce cas si juste le nom du client en question
     private final Client cli = new Client();
     
@@ -203,16 +205,14 @@ public class ContratController extends AbstractController {
          parameters.put("Nombre_Diff", Double.toString(this.nb_jours*this.freq));
          parameters.put("Duree_Diff", Double.toString(this.nb_jours));
          parameters.put("montant", this.montant.getText());     
-        String[] columnNames = {"Nom", "Adresse", "Code", "Ville","Numéro","Mail"
-                                ,"Titre","Duree","Debut","Fin"
-                                ,"freq","tarif","Régions","Rayons","Magasins","Nombre_Diff","Duree_Diff","montant"};
-        String[][] data = {{""},{""}
+        String[] columnNames = {"Nom", "Adresse", "Code"};
+        String[][] data = {{"test"},{"test"},{"test"},{"test"}
             //Pour le client
 
         };
         
         
-        tableModel = new DefaultTableModel(data,columnNames);
+        tableModel = new DefaultTableModel(this.data,columnNames);
     
     }
 
@@ -286,7 +286,7 @@ public class ContratController extends AbstractController {
             this.RegionsSelect = this.Regions.getSelectionModel().getSelectedItems();
             for (String str : RayonsSelect) {
             for (String str1 : RegionsSelect ) {
-                String sql ="SELECT DISTINCT Magasin.nom FROM Region,Magasin,Rayons,TypeRayon "
+                String sql ="SELECT DISTINCT Magasin.nom, TypeRayon.libelle, Region.libelle FROM Region,Magasin,Rayons,TypeRayon "
                 + " WHERE Region.idRegion=Magasin.idRegion"
                 + " AND Rayons.idMagasin=Magasin.idMagasin "
                 + " AND Rayons.idTypeRayon =TypeRayon.idTypeRayon"
@@ -299,14 +299,15 @@ public class ContratController extends AbstractController {
                     st.setInt(1, RayonData.get(str));
                     st.setInt(2, RegionData.get(str1));
                     ResultSet rs = st.executeQuery();
+                    int i=0;
                     //System.out.println(sql + str);
                     while (rs.next()) {
                        // System.out.print("Colonne 1 renvoyée ");
-                        
-                        
-                        this.nombremagasin++;
-
-                        //System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3));
+                        for (int j=0;j<3;j++)
+                         data[i][j]=rs.getString(j+1);
+                    this.nombremagasin++;
+                    i++;
+                       System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3));
                     }
                     rs.close();
                     st.close();
