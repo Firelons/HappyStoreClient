@@ -87,7 +87,7 @@ public class ContratController extends AbstractController {
     private int statut;
     private int nb_diff;
     
-    private String [][] data = new String [15][3];
+    private String [][] data = new String [100][3];
     //variable d'utilisation pour recupperer les données du cient. dans ce cas si juste le nom du client en question
     private final Client cli = new Client();
     
@@ -210,8 +210,8 @@ public class ContratController extends AbstractController {
             //Pour le client
 
         };
-        
-        
+        if (this.nombremagasin==0) parameters.put("Info", "Aucune diffusion ne pourra être faite car aucun magasin ne comporte le rayon demandé dans les régions souhaitées "); 
+        else parameters.put("Info", "");
         tableModel = new DefaultTableModel(this.data,columnNames);
     
     }
@@ -281,37 +281,41 @@ public class ContratController extends AbstractController {
         this.nombremagasin=0;
         String liste_magasin [] = new String [0];
         String test ;
+        int i=0;
          try (Connection cn = Auth.getConnection()) {    
             RayonsSelect = Rayons.getSelectionModel().getSelectedItems();
             this.RegionsSelect = this.Regions.getSelectionModel().getSelectedItems();
             for (String str : RayonsSelect) {
             for (String str1 : RegionsSelect ) {
-                String sql ="SELECT DISTINCT Magasin.nom, TypeRayon.libelle, Region.libelle FROM Region,Magasin,Rayons,TypeRayon "
+                String sql ="SELECT DISTINCT  Region.libelle, Magasin.nom, TypeRayon.libelle FROM Region,Magasin,Rayons,TypeRayon "
                 + " WHERE Region.idRegion=Magasin.idRegion"
                 + " AND Rayons.idMagasin=Magasin.idMagasin "
                 + " AND Rayons.idTypeRayon =TypeRayon.idTypeRayon"
                 + " AND Rayons.idTypeRayon = ? "
                 + " AND Region.idRegion= ? "
-                + "ORDER BY Magasin.nom";
+                + "ORDER BY Region.libelle";
          
                 try (PreparedStatement st = cn.prepareStatement(sql)) {
                     
                     st.setInt(1, RayonData.get(str));
                     st.setInt(2, RegionData.get(str1));
                     ResultSet rs = st.executeQuery();
-                    int i=0;
+                    
                     //System.out.println(sql + str);
                     while (rs.next()) {
                        // System.out.print("Colonne 1 renvoyée ");
                         for (int j=0;j<3;j++)
                          data[i][j]=rs.getString(j+1);
-                    this.nombremagasin++;
-                    i++;
+                        this.nombremagasin++;
+                        i++;
                        System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3));
+                               System.out.println(data);
                     }
                     rs.close();
                     st.close();
-                    
+                    for(int k=this.nombremagasin;k<100;k++)
+                    for (int j=0;j<3;j++)
+                         data[k][j]="";
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
