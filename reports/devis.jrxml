@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8776902f-54a9-4af3-a8b7-a675fa57a1d2">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="152"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="Nom" class="java.lang.String"/>
 	<parameter name="Adresse" class="java.lang.String"/>
 	<parameter name="Code" class="java.lang.String"/>
@@ -22,6 +22,12 @@
 	<parameter name="Prix_Unitaire" class="java.lang.String"/>
 	<parameter name="Duree_Diff" class="java.lang.String"/>
 	<parameter name="montant" class="java.lang.String"/>
+        <parameter name="Enom" class="java.lang.String"/>
+        <parameter name="Eadresse" class="java.lang.String"/>
+        <parameter name="Ecode" class="java.lang.String"/>
+        <parameter name="Eville" class="java.lang.String"/>
+        <parameter name="Etelephone" class="java.lang.String"/>
+        <parameter name="Email" class="java.lang.String"/>
 	<parameter name="Info" class="java.lang.String"/>
 	<field name="COLUMN_0" class="java.lang.String"/>
 	<field name="COLUMN_1" class="java.lang.String"/>
@@ -89,54 +95,51 @@
 				<text><![CDATA[France]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="15" y="6" width="54" height="19" uuid="bdf41eae-f863-466e-8e90-9af93f214266"/>
+				<reportElement x="17" y="6" width="54" height="19" uuid="54ee8f8e-64c1-4f12-95ba-7e667cfa4420"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[SOCIETE]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="106" y="45" width="56" height="20" uuid="50902868-4fdc-4e5f-8f72-42d1e816859e"/>
-				<text><![CDATA[France]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="15" y="85" width="44" height="20" uuid="122fbed6-d3ae-4c89-8356-9b2d06045444"/>
+				<reportElement x="17" y="85" width="44" height="20" uuid="cd22098e-170a-42c2-94d6-5057beeba6a6"/>
 				<text><![CDATA[Email : ]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="15" y="65" width="30" height="20" uuid="2c76a8c3-2606-46f4-8b72-b41eea546575"/>
-				<text><![CDATA[Tél : ]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="89" y="6" width="100" height="19" uuid="a8b88abf-a82f-4d8a-b62b-a2a16324dada"/>
+			<textField>
+				<reportElement x="71" y="6" width="120" height="19" uuid="ded968d3-816e-41a1-9664-48123051d76c"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>
-				<text><![CDATA[HYPREMARCHE]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{Enom}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="15" y="25" width="174" height="20" uuid="3bfe73b1-90bf-4deb-894b-897245ef463c"/>
-				<textElement>
-					<font size="10"/>
-				</textElement>
-				<text><![CDATA[22 Avenue Lelons]]></text>
+				<reportElement x="17" y="65" width="30" height="20" uuid="4d278a0d-66a8-4a36-a89a-d73acf0536e5"/>
+				<text><![CDATA[Tél : ]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="17" y="25" width="174" height="20" uuid="b8fb675d-0689-4e83-8533-158dcff2e66d"/>
+				<textFieldExpression><![CDATA[$P{Eadresse}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="65" width="114" height="20" uuid="d25f4aa1-9bf5-40bd-b8a5-339ee23c2220"/>
+				<textFieldExpression><![CDATA[$P{Etelephone}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="17" y="45" width="44" height="20" uuid="2fa473df-ea0e-4af7-a72e-6fb04878b1d0"/>
+				<textFieldExpression><![CDATA[$P{Ecode}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="77" y="85" width="114" height="20" uuid="cd304bd0-17fb-4535-8c7c-48879ab0382f"/>
+				<textFieldExpression><![CDATA[$P{Email}]]></textFieldExpression>
+			</textField>
 			<staticText>
-				<reportElement x="15" y="45" width="44" height="20" uuid="a7ef94e9-be68-4c29-b2fd-89e169d804bf"/>
-				<text><![CDATA[75000]]></text>
+				<reportElement x="117" y="45" width="56" height="20" uuid="30c14baa-4989-43f0-b2d0-911e3879edb2"/>
+				<text><![CDATA[France]]></text>
 			</staticText>
-			<staticText>
-				<reportElement x="59" y="45" width="47" height="20" uuid="e41166cf-224c-48b7-badc-86703c6c785c"/>
-				<text><![CDATA[Paris]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="75" y="65" width="114" height="20" uuid="2547fe85-9f27-4c0c-b564-8d4f2cf777ad"/>
-				<text><![CDATA[05 55 66 20 20]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="75" y="85" width="114" height="20" uuid="102b776a-746e-4558-95f8-1fc40806f0a7"/>
-				<text><![CDATA[contact@hyper.com]]></text>
-			</staticText>
+			<textField>
+				<reportElement x="61" y="45" width="56" height="20" uuid="3138e73c-870b-4f5e-bca8-43d61060d2db"/>
+				<textFieldExpression><![CDATA[$P{Eville}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
