@@ -202,7 +202,8 @@ public class ContratController extends AbstractController {
          parameters.put("Regions", Integer.toString(this.nombresRegions));
          parameters.put("Rayons", Integer.toString(this.nombresRayons));
          parameters.put("Magasins", Integer.toString(this.nombremagasin));
-         parameters.put("Nombre_Diff", Double.toString(this.nb_jours*this.freq));
+         parameters.put("Prix_Unitaire", Double.toString(this.tar*this.dur));
+         parameters.put("Nombre_Diff", Double.toString(this.nb_jours*this.freq*this.nombremagasin));
          parameters.put("Duree_Diff", Double.toString(this.nb_jours));
          parameters.put("montant", this.montant.getText());     
         String[] columnNames = {"Nom", "Adresse", "Code"};
@@ -329,7 +330,7 @@ public class ContratController extends AbstractController {
         DecimalFormat df = new DecimalFormat ( ) ;
         df.setMaximumFractionDigits ( 2 ) ; 
         
-         montant.setText(String.valueOf(df.format(freq * dur * tar * nombresRayons * nombresRegions * this.nb_jours*this.nombremagasin)));
+         montant.setText(String.valueOf(df.format(freq * dur * tar * this.nb_jours*this.nombremagasin)));
     }
 
     @Override
