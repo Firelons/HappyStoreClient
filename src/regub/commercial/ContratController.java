@@ -182,7 +182,7 @@ public class ContratController extends AbstractController {
         }
     }
     
-         private void TableModelData() {
+         private void TableModelData () {
              
              Client courant = Client.getCurClient();
 
@@ -205,7 +205,9 @@ public class ContratController extends AbstractController {
          parameters.put("Prix_Unitaire", Double.toString(this.tar*this.dur));
          parameters.put("Nombre_Diff", Double.toString(this.nb_jours*this.freq*this.nombremagasin));
          parameters.put("Duree_Diff", Double.toString(this.nb_jours));
-         parameters.put("montant", this.montant.getText());     
+         parameters.put("montant", this.montant.getText());    
+         
+        
         String[] columnNames = {"Nom", "Adresse", "Code"};
         String[][] data = {{"test"},{"test"},{"test"},{"test"}
             //Pour le client
@@ -277,6 +279,15 @@ public class ContratController extends AbstractController {
             dur = Integer.parseInt(duree.getText());
         } catch (NumberFormatException nfe) {
         }
+        
+        //Informations sur l'entreprise 
+        
+        try {
+            getEntreprise();
+        } catch (SQLException ex) {
+             ex.printStackTrace();
+        }
+        
         //Requete de sélection
         // Récupération des magasins concernés
         this.nombremagasin=0;
@@ -643,6 +654,43 @@ public class ContratController extends AbstractController {
         return resuMap;
     }
 
+    private void  getEntreprise() throws SQLException {
+        System.out.println(Auth.getUserInfo().toString());
+
+        ResultSet res = null;
+        String sql;
+        
+        sql = "SELECT nom, adresse, code, ville, telephone, mail FROM Entreprise ";
+        System.out.println(sql);
+        
+        try (Connection cn = Auth.getConnection();
+                Statement st = cn.createStatement()) {
+
+            res = st.executeQuery(sql);
+            while (res.next()) {
+            /*
+                parameters.put("Enom", res.getString(1));
+                parameters.put("Eadresse", res.getString(2));
+                parameters.put("Ecode", res.getString(3));
+                parameters.put("Eville", res.getString(4));
+                parameters.put("Etelephone", res.getString(5));
+                parameters.put("Email", res.getString(6));
+             */   
+                System.out.println(res.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (res != null) {
+                try {
+                    res.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }  
+    }
+    
     private void Save_Contrat() throws IOException, ParseException, SQLException {
         Alert a = new Alert(
                 Alert.AlertType.INFORMATION,
@@ -659,7 +707,7 @@ public class ContratController extends AbstractController {
         }
         Rayons.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
-                    nombresRayons = Rayons.getSelectionModel().getSelectedItems().size();
+                    nombresRayons  = Rayons.getSelectionModel().getSelectedItems().size();
                 });
         Regions.getSelectionModel().getSelectedItems().addListener(
                 (ListChangeListener) (c) -> {
