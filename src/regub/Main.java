@@ -63,8 +63,8 @@ public class Main extends Application {
         AbstractController ac = (AbstractController) loader.getController();
         ac.setApp(this);
         Scene scene = new Scene(page,
-                stage.isShowing() ? stage.getScene().getWidth() : MINIMUM_WINDOW_WIDTH,
-                stage.isShowing() ? stage.getScene().getHeight() : MINIMUM_WINDOW_HEIGHT);
+            stage.isShowing() ? stage.getScene().getWidth() : MINIMUM_WINDOW_WIDTH,
+            stage.isShowing() ? stage.getScene().getHeight() : MINIMUM_WINDOW_HEIGHT);
         stage.setScene(scene);
     }
 

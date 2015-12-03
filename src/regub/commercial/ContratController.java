@@ -211,8 +211,13 @@ public class ContratController extends AbstractController {
         String[] columnNames = {"Nom", "Adresse", "Code"};
         String[][] data = {{"test"},{"test"},{"test"},{"test"}
             //Pour le client
-
         };
+        
+        try {
+            getEntreprise();
+        } catch (SQLException ex) {
+             ex.printStackTrace();
+        }
         if (this.nombremagasin==0) parameters.put("Info", "Aucune diffusion ne pourra être faite car aucun magasin ne comporte le rayon demandé dans les régions souhaitées "); 
         else parameters.put("Info", "");
         tableModel = new DefaultTableModel(this.data,columnNames);
@@ -282,11 +287,7 @@ public class ContratController extends AbstractController {
         
         //Informations sur l'entreprise 
         
-        try {
-            getEntreprise();
-        } catch (SQLException ex) {
-             ex.printStackTrace();
-        }
+        
         
         //Requete de sélection
         // Récupération des magasins concernés
@@ -613,7 +614,6 @@ public class ContratController extends AbstractController {
             this.Message.setText(message_error);
         }
         return retour;
-
     }
 
     private HashMap<String, Integer> getliste(String Table) throws IOException {
@@ -656,7 +656,7 @@ public class ContratController extends AbstractController {
 
     private void  getEntreprise() throws SQLException {
         System.out.println(Auth.getUserInfo().toString());
-
+        int count =0;
         ResultSet res = null;
         String sql;
         
@@ -667,15 +667,19 @@ public class ContratController extends AbstractController {
                 Statement st = cn.createStatement()) {
 
             res = st.executeQuery(sql);
+             
+            
             while (res.next()) {
-            /*
+               if(count==0)
                 parameters.put("Enom", res.getString(1));
+            
                 parameters.put("Eadresse", res.getString(2));
                 parameters.put("Ecode", res.getString(3));
                 parameters.put("Eville", res.getString(4));
                 parameters.put("Etelephone", res.getString(5));
                 parameters.put("Email", res.getString(6));
-             */   
+             
+               count++;
                 System.out.println(res.getString(1));
             }
         } catch (SQLException e) {
