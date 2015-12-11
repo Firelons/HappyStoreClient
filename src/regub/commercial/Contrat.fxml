@@ -142,7 +142,7 @@
         </VBox>
         <HBox alignment="BOTTOM_CENTER" spacing="15.0">
             <children>
-            <Button fx:id="devis" mnemonicParsing="false" onAction="#Consulter" prefHeight="25.0" prefWidth="119.0" text="Consulter Devis" />
+            <Button fx:id="devis" mnemonicParsing="false" onAction="#Consulter" prefHeight="25.0" prefWidth="119.0" text="Devis" />
                 <Button fx:id="save" layoutX="245.0" layoutY="423.0" mnemonicParsing="false" onAction="#Enregistrer" prefHeight="25.0" prefWidth="106.0" text="Enregistrer" />
                 <Button layoutX="339.0" layoutY="423.0" mnemonicParsing="false" onAction="#Annuler" prefHeight="25.0" prefWidth="107.0" text="Annuler" />
             </children>

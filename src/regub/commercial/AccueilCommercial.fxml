@@ -81,6 +81,7 @@
                            <children>
                               <Button fx:id="AjouterContrat" layoutX="74.0" layoutY="343.0" mnemonicParsing="false" onAction="#AjouterContrat" text="Ajouter contrat" />
                               <Button fx:id="ModifierContrat" layoutX="126.0" layoutY="343.0" mnemonicParsing="false" onAction="#ModifierContrat" text="Editer " />
+                              <Button mnemonicParsing="false" onAction="#AfficherFacture" text="Facture" />
                               <Button fx:id="SupprimerContrat" layoutX="178.0" layoutY="343.0" mnemonicParsing="false" onAction="#AnnulerContrat" text="Annuler contrat" />
                            </children>
                            <VBox.margin>
