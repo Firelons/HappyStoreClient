@@ -348,6 +348,13 @@ public class AccueilCommercialController extends AbstractController {
     @FXML
     private void AfficherFacture(ActionEvent event) throws IOException {
 
+      /*  
+       try {
+            this.calculer(event);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        */
         
        
         JasperPrint jasperPrint = null;
@@ -363,49 +370,93 @@ public class AccueilCommercialController extends AbstractController {
             JasperViewer.viewReport(jasperPrint, false);
         } catch (JRException ex) {
             ex.printStackTrace();
-        } 
+        }
     }
      private void TableModelData () {
-        Client.setCurClient(clientTable.getSelectionModel().getSelectedItem());
-        
+             
              Client courant = Client.getCurClient();
 
          parameters = new HashMap(); 
-         parameters.put("Nom", courant.getSociete());
-         parameters.put("Adresse", courant.getRue());
-         parameters.put("Code", courant.getPostalCode());
-         parameters.put("Ville", courant.getVille());
-         parameters.put("Numero", courant.getTelephone());
-         parameters.put("Mail", courant.getEmail());
-         parameters.put("Titre", this.titre.getText());
-         parameters.put("Duree", this.duree.getText());
-         parameters.put("Debut", Video.getCurVideo().getDate_debut());
-         parameters.put("Fin", Video.getCurVideo().getDate_fin());
-        /* parameters.put("Frequence", this.frequence.getText());
-         parameters.put("Tarif", this.tarif.getText());
-         parameters.put("Regions", Integer.toString(this.nombresRegions));
-         parameters.put("Rayons", Integer.toString(this.nombresRayons));
-         parameters.put("Magasins", Integer.toString(this.nombremagasin));
-         parameters.put("Prix_Unitaire", Double.toString(this.tar*this.dur));
-         parameters.put("Nombre_Diff", Double.toString(this.nb_jours*this.freq*this.nombremagasin));
-         parameters.put("Duree_Diff", Double.toString(this.nb_jours));
-         parameters.put("montant", this.montant.getText());    
-         */
+         parameters.put("Nom", "courant.getSociete()");
+         parameters.put("Adresse", "courant.getRue()");
+         parameters.put("Code", "courant.getPostalCode()");
+         parameters.put("Ville", "courant.getVille()");
+         parameters.put("Numero"," courant.getTelephone()");
+         parameters.put("Mail", "courant.getEmail()");
+         parameters.put("Titre", "this.titre.getText()");
+         parameters.put("Duree", "this.duree.getText()");
+         parameters.put("Debut","Video.getCurVideo().getDate_debut()");
+         parameters.put("Fin"," Video.getCurVideo().getDate_fin()");
+         parameters.put("Frequence", "this.frequence.getText()");
+         parameters.put("Tarif", "this.tarif.getText()");
+         parameters.put("Regions", "Integer.toString(this.nombresRegions)");
+         parameters.put("Rayons", "Integer.toString(this.nombresRayons)");
+         parameters.put("Magasins", "Integer.toString(this.nombremagasin)");
+         parameters.put("Prix_Unitaire"," Double.toString(this.tar*this.dur)");
+         parameters.put("Nombre_Diff"," Double.toString(this.nb_jours*this.freq*this.nombremagasin)");
+         parameters.put("Duree_Diff", "Double.toString(this.nb_jours)");
+         parameters.put("montant", "this.montant.getText()");    
+         
         
         String[] columnNames = {"Nom", "Adresse", "Code"};
         String[][] data = {{"test"},{"test"},{"test"},{"test"}
             //Pour le client
         };
-        /*
+        
         try {
             getEntreprise();
         } catch (SQLException ex) {
              ex.printStackTrace();
         }
-        if (this.nombremagasin==0) parameters.put("Info", "Aucune diffusion ne pourra être faite car aucun magasin ne comporte le rayon demandé dans les régions souhaitées "); 
-        else parameters.put("Info", "");
-        tableModel = new DefaultTableModel(this.data,columnNames);
-    */
+       // if (this.nombremagasin==0) 
+            parameters.put("Info", "Aucune diffusion ne pourra être faite car aucun magasin ne comporte le rayon demandé dans les régions souhaitées "); 
+       // else parameters.put("Info", "");
+        tableModel = new DefaultTableModel(data,columnNames);
+    
     }
+     
+         private void  getEntreprise() throws SQLException {
+        System.out.println(Auth.getUserInfo().toString());
+        int count =0;
+        ResultSet res = null;
+        String sql;
+        
+        sql = "SELECT nom, adresse, code, ville, telephone, mail FROM Entreprise ";
+        System.out.println(sql);
+        
+        try (Connection cn = Auth.getConnection();
+                Statement st = cn.createStatement()) {
+
+            res = st.executeQuery(sql);
+             
+            
+            while (res.next()) {
+               if(count==0)
+                parameters.put("Enom", "res.getString(1)");
+            
+                parameters.put("Eadresse", "res.getString(2)");
+                parameters.put("Ecode", "res.getString(3)");
+                parameters.put("Eville", "res.getString(4)");
+                parameters.put("Etelephone"," res.getString(5)");
+                parameters.put("Email", "res.getString(6)");
+             
+               count++;
+                System.out.println(res.getString(1));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (res != null) {
+                try {
+                    res.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }  
+    }
+    
+
+   
 
 }
