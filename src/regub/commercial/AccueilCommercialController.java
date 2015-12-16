@@ -373,22 +373,26 @@ public class AccueilCommercialController extends AbstractController {
         }
     }
      private void TableModelData () {
-             
-             Client courant = Client.getCurClient();
-
+         Client.setCurClient(clientTable.getSelectionModel().getSelectedItem()); 
+         System.out.println(Client.getCurClient());
+         
+             Client courant = clientTable.getSelectionModel().getSelectedItem();
+             Video vid_courant = videoTable.getSelectionModel().getSelectedItem();
+        
+       //System.out.println(courant.getSociete());
          parameters = new HashMap(); 
-         parameters.put("Nom", "courant.getSociete()");
-         parameters.put("Adresse", "courant.getRue()");
-         parameters.put("Code", "courant.getPostalCode()");
-         parameters.put("Ville", "courant.getVille()");
-         parameters.put("Numero"," courant.getTelephone()");
-         parameters.put("Mail", "courant.getEmail()");
-         parameters.put("Titre", "this.titre.getText()");
-         parameters.put("Duree", "this.duree.getText()");
-         parameters.put("Debut","Video.getCurVideo().getDate_debut()");
-         parameters.put("Fin"," Video.getCurVideo().getDate_fin()");
-         parameters.put("Frequence", "this.frequence.getText()");
-         parameters.put("Tarif", "this.tarif.getText()");
+         parameters.put("Nom", courant.getSociete());
+         parameters.put("Adresse", courant.getRue());
+         parameters.put("Code", courant.getPostalCode());
+         parameters.put("Ville", courant.getVille());
+         parameters.put("Numero", courant.getTelephone());
+         parameters.put("Mail", courant.getEmail());
+         parameters.put("Titre", vid_courant.getTitre());
+         parameters.put("Duree", "vid_courant.getDuree()");
+         parameters.put("Debut", vid_courant.getDate_debut());
+         parameters.put("Fin",   vid_courant.getDate_fin());
+         parameters.put("Frequence","vid_courant.getfrequence()");
+         parameters.put("Tarif", "vid_courant.getTarif()");
          parameters.put("Regions", "Integer.toString(this.nombresRegions)");
          parameters.put("Rayons", "Integer.toString(this.nombresRayons)");
          parameters.put("Magasins", "Integer.toString(this.nombremagasin)");
@@ -432,13 +436,13 @@ public class AccueilCommercialController extends AbstractController {
             
             while (res.next()) {
                if(count==0)
-                parameters.put("Enom", "res.getString(1)");
+                parameters.put("Enom", res.getString(1));
             
-                parameters.put("Eadresse", "res.getString(2)");
-                parameters.put("Ecode", "res.getString(3)");
-                parameters.put("Eville", "res.getString(4)");
-                parameters.put("Etelephone"," res.getString(5)");
-                parameters.put("Email", "res.getString(6)");
+                parameters.put("Eadresse", res.getString(2));
+                parameters.put("Ecode", res.getString(3));
+                parameters.put("Eville", res.getString(4));
+                parameters.put("Etelephone",res.getString(5));
+                parameters.put("Email", res.getString(6));
              
                count++;
                 System.out.println(res.getString(1));
