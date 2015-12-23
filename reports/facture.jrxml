@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8776902f-54a9-4af3-a8b7-a675fa57a1d2">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="395"/>
 	<parameter name="Nom" class="java.lang.String"/>
 	<parameter name="Adresse" class="java.lang.String"/>
 	<parameter name="Code" class="java.lang.String"/>
@@ -32,6 +32,7 @@
 	<field name="COLUMN_0" class="java.lang.String"/>
 	<field name="COLUMN_1" class="java.lang.String"/>
 	<field name="COLUMN_2" class="java.lang.String"/>
+	<field name="COLUMN_3" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -156,15 +157,15 @@
 				<textFieldExpression><![CDATA[$P{Info}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="374" y="62" width="100" height="20" uuid="6839596b-fd49-49aa-9a1d-fa5f3dc4866b"/>
+				<reportElement x="296" y="62" width="51" height="20" uuid="6839596b-fd49-49aa-9a1d-fa5f3dc4866b"/>
 				<text><![CDATA[Rayons]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="78" y="62" width="100" height="20" uuid="58221004-b044-4c9f-abf3-a4bb969f4543"/>
+				<reportElement x="36" y="62" width="81" height="20" uuid="58221004-b044-4c9f-abf3-a4bb969f4543"/>
 				<text><![CDATA[Régions]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="220" y="62" width="100" height="20" uuid="150e2220-fe91-439c-a903-a47c4f78deba"/>
+				<reportElement x="163" y="62" width="67" height="20" uuid="150e2220-fe91-439c-a903-a47c4f78deba"/>
 				<text><![CDATA[Magasins]]></text>
 			</staticText>
 			<staticText>
@@ -173,6 +174,10 @@
 					<font size="12"/>
 				</textElement>
 				<text><![CDATA[Informations détaillées sur les diffusions]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="404" y="61" width="114" height="20" uuid="956182b3-d39b-4aa6-8fec-951f25f2ea3f"/>
+				<text><![CDATA[Horaires de diffusions]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -185,19 +190,19 @@
 			</staticText>
 			<staticText>
 				<reportElement x="17" y="100" width="185" height="20" uuid="7e053d49-f3f1-4068-bfec-0d2f767d0059"/>
-				<text><![CDATA[Date de début de diffusion prévue :]]></text>
+				<text><![CDATA[Date de début de diffusion :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="16" y="65" width="148" height="20" uuid="14bb7d6b-a3d2-4124-9b1b-6d020c2570f0"/>
-				<text><![CDATA[Durée de la vidéo à diffuser :]]></text>
+				<text><![CDATA[Durée de la vidéo diffusée :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="17" y="131" width="166" height="20" uuid="24105117-c46b-4e62-a882-8ad96610b6b1"/>
-				<text><![CDATA[Date de fin de diffusion prévue :]]></text>
+				<text><![CDATA[Date de fin de diffusion :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="17" y="195" width="213" height="20" uuid="e9795556-e6af-414f-8d17-c0052ffe7f31"/>
-				<text><![CDATA[Fréquence prévue de diffusion de vidéos:]]></text>
+				<text><![CDATA[Fréquence moyenne de diffusion de vidéos:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="17" y="225" width="161" height="20" uuid="7515915a-d442-4c0b-90a9-bf28a619bf37"/>
@@ -330,18 +335,22 @@
 				<text><![CDATA[Euros]]></text>
 			</staticText>
 		</band>
-		<band height="21">
+		<band height="22">
 			<textField>
-				<reportElement x="78" y="0" width="100" height="20" uuid="1e597cf8-8a79-4299-aca3-638b1c8fc519"/>
+				<reportElement x="17" y="0" width="100" height="20" uuid="1e597cf8-8a79-4299-aca3-638b1c8fc519"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_0}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="220" y="0" width="100" height="20" uuid="edf2a467-d012-4693-b77b-18412107cc44"/>
+				<reportElement x="159" y="0" width="100" height="20" uuid="edf2a467-d012-4693-b77b-18412107cc44"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="375" y="0" width="100" height="20" uuid="012ba17e-c71d-4fe4-a962-18ecbd98931e"/>
+				<reportElement x="296" y="0" width="100" height="20" uuid="012ba17e-c71d-4fe4-a962-18ecbd98931e"/>
 				<textFieldExpression><![CDATA[$F{COLUMN_2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="418" y="1" width="100" height="20" uuid="31083e35-87df-4420-894f-20dc3b13efdb"/>
+				<textFieldExpression><![CDATA[$F{COLUMN_3}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

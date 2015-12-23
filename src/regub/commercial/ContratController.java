@@ -194,8 +194,8 @@ public class ContratController extends AbstractController {
          parameters.put("Mail", courant.getEmail());
          parameters.put("Titre", this.titre.getText());
          parameters.put("Duree", this.duree.getText());
-         parameters.put("Debut", Video.getCurVideo().getDate_debut());
-         parameters.put("Fin", Video.getCurVideo().getDate_fin());
+         parameters.put("Debut", ConversionDate(Video.getCurVideo().getDate_debut()));
+         parameters.put("Fin",ConversionDate( Video.getCurVideo().getDate_fin()));
          parameters.put("Frequence", this.frequence.getText());
          parameters.put("Tarif", this.tarif.getText());
          parameters.put("Regions", Integer.toString(this.nombresRegions));
@@ -851,5 +851,19 @@ public class ContratController extends AbstractController {
             a.showAndWait();
         }
     }
+    private String ConversionDate(String Date){
+             String  Date_Convertie="";
+             Date_Convertie=Date_Convertie+Date.charAt(8);
+             Date_Convertie=Date_Convertie+Date.charAt(9);
+             Date_Convertie=Date_Convertie+Date.charAt(4);
+             Date_Convertie=Date_Convertie+Date.charAt(5);
+             Date_Convertie=Date_Convertie+Date.charAt(6);
+             Date_Convertie=Date_Convertie+Date.charAt(4);
+             Date_Convertie=Date_Convertie+Date.charAt(0);
+             Date_Convertie=Date_Convertie+Date.charAt(1);
+             Date_Convertie=Date_Convertie+Date.charAt(2);
+             Date_Convertie=Date_Convertie+Date.charAt(3);
+            return Date_Convertie;
+         }
 
 }

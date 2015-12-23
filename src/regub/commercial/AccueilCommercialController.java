@@ -12,10 +12,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.ResourceBundle;
+
 import javafx.beans.property.SimpleStringProperty;
 
 import javafx.collections.FXCollections;
@@ -91,9 +96,16 @@ public class AccueilCommercialController extends AbstractController {
     @FXML
     private Button Facture;
     
+    private String [][] data = new String [100][4];
+    
     private Map parameters;
     DefaultTableModel tableModel;
 
+    private int nombremagasin;
+    private int nombreregion;
+    private int nombrerayons;
+    private int nombreposte;
+    private int nombrejours;
     @FXML
     private UserBarController usermenuController;
 
@@ -347,16 +359,23 @@ public class AccueilCommercialController extends AbstractController {
     }
     @FXML
     private void AfficherFacture(ActionEvent event) throws IOException {
-
-      /*  
-       try {
+        calcul_duree();
+        
+        try {
+            /*
+            try {
             this.calculer(event);
-        } catch (Exception ex) {
+            } catch (Exception ex) {
+            ex.printStackTrace();
+            }
+            */
+            getMagasin();
+            getRayon();
+            getRegion();
+            getDiffusion();
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
-        */
-        
-       
         JasperPrint jasperPrint = null;
         net.sf.jasperreports.engine.JasperReport x = null; 
         TableModelData();
@@ -378,7 +397,9 @@ public class AccueilCommercialController extends AbstractController {
          
              Client courant = clientTable.getSelectionModel().getSelectedItem();
              Video vid_courant = videoTable.getSelectionModel().getSelectedItem();
-        
+        int freq =0;
+        if(this.nombrejours!=0)
+        freq =this.nombremagasin/this.nombrejours;
        //System.out.println(courant.getSociete());
          parameters = new HashMap(); 
          parameters.put("Nom", courant.getSociete());
@@ -388,21 +409,21 @@ public class AccueilCommercialController extends AbstractController {
          parameters.put("Numero", courant.getTelephone());
          parameters.put("Mail", courant.getEmail());
          parameters.put("Titre", vid_courant.getTitre());
-         parameters.put("Duree", "vid_courant.getDuree()");
-         parameters.put("Debut", vid_courant.getDate_debut());
-         parameters.put("Fin",   vid_courant.getDate_fin());
-         parameters.put("Frequence","vid_courant.getfrequence()");
-         parameters.put("Tarif", "vid_courant.getTarif()");
-         parameters.put("Regions", "Integer.toString(this.nombresRegions)");
-         parameters.put("Rayons", "Integer.toString(this.nombresRayons)");
-         parameters.put("Magasins", "Integer.toString(this.nombremagasin)");
-         parameters.put("Prix_Unitaire"," Double.toString(this.tar*this.dur)");
-         parameters.put("Nombre_Diff"," Double.toString(this.nb_jours*this.freq*this.nombremagasin)");
-         parameters.put("Duree_Diff", "Double.toString(this.nb_jours)");
-         parameters.put("montant", "this.montant.getText()");    
+         parameters.put("Duree",Integer.toString(vid_courant.getDuree()));
+         parameters.put("Debut", ConversionDate(vid_courant.getDate_debut()));
+         parameters.put("Fin",   ConversionDate(vid_courant.getDate_fin()));
+         parameters.put("Frequence",Double.toString(freq));
+         parameters.put("Tarif", Double.toString(vid_courant.getTarif()));
+         parameters.put("Regions", Integer.toString(this.nombreregion));
+         parameters.put("Rayons", Integer.toString(this.nombrerayons));
+         parameters.put("Magasins", Integer.toString(this.nombreposte));
+         parameters.put("Prix_Unitaire",Double.toString(vid_courant.getDuree()*vid_courant.getTarif()));
+         parameters.put("Nombre_Diff",Integer.toString(this.nombremagasin));
+         parameters.put("Duree_Diff",Integer.toString(this.nombrejours) );
+         parameters.put("montant", Double.toString(vid_courant.getDuree()*vid_courant.getTarif()*this.nombremagasin));    
          
         
-        String[] columnNames = {"Nom", "Adresse", "Code"};
+        String[] columnNames = {"Région", "Rayons", "Magasin","Date"};
         String[][] data = {{"test"},{"test"},{"test"},{"test"}
             //Pour le client
         };
@@ -415,7 +436,7 @@ public class AccueilCommercialController extends AbstractController {
        // if (this.nombremagasin==0) 
             parameters.put("Info", "Aucune diffusion ne pourra être faite car aucun magasin ne comporte le rayon demandé dans les régions souhaitées "); 
        // else parameters.put("Info", "");
-        tableModel = new DefaultTableModel(data,columnNames);
+        tableModel = new DefaultTableModel(this.data,columnNames);
     
     }
      
@@ -459,8 +480,242 @@ public class AccueilCommercialController extends AbstractController {
             }
         }  
     }
-    
+         
+         private String ConversionDate(String Date){
+             String  Date_Convertie="";
+             Date_Convertie=Date_Convertie+Date.charAt(8);
+             Date_Convertie=Date_Convertie+Date.charAt(9);
+             Date_Convertie=Date_Convertie+Date.charAt(4);
+             Date_Convertie=Date_Convertie+Date.charAt(5);
+             Date_Convertie=Date_Convertie+Date.charAt(6);
+             Date_Convertie=Date_Convertie+Date.charAt(4);
+             Date_Convertie=Date_Convertie+Date.charAt(0);
+             Date_Convertie=Date_Convertie+Date.charAt(1);
+             Date_Convertie=Date_Convertie+Date.charAt(2);
+             Date_Convertie=Date_Convertie+Date.charAt(3);
+            return Date_Convertie;
+         }
+         
+         private void  getDiffusion() throws SQLException {
+             Video courant = videoTable.getSelectionModel().getSelectedItem();
+        System.out.println(Auth.getUserInfo().toString());
+        int count =0;
+        ResultSet rs = null; 
+        this.nombremagasin=0;
+         int i=0;
+        String sql ="SELECT Region.libelle, Magasin.nom,  TypeRayon.libelle, dateDiffusion  FROM Diffusions, Magasin, TypeRayon, Region"
+                + " WHERE Region.idRegion = Magasin.idRegion "
+                + " AND Diffusions.idMagasin  = Magasin.idMagasin "
+                + " AND Diffusions.idTypeRayon = TypeRayon.idTypeRayon"
+                + " AND Diffusions.idVideo = ? ";
+        
+        
+        System.out.println(sql);
+        
+        try (Connection cn = Auth.getConnection();
+               PreparedStatement st = cn.prepareStatement(sql)) {
+            System.out.println(courant.getidVideo());
+            st.setInt(1, courant.getidVideo());
+            
+            rs = st.executeQuery();
+             System.out.println(courant.getidVideo());
+            
+              //System.out.println(sql + str);
+                    while (rs.next()) {
+                        System.out.println(courant.getidVideo());
+                       // System.out.print("Colonne 1 renvoyée ");
+                        for (int j=0;j<4;j++)
+                         data[i][j]=rs.getString(j+1);
+                        this.nombremagasin++;
+                        i++;
+                       System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getString(4));
+                               //System.out.println(data);
+                    }
+                    rs.close();
+                    st.close();
+                    for(int k=this.nombremagasin;k<100;k++)
+                    for (int j=0;j<4;j++)
+                         data[k][j]="";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        
+       
+    }
+         private void calcul_duree(){
+        Video courant = videoTable.getSelectionModel().getSelectedItem();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        long diff;
+        int diffInDays;
+	String dateInDebut = courant.getDate_debut();
+        String dateInFin = courant.getDate_fin();
+	try {
 
-   
+		Date date_deb = formatter.parse(dateInDebut);
+                Date date_fin = formatter.parse(dateInFin);
+                diff=date_fin.getTime()-date_deb.getTime();
+		diffInDays = (int) ((diff) / (1000 * 60 * 60 * 24));
+                
+                System.out.println(date_deb);
+		System.out.println(formatter.format(date_deb));
+                System.out.println(date_fin);
+		System.out.println(formatter.format(date_fin));
+                
+                this.nombrejours=diffInDays+1;
+                
 
+	} catch (ParseException e) {
+		e.printStackTrace();
+	}
+         }
+         
+         private void  getRegion() throws SQLException {
+             Video courant = videoTable.getSelectionModel().getSelectedItem();
+        System.out.println(Auth.getUserInfo().toString());
+        int count =0;
+        ResultSet rs = null; 
+        this.nombreregion=0;
+         int i=0;
+        String sql ="SELECT DISTINCT Region.idRegion  FROM Diffusions, Magasin, TypeRayon, Region"
+                + " WHERE Region.idRegion = Magasin.idRegion "
+                + " AND Diffusions.idMagasin  = Magasin.idMagasin "
+                + " AND Diffusions.idTypeRayon = TypeRayon.idTypeRayon"
+                + " AND Diffusions.idVideo = ? ";
+        System.out.println(sql);
+        
+        try (Connection cn = Auth.getConnection();
+               PreparedStatement st = cn.prepareStatement(sql)) {
+            System.out.println(courant.getidVideo());
+            st.setInt(1, courant.getidVideo());
+            
+            rs = st.executeQuery();
+             System.out.println(courant.getidVideo());
+            
+              //System.out.println(sql + str);
+                    while (rs.next()) {
+                        System.out.println(courant.getidVideo());
+                       // System.out.print("Colonne 1 renvoyée ");
+                        
+                        this.nombreregion++;
+                        i++;
+                      // System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getString(4));
+                               //System.out.println(data);
+                    }
+                    rs.close();
+                    st.close();
+                    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        
+       
+    }
+         private void  getRayon() throws SQLException {
+             Video courant = videoTable.getSelectionModel().getSelectedItem();
+        System.out.println(Auth.getUserInfo().toString());
+        int count =0;
+        ResultSet rs = null; 
+        this.nombrerayons=0;
+         int i=0;
+        String sql ="SELECT DISTINCT Diffusions.idTypeRayon  FROM Diffusions "
+                + "WHERE Diffusions.idVideo = ? ";
+        System.out.println(sql);
+        
+        try (Connection cn = Auth.getConnection();
+               PreparedStatement st = cn.prepareStatement(sql)) {
+            System.out.println(courant.getidVideo());
+            st.setInt(1, courant.getidVideo());
+            
+            rs = st.executeQuery();
+             System.out.println(courant.getidVideo());
+            
+              //System.out.println(sql + str);
+                    while (rs.next()) {
+                        System.out.println(courant.getidVideo());
+                       // System.out.print("Colonne 1 renvoyée ");
+                        
+                        this.nombrerayons++;
+                        i++;
+                      // System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getString(4));
+                               //System.out.println(data);
+                    }
+                    rs.close();
+                    st.close();
+                    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+        
+        private void  getMagasin() throws SQLException {
+             Video courant = videoTable.getSelectionModel().getSelectedItem();
+        System.out.println(Auth.getUserInfo().toString());
+        int count =0;
+        ResultSet rs = null; 
+        this.nombreposte=0;
+         int i=0;
+        String sql ="SELECT DISTINCT Region.libelle, Magasin.nom,  TypeRayon.libelle  FROM Diffusions, Magasin, TypeRayon, Region"
+                + " WHERE Region.idRegion = Magasin.idRegion "
+                + " AND Diffusions.idMagasin  = Magasin.idMagasin "
+                + " AND Diffusions.idTypeRayon = TypeRayon.idTypeRayon"
+                + " AND Diffusions.idVideo = ? ";
+        System.out.println(sql);
+        
+        try (Connection cn = Auth.getConnection();
+               PreparedStatement st = cn.prepareStatement(sql)) {
+            System.out.println(courant.getidVideo());
+            st.setInt(1, courant.getidVideo());
+            
+            rs = st.executeQuery();
+             System.out.println(courant.getidVideo());
+            
+              //System.out.println(sql + str);
+                    while (rs.next()) {
+                        System.out.println(courant.getidVideo());
+                       // System.out.print("Colonne 1 renvoyée ");
+                        
+                        this.nombreposte++;
+                        i++;
+                      // System.out.println(rs.getString(1)+rs.getString(2)+rs.getString(3)+rs.getString(4));
+                               //System.out.println(data);
+                    }
+                    rs.close();
+                    st.close();
+                    
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
 }
