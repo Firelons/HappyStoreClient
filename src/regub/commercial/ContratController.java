@@ -764,9 +764,10 @@ public class ContratController extends AbstractController {
                 try {
                     System.out.println("Enregistrement du fichier Video");
                     if (fichier != null) {
-                        String t = Config.getConfig().get("rep_video").replace("$(HOME)", System.getProperty("user.home"));
-                        File target = new File(t + videoID + ".mp4");
-                        target.mkdirs();
+                        //String t = Config.getConfig().get("rep_video").replace("$(HOME)", System.getProperty("user.home"));
+                        File target = new File("/var/www/html/" + videoID + ".mp4");
+                        //target.mkdirs();
+                        System.out.println("dans: "+target);
                         Files.copy(Paths.get(fichier.getPath()), Paths.get(target.getPath()), StandardCopyOption.REPLACE_EXISTING);
                     }
                 } catch (Exception e) {
